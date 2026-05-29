@@ -1640,7 +1640,7 @@
 <!-- counter area end -->
 
 <!-- video-area -->
-<div class="video-area">
+<!-- <div class="video-area">
     <div class="container-fluid pe-0 p-lg-0">
         <div class="col-lg-11 ms-lg-auto">
             <div class="row g-4 align-items-center">
@@ -1677,7 +1677,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- video-area end -->
 
 <!-- cta-area -->
@@ -1762,7 +1762,7 @@
 <!-- choose area end -->
 
 <!-- testimonial area -->
-<div class="testimonial-area bg pt-70 pb-70">
+<!-- <div class="testimonial-area bg pt-70 pb-70">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
@@ -1892,45 +1892,12 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- testimonial area end -->
 
-<!-- download area -->
-<div class="download-area pt-120">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <div class="download-img wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
-                    <img src="assets/img/download/01.png" alt="">
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="download-content wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
-                    <div class="site-heading mb-0">
-                        <span class="site-title-tagline"><i class="far fa-plane"></i> Download</span>
-                        <h2 class="site-title">Tavelo Android and IOS App is Available! Download Now</h2>
-                        <p>There are many variations of passages contrary to popular belief available the but
-                            the majority have suffered alteration in some form by injected humour.</p>
-                        <ul class="download-feature">
-                            <li><i class="far fa-check"></i> At vero accusamus iusto odio ducimus blanditii</li>
-                            <li><i class="far fa-check"></i> Sed perspiciatis unde omnis iste natu sit
-                                voluptatem</li>
-                            <li><i class="far fa-check"></i> Nor again is anyone who loves pursues desires</li>
-                        </ul>
-                        <div class="download-link">
-                            <a href="#"><img src="assets/img/download/google-play.png" alt=""></a>
-                            <a href="#"><img src="assets/img/download/app-store.png" alt=""></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- download area end -->
 
 <!-- blog area -->
-<div class="blog-area py-120">
+<!-- <div class="blog-area py-120">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
@@ -2008,7 +1975,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- blog area end -->
 
 @endsection

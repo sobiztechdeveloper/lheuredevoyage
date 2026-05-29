@@ -9,14 +9,15 @@
 <!-- breadcrumb -->
 <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
     <div class="container">
-        <h2 class="breadcrumb-title">Flight List</h2>
+        <h2 class="breadcrumb-title">2,350 Results Found</h2>
         <ul class="breadcrumb-menu">
             <li><a href="index.html">Home</a></li>
-            <li class="active">Flight List</li>
+            <li class="active">Flight Search</li>
         </ul>
     </div>
 </div>
 <!-- breadcrumb end -->
+
 
 <!-- search area -->
 <div class="search-area flight-search">
@@ -281,6 +282,7 @@
 </div>
 <!-- search area end -->
 
+
 <!-- flight booking -->
 <div class="flight-booking flight-list pt-80 pb-120">
     <div class="container">
@@ -478,7 +480,12 @@
                 <div class="col-md-12">
                     <div class="booking-sort">
                         <h5>2,350 Results Found</h5>
-
+                        <div class="booking-sort-list-grid">
+                            <a class="booking-sort-grid" href="flight-grid.html"><i
+                                    class="far fa-grid-2"></i></a>
+                            <a class="booking-sort-list active" href="flight-list.html"><i
+                                    class="far fa-list-ul"></i></a>
+                        </div>
                         <div class="col-md-3 booking-sort-box">
                             <select class="select">
                                 <option value="1">Sort By Default</option>
