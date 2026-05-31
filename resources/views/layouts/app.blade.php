@@ -24,7 +24,7 @@
     @stack('styles')
 </head>
 
-<body class="home-3">
+<body class="@yield('body-class', '')">
 
     <!-- header area -->
     <header class="header">

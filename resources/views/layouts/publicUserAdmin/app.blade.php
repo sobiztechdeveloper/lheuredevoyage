@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('body-class', 'dashboard-page')
 @section('styles')
 
 @endsection

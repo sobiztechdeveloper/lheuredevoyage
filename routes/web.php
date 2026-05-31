@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CruiseController;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RentalCarController;
 use App\Http\Controllers\TravelInsuranceController;
 use App\Http\Controllers\TourPackageController;
@@ -26,12 +28,42 @@ Route::get('/cars', [RentalCarController::class, 'index'])->name('rentalcar');
 Route::get('/travelinsurances', [TravelInsuranceController::class, 'index'])->name('travelinsurance');
 Route::get('/tourpackages', [TourPackageController::class, 'index'])->name('tourpackage');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 
-Route::get('/my-bookings', [UserBookingHistoryController::class, 'index'])->name('booking-history');
-Route::get('/my-dashboard', [UserDashboardController::class, 'index'])->name('my-dashboard');
-Route::get('/my-bookings-list', [UserMyBookingController::class, 'index'])->name('my-bookings-list');
-Route::get('/my-notifications', [UserNotificationController::class, 'index'])->name('my-notifications');
-Route::get('/my-settings', [UserSettingController::class, 'index'])->name('my-settings');
-Route::get('/my-wallet', [UserWalletController::class, 'index'])->name('my-wallet');
-Route::get('/my-wishlist', [UserWishlistController::class, 'index'])->name('my-wishlist');
-Route::get('/my-profile', [UserProfileController::class, 'index'])->name('my-profile');
+require __DIR__ . '/auth.php';
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/my-bookings', [UserBookingHistoryController::class, 'index'])
+        ->name('booking-history');
+
+    Route::get('/my-dashboard', [UserDashboardController::class, 'index'])
+        ->name('my-dashboard');
+
+    Route::get('/my-bookings-list', [UserMyBookingController::class, 'index'])
+        ->name('my-bookings-list');
+
+    Route::get('/my-notifications', [UserNotificationController::class, 'index'])
+        ->name('my-notifications');
+
+    Route::get('/my-settings', [UserSettingController::class, 'index'])
+        ->name('my-settings');
+
+    Route::get('/my-wallet', [UserWalletController::class, 'index'])
+        ->name('my-wallet');
+
+    Route::get('/my-wishlist', [UserWishlistController::class, 'index'])
+        ->name('my-wishlist');
+
+    Route::get('/my-profile', [UserProfileController::class, 'index'])
+        ->name('my-profile');
+});
+
+// Route::get('/my-bookings', [UserBookingHistoryController::class, 'index'])->name('booking-history');
+// Route::get('/my-dashboard', [UserDashboardController::class, 'index'])->name('my-dashboard');
+// Route::get('/my-bookings-list', [UserMyBookingController::class, 'index'])->name('my-bookings-list');
+// Route::get('/my-notifications', [UserNotificationController::class, 'index'])->name('my-notifications');
+// Route::get('/my-settings', [UserSettingController::class, 'index'])->name('my-settings');
+// Route::get('/my-wallet', [UserWalletController::class, 'index'])->name('my-wallet');
+// Route::get('/my-wishlist', [UserWishlistController::class, 'index'])->name('my-wishlist');
+// Route::get('/my-profile', [UserProfileController::class, 'index'])->name('my-profile');

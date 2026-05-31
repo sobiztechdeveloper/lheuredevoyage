@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('body-class', 'home-3')
+
 @section('styles')
 
 @endsection
@@ -19,29 +21,17 @@
                             <div class="search-nav">
                                 <ul class="nav nav-pills" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="pills-tab-1" data-bs-toggle="pill"
-                                            data-bs-target="#pills-1" type="button" role="tab"
-                                            aria-controls="pills-1" aria-selected="true"><i
-                                                class="far fa-plane-departure"></i>Flights</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="pills-tab-2" data-bs-toggle="pill"
-                                            data-bs-target="#pills-2" type="button" role="tab"
-                                            aria-controls="pills-2" aria-selected="false"><i
-                                                class="far fa-hotel"></i>Hotels</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="pills-tab-3" data-bs-toggle="pill"
-                                            data-bs-target="#pills-3" type="button" role="tab"
-                                            aria-controls="pills-3" aria-selected="false"><i
-                                                class="far fa-person-biking-mountain"></i>Activity</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="pills-tab-4" data-bs-toggle="pill"
+                                        <button class="nav-link active" id="pills-tab-4" data-bs-toggle="pill"
                                             data-bs-target="#pills-4" type="button" role="tab"
                                             aria-controls="pills-4" aria-selected="false"><i
                                                 class="far fa-car-building"></i>Holiday
                                             Package</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-tab-1" data-bs-toggle="pill"
+                                            data-bs-target="#pills-1" type="button" role="tab"
+                                            aria-controls="pills-1" aria-selected="true"><i
+                                                class="far fa-plane-departure"></i>Flights</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="pills-tab-5" data-bs-toggle="pill"
@@ -59,7 +49,13 @@
                                         <button class="nav-link" id="pills-tab-7" data-bs-toggle="pill"
                                             data-bs-target="#pills-7" type="button" role="tab"
                                             aria-controls="pills-7" aria-selected="false"><i
-                                                class="far fa-earth-americas"></i>Tours</button>
+                                                class="far fa-earth-americas"></i>Travel Insurances</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-tab-2" data-bs-toggle="pill"
+                                            data-bs-target="#pills-2" type="button" role="tab"
+                                            aria-controls="pills-2" aria-selected="false"><i
+                                                class="far fa-hotel"></i>Hotels</button>
                                     </li>
                                 </ul>
                             </div>
@@ -1894,7 +1890,6 @@
     </div>
 </div> -->
 <!-- testimonial area end -->
-
 
 <!-- blog area -->
 <!-- <div class="blog-area py-120">

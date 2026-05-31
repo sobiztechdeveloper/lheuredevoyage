@@ -1,0 +1,26 @@
+ .navbar-brand img {
+     height: 55px;
+     width: auto;
+     object-fit: contain;
+ }
+
+ .footer-logo img {
+     height: 70px;
+     width: auto;
+     object-fit: contain;
+ }
+
+ .user-profile,
+ .login-area {
+     margin-top: 120px;
+ }
+
+ .dashboard-page .navbar .nav-link,
+ .dashboard-page .navbar .dropdown-toggle,
+ .dashboard-page .navbar .menu-link {
+     color: #0d3b8e !important;
+ }
+
+ .dashboard-page .navbar {
+     background: #fff;
+ }

@@ -4,8 +4,8 @@
              <div class="row footer-widget-wrapper pt-100 pb-70">
                  <div class="col-md-6 col-lg-3">
                      <div class="footer-widget-box about-us">
-                         <a href="#" class="footer-logo">
-                             <img src="assets/img/logo/logo.png" alt="">
+                         <a href="{{ route('home') }}" class="footer-logo">
+                             <img src="{{ asset('assets/img/logo/logo.png') }}" alt="L'Heure De Voyage Logo">
                          </a>
                          <p class="mb-4">
                              We are many variations of passages available but the majority have suffer alteration

@@ -3,12 +3,12 @@
            <div class="row align-items-center">
                <div class="col-md-7">
                    <div class="header-top-left">
-                       <div class="top-social">
+                       <!-- <div class="top-social">
                            <a href="#"><i class="fab fa-facebook-f"></i></a>
                            <a href="#"><i class="fab fa-x-twitter"></i></a>
                            <a href="#"><i class="fab fa-instagram"></i></a>
                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                       </div>
+                       </div> -->
                        <div class="top-contact-info">
                            <ul>
                                <li><a href="tel:+21234567897"><i class="far fa-phone-arrow-down-left"></i>+2 123
@@ -34,10 +34,12 @@
                                <option value="2">EUR</option>
                            </select>
                        </div>
+                       @guest
                        <div class="account">
-                           <a href="login.html"><i class="far fa-sign-in"></i>Login</a>
-                           <a href="register.html"><i class="far fa-user-tie"></i>Sign Up</a>
+                           <a href="{{ route('login') }}"><i class="far fa-sign-in"></i>Login</a>
+                           <a href="{{ route('register') }}"><i class="far fa-user-tie"></i>Sign Up</a>
                        </div>
+                       @endguest
                    </div>
                </div>
            </div>

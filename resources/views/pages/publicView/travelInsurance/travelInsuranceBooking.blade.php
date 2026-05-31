@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('body-class', 'home-3')
+
 @section('styles')
 
 @endsection
