@@ -10,16 +10,16 @@
             <p>jonson@example.com</p>
         </div>
         <ul class="user-profile-sidebar-list">
-            <li><a href="{{ route('my-dashboard') }}"><i class="far fa-gauge-high"></i> Dashboard</a></li>
-            <li><a href="{{ route('my-profile') }}"><i class="far fa-user"></i> My Profile</a></li>
-            <li><a href="{{ route('my-bookings-list') }}"><i class="far fa-shopping-bag"></i> My Booking</a></li>
-            <li><a class="active" href="{{ route('booking-history') }}"><i class="far fa-clipboard-list"></i> Booking History</a></li>
+            <li><a class="{{ request()->routeIs('my-dashboard') ? 'active' : '' }}" href="{{ route('my-dashboard') }}"><i class="far fa-gauge-high"></i> Dashboard</a></li>
+            <li><a class="{{ request()->routeIs('my-profile') ? 'active' : '' }}" href="{{ route('my-profile') }}"><i class="far fa-user"></i> My Profile</a></li>
+            <li><a class="{{ request()->routeIs('my-bookings-list') ? 'active' : '' }}" href="{{ route('my-bookings-list') }}"><i class="far fa-shopping-bag"></i> My Booking</a></li>
+            <li><a class="{{ request()->routeIs('booking-history') ? 'active' : '' }}" href="{{ route('booking-history') }}"><i class="far fa-clipboard-list"></i> Booking History</a></li>
             {{--<li><a href="{{ route('my-listing') }}"><i class="far fa-globe"></i> My Listing</a></li>--}}
-            <li><a href="{{ route('my-wishlist') }}"><i class="far fa-heart"></i> My Wishlist</a></li>
+            <li><a class="{{ request()->routeIs('my-wishlist') ? 'active' : '' }}" href="{{ route('my-wishlist') }}"><i class="far fa-heart"></i> My Wishlist</a></li>
             {{--<li><a href="{{ route('my-messages') }}"><i class="far fa-envelope"></i> Messages <span class="badge">02</span></a></li>--}}
-            <li><a href="{{ route('my-wallet') }}"><i class="far fa-wallet"></i> My Wallet</a></li>
-            <li><a href="{{ route('my-notifications') }}"><i class="far fa-bell"></i> Notifications <span class="badge">05</span></a></li>
-            <li><a href="{{ route('my-settings') }}"><i class="far fa-cog"></i> Settings</a></li>
+            <li><a class="{{ request()->routeIs('my-wallet') ? 'active' : '' }}" href="{{ route('my-wallet') }}"><i class="far fa-wallet"></i> My Wallet</a></li>
+            <li><a class="{{ request()->routeIs('my-notifications') ? 'active' : '' }}" href="{{ route('my-notifications') }}"><i class="far fa-bell"></i> Notifications <span class="badge">05</span></a></li>
+            <li><a class="{{ request()->routeIs('my-settings') ? 'active' : '' }}" href="{{ route('my-settings') }}"><i class="far fa-cog"></i> Settings</a></li>
             <li><a href="#"><i class="far fa-sign-out"></i> Logout</a></li>
         </ul>
     </div>

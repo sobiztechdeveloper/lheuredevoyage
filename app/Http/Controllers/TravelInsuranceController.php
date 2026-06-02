@@ -15,6 +15,17 @@ class TravelInsuranceController extends Controller
         return view('pages.publicView.travelInsurance.travelInsuranceList');
     }
 
+    public function search(Request $request)
+    {
+        $destination = $request->destination;
+        $travelDate = $request->travel_date;
+
+        return view('pages.publicView.travelinsurance.travelInsuranceList', compact(
+            'destination',
+            'travelDate'
+        ));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

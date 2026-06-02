@@ -15,6 +15,19 @@ class RentalCarController extends Controller
         return view('pages.publicView.rentalCar.rentalCarList');
     }
 
+    public function search(Request $request)
+    {
+        $pickupLocation = $request->pickup_location;
+        $pickupDate = $request->pickup_date;
+        $returnDate = $request->return_date;
+
+        return view('pages.publicView.rentalcar.rentalCarList', compact(
+            'pickupLocation',
+            'pickupDate',
+            'returnDate'
+        ));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

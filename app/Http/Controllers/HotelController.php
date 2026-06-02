@@ -15,6 +15,21 @@ class HotelController extends Controller
         return view('pages.publicView.hotel.hotelList');
     }
 
+    public function search(Request $request)
+    {
+        $destination = $request->destination;
+        $checkIn = $request->check_in;
+        $checkOut = $request->check_out;
+        $rooms = $request->rooms;
+
+        return view('pages.publicView.hotel.hotelList', compact(
+            'destination',
+            'checkIn',
+            'checkOut',
+            'rooms'
+        ));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

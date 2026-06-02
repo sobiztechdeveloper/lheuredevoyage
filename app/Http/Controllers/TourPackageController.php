@@ -15,6 +15,19 @@ class TourPackageController extends Controller
         return view('pages.publicView.tourPackage.tourPackageList');
     }
 
+    public function search(Request $request)
+    {
+        $destination = $request->destination;
+        $travelDate = $request->travel_date;
+        $travelers = $request->travelers;
+
+        return view('pages.publicView.tourpackage.tourPackageList', compact(
+            'destination',
+            'travelDate',
+            'travelers'
+        ));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

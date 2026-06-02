@@ -30,6 +30,12 @@ Route::get('/tourpackages', [TourPackageController::class, 'index'])->name('tour
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 
+Route::get('/flights/search', [FlightController::class, 'search'])->name('flight.search');
+Route::get('/hotels/search', [HotelController::class, 'search'])->name('hotel.search');
+Route::get('/cars/search', [RentalCarController::class, 'search'])->name('rentalcar.search');
+Route::get('/cruises/search', [CruiseController::class, 'search'])->name('cruise.search');
+Route::get('/travelinsurances/search', [TravelInsuranceController::class, 'search'])->name('travelinsurance.search');
+Route::get('/holidaypackages/search', [TourPackageController::class, 'search'])->name('tourpackage.search');
 require __DIR__ . '/auth.php';
 
 Route::middleware('auth')->group(function () {

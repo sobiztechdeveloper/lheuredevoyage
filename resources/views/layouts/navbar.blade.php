@@ -1,9 +1,15 @@
 <div class="main-navigation">
     <nav class="navbar navbar-expand-lg ">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('home') }}">
-                <img src="{{ asset('assets/img/logo/logo.png') }}" class="logo-display" alt="logo">
-                <img src="{{ asset('assets/img/logo/logo-dark.png') }}" class="logo-scrolled" alt="logo">
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
+                <div class="logo-wrapper">
+                    <img src="{{ asset('assets/img/logo/logo.png') }}" class="logo-display" alt="logo">
+                    <img src="{{ asset('assets/img/logo/logo-dark.png') }}" class="logo-scrolled" alt="logo">
+                </div>
+
+                <span class="brand-text ms-2">
+                    L'Heure De Voyage
+                </span>
             </a>
             <div class="mobile-menu-right">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"

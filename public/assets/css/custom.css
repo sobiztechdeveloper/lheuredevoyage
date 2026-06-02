@@ -15,6 +15,11 @@
      margin-top: 120px;
  }
 
+ .dashboard-page {
+     background: #E7E6DD;
+ }
+
+
  .dashboard-page .navbar .nav-link,
  .dashboard-page .navbar .dropdown-toggle,
  .dashboard-page .navbar .menu-link {
@@ -23,4 +28,34 @@
 
  .dashboard-page .navbar {
      background: #fff;
+ }
+
+ .dashboard-page .brand-text {
+     color: #0d3b8e;
+ }
+
+ .logo-wrapper {
+     position: relative;
+ }
+
+ .brand-text {
+     font-size: 24px;
+     font-weight: 700;
+     color: #f1f2f3;
+     white-space: nowrap;
+ }
+
+ .navbar.fixed-top .brand-text {
+     color: var(--color-dark);
+ }
+
+ .footer-brand-text {
+     font-size: 22px;
+     font-weight: 700;
+     color: #ffffff;
+     white-space: nowrap;
+ }
+
+ .footer-logo {
+     text-decoration: none;
  }

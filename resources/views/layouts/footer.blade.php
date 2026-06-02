@@ -4,8 +4,12 @@
              <div class="row footer-widget-wrapper pt-100 pb-70">
                  <div class="col-md-6 col-lg-3">
                      <div class="footer-widget-box about-us">
-                         <a href="{{ route('home') }}" class="footer-logo">
+                         <a href="{{ route('home') }}" class="footer-logo d-flex align-items-center">
                              <img src="{{ asset('assets/img/logo/logo.png') }}" alt="L'Heure De Voyage Logo">
+
+                             <span class="footer-brand-text ms-2">
+                                 L'Heure De Voyage
+                             </span>
                          </a>
                          <p class="mb-4">
                              We are many variations of passages available but the majority have suffer alteration
@@ -112,7 +116,7 @@
              <div class="row">
                  <div class="col-md-6 align-self-center">
                      <p class="copyright-text">
-                         &copy; Copyright <span id="date"></span> <a href="#"> Tavelo </a> All Rights Reserved.
+                         &copy; Copyright <span id="date"></span> <a href="/"> L'Heure De Voyage </a> All Rights Reserved.
                      </p>
                  </div>
                  <div class="col-md-6 align-self-center">

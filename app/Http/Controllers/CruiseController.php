@@ -15,6 +15,20 @@ class CruiseController extends Controller
         return view('pages.publicView.cruise.cruiseList');
     }
 
+
+    public function search(Request $request)
+    {
+        $destination = $request->destination;
+        $departureDate = $request->departure_date;
+        $passengers = $request->passengers;
+
+        return view('pages.publicView.cruise.cruiseList', compact(
+            'destination',
+            'departureDate',
+            'passengers'
+        ));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
