@@ -72,7 +72,7 @@
                         <div class="tab-content" id="pills-tabContent">
 
                             <!-- holiday tab 4 -->
-                            <div class="tab-pane fade" id="pills-4" role="tabpanel"
+                            <div class="tab-pane fade show active" id="pills-4" role="tabpanel"
                                 aria-labelledby="pills-tab-4" tabindex="0">
                                 <div class="holiday-search">
                                     <div class="search-form">
@@ -309,7 +309,7 @@
                             </div>
 
                             <!-- flight tab 1 -->
-                            <div class="tab-pane fade show active" id="pills-1" role="tabpanel"
+                            <div class="tab-pane fade" id="pills-1" role="tabpanel"
                                 aria-labelledby="pills-tab-1" tabindex="0">
                                 <div class="flight-search ft-group">
                                     <div class="search-form">
@@ -1432,7 +1432,6 @@
                                     </div>
                                 </div>
                             </div> -->
-
 
                         </div>
                         <!-- tab content end -->
