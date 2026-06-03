@@ -4,79 +4,84 @@
 
 <div class="col-lg-9">
     <div class="user-profile-wrapper">
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
         <div class="col-lg-12 mb-4">
             <div class="user-profile-card">
                 <h4 class="user-profile-card-title">Update Profile Info</h4>
                 <div class="user-profile-form">
-                    <form action="#">
+                    <form action="{{ route('my-profile.update') }}" method="POST">
+                        @csrf
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>First Name</label>
-                                    <input type="text" class="form-control" value="Antoni"
-                                        placeholder="First Name">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Last Name</label>
-                                    <input type="text" class="form-control" value="Jonson"
-                                        placeholder="Last Name">
+                                    <label>Full Name</label>
+                                    <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="text" class="form-control"
-                                        value="jonson@example.com" placeholder="Email">
+                                    <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Phone</label>
-                                    <input type="text" class="form-control"
-                                        value="+2 134 562 458" placeholder="Phone">
+                                    <input type="text" name="phone" class="form-control" value="{{ old('phone', $user->profile?->phone) }}">
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Address</label>
-                                    <input type="text" class="form-control"
-                                        value="New York, USA" placeholder="Address">
+                                    <input type="text" name="address" class="form-control" value="{{ old('address', $user->profile?->address) }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>City</label>
+                                    <input type="text" name="city" class="form-control" value="{{ old('city', $user->profile?->city) }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Country</label>
+                                    <input type="text" name="country" class="form-control" value="{{ old('country', $user->profile?->country) }}">
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="theme-btn my-3">Update Profile Info <i
-                                class="far fa-user"></i></button>
+                        <button type="submit" class="theme-btn my-3">Update Profile Info <i class="far fa-user"></i></button>
                     </form>
                 </div>
             </div>
         </div>
         <div class="col-lg-12">
             <div class="user-profile-card">
-                <h4 class="user-profile-card-title">Change Password</h4>
-                <div class="col-lg-12">
-                    <div class="user-profile-form">
-                        <form action="#">
-                            <div class="form-group">
-                                <label>Old Password</label>
-                                <input type="password" class="form-control"
-                                    placeholder="Old Password">
+                <h4 class="user-profile-card-title">Preferences</h4>
+                <div class="user-profile-form">
+                    <form action="{{ route('my-settings.update') }}" method="POST">
+                        @csrf
+                        <div class="form-check mb-2">
+                            <input type="checkbox" name="email_notifications" value="1" class="form-check-input" id="email_notifications" @checked(old('email_notifications', $settings->email_notifications ?? true))>
+                            <label class="form-check-label" for="email_notifications">Email notifications</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input type="checkbox" name="sms_notifications" value="1" class="form-check-input" id="sms_notifications" @checked(old('sms_notifications', $settings->sms_notifications ?? false))>
+                            <label class="form-check-label" for="sms_notifications">SMS notifications</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Language</label>
+                                <input type="text" name="language" class="form-control" value="{{ old('language', $settings->language ?? 'en') }}">
                             </div>
-                            <div class="form-group">
-                                <label>New Password</label>
-                                <input type="password" class="form-control"
-                                    placeholder="New Password">
+                            <div class="col-md-6">
+                                <label>Timezone</label>
+                                <input type="text" name="timezone" class="form-control" value="{{ old('timezone', $settings->timezone ?? 'UTC') }}">
                             </div>
-                            <div class="form-group">
-                                <label>Re-Type Password</label>
-                                <input type="password" class="form-control"
-                                    placeholder="Re-Type Password">
-                            </div>
-                            <button type="button" class="theme-btn my-3">Change Password <i
-                                    class="far fa-key"></i></button>
-                        </form>
-                    </div>
+                        </div>
+                        <button type="submit" class="theme-btn my-3">Save Preferences</button>
+                    </form>
                 </div>
             </div>
         </div>

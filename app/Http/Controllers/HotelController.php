@@ -2,79 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\HandlesCatalog;
 use App\Models\Hotel;
-use Illuminate\Http\Request;
 
 class HotelController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    use HandlesCatalog;
+
+    protected function catalogModel(): string
     {
-        return view('pages.publicView.hotel.hotelList');
+        return Hotel::class;
     }
 
-    public function search(Request $request)
+    protected function catalogListView(): string
     {
-        $destination = $request->destination;
-        $checkIn = $request->check_in;
-        $checkOut = $request->check_out;
-        $rooms = $request->rooms;
-
-        return view('pages.publicView.hotel.hotelList', compact(
-            'destination',
-            'checkIn',
-            'checkOut',
-            'rooms'
-        ));
+        return 'pages.publicView.hotel.hotelList';
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    protected function catalogDetailView(): string
     {
-        //
+        return 'pages.publicView.catalog.detail';
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    protected function catalogBookingView(): string
     {
-        //
+        return 'pages.publicView.catalog.booking';
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Hotel $hotel)
+    protected function catalogRoutePrefix(): string
     {
-        //
+        return 'hotel';
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Hotel $hotel)
+    protected function catalogMasterDataKey(): ?string
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Hotel $hotel)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Hotel $hotel)
-    {
-        //
+        return 'hotel';
     }
 }

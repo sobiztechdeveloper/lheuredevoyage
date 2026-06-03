@@ -4,8 +4,11 @@
 
 <div class="col-lg-9">
     <div class="user-profile-wrapper">
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
         <div class="user-profile-card">
-            <h4 class="user-profile-card-title">My Booking</h4>
+            <h4 class="user-profile-card-title">My Bookings</h4>
             <div class="table-responsive">
                 <table class="table text-nowrap">
                     <thead>
@@ -20,125 +23,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @forelse($bookings as $index => $booking)
                         <tr>
-                            <td>01.</td>
-                            <td><b>#12453</b></td>
-                            <td>Hotel</td>
-                            <td>Oct 22, 2025</td>
-                            <td>$11,569</td>
-                            <td><span class="badge badge-success">Confirmed</span></td>
-                            <td>
-                                <a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
-                                <a href="#" class="btn btn-outline-danger btn-sm">Cancel</a>
-                            </td>
+                            <td>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}.</td>
+                            <td><b>{{ $booking->reference }}</b></td>
+                            <td>{{ class_basename($booking->bookable_type) }}<br><small>{{ $booking->bookable?->title }}</small></td>
+                            <td>{{ ($booking->booked_at ?? $booking->created_at)->format('M d, Y') }}</td>
+                            <td>${{ number_format($booking->total_amount, 2) }}</td>
+                            <td><span class="badge badge-{{ $booking->status === 'confirmed' ? 'success' : ($booking->status === 'pending' ? 'warning' : 'danger') }}">{{ ucfirst($booking->status) }}</span></td>
+                            <td><a href="{{ route('my-bookings.show', $booking) }}">Details</a></td>
                         </tr>
-                        <tr>
-                            <td>02.</td>
-                            <td><b>#12453</b></td>
-                            <td>Flight</td>
-                            <td>Oct 22, 2025</td>
-                            <td>$11,569</td>
-                            <td><span class="badge badge-success">Confirmed</span></td>
-                            <td>
-                                <a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
-                                <a href="#" class="btn btn-outline-danger btn-sm">Cancel</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>03.</td>
-                            <td><b>#12453</b></td>
-                            <td>Activity</td>
-                            <td>Oct 22, 2025</td>
-                            <td>$11,569</td>
-                            <td><span class="badge badge-warning">Pending</span></td>
-                            <td>
-                                <a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
-                                <a href="#" class="btn btn-outline-danger btn-sm">Cancel</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>04.</td>
-                            <td><b>#12453</b></td>
-                            <td>Car</td>
-                            <td>Oct 22, 2025</td>
-                            <td>$11,569</td>
-                            <td><span class="badge badge-success">Confirmed</span></td>
-                            <td>
-                                <a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
-                                <a href="#" class="btn btn-outline-danger btn-sm">Cancel</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>05.</td>
-                            <td><b>#12453</b></td>
-                            <td>Cruise</td>
-                            <td>Oct 22, 2025</td>
-                            <td>$11,569</td>
-                            <td><span class="badge badge-danger">Cancelled</span></td>
-                            <td>
-                                <a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
-                                <a href="#" class="btn btn-outline-danger btn-sm">Cancel</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>06.</td>
-                            <td><b>#12453</b></td>
-                            <td>Flight</td>
-                            <td>Oct 22, 2025</td>
-                            <td>$11,569</td>
-                            <td><span class="badge badge-success">Confirmed</span></td>
-                            <td>
-                                <a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
-                                <a href="#" class="btn btn-outline-danger btn-sm">Cancel</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>07.</td>
-                            <td><b>#12453</b></td>
-                            <td>Car</td>
-                            <td>Oct 22, 2025</td>
-                            <td>$11,569</td>
-                            <td><span class="badge badge-danger">Cancelled</span></td>
-                            <td>
-                                <a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
-                                <a href="#" class="btn btn-outline-danger btn-sm">Cancel</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>08.</td>
-                            <td><b>#12453</b></td>
-                            <td>Flight</td>
-                            <td>Oct 22, 2025</td>
-                            <td>$11,569</td>
-                            <td><span class="badge badge-success">Confirmed</span></td>
-                            <td>
-                                <a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
-                                <a href="#" class="btn btn-outline-danger btn-sm">Cancel</a>
-                            </td>
-                        </tr>
+                        @empty
+                        <tr><td colspan="7" class="text-center">No bookings yet.</td></tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
-            <!-- pagination -->
-            <div class="pagination-area my-3">
-                <div aria-label="Page navigation example">
-                    <ul class="pagination mt-0">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true"><i class="far fa-angle-double-left"></i></span>
-                            </a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true"><i class="far fa-angle-double-right"></i></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            {{ $bookings->links() }}
         </div>
     </div>
 </div>

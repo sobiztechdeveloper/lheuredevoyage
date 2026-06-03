@@ -126,26 +126,31 @@ Table of contents
   --body-font: 'Roboto', sans-serif;
   --heading-font: 'Barlow', sans-serif;
 
-  /* Primary Brand Colors */
-  --theme-color: #0057B8;
-  /* Primary Blue */
-  --theme-color2: #FBA707;
-  /* Accent Yellow */
+  /* L'Heure De Voyage brand palette */
+  --brand-primary: #162F65;
+  --brand-secondary: #3361AC;
+  --brand-accent: #E8AF30;
+  --brand-gold-light: #E8C766;
+  --brand-footer: #0F2043;
+
+  /* Theme mapping (do not change property names — colors only) */
+  --theme-color: #162F65;
+  --theme-color2: #E8AF30;
 
   /* Light Variations */
-  --theme-color-light: rgba(0, 87, 184, 0.12);
-  --theme-bg-light: rgba(0, 87, 184, 0.08);
+  --theme-color-light: rgba(22, 47, 101, 0.12);
+  --theme-bg-light: rgba(22, 47, 101, 0.08);
 
   /* Text Colors */
   --body-text-color: #757F95;
   --color-white: #FFFFFF;
-  --color-dark: #0C2C7A;
+  --color-dark: #162F65;
 
   /* Additional Colors */
   --color-green: #15D4C9;
-  --color-blue: #0057B8;
-  --color-skyblue: #00BFFF;
-  --color-yellow: #fba707;
+  --color-blue: #3361AC;
+  --color-skyblue: #3361AC;
+  --color-yellow: #E8AF30;
   --color-gray: #ECECEC;
   --color-red: #F05454;
 
@@ -170,7 +175,7 @@ Table of contents
   --border-white-color2: rgba(255, 255, 255, 0.07);
 
   /* Footer */
-  --footer-bg: #0C2C7A;
+  --footer-bg: #0F2043;
   --footer-text-color: #F5FAFF;
 }
 
@@ -226,7 +231,7 @@ a:hover {
 }
 
 a:hover {
-  color: #0049D0;
+  color: var(--color-blue);
 }
 
 ul {
@@ -908,7 +913,7 @@ theme button
 
 .header-top {
   /* background: transparent; */
-  background: rgb(251, 167, 7);
+  background: var(--brand-primary);
   position: relative;
   border-bottom: 1px solid var(--border-white-color);
   padding: 6px 0;
@@ -2312,7 +2317,7 @@ hero css
 }
 
 .destination-rate i {
-  color: #FFA903;
+  color: var(--theme-color2);
 }
 
 .destination-rate span {
@@ -2651,7 +2656,7 @@ hero css
 }
 
 .hotel-rate .badge {
-  background: #FFA903;
+  background: var(--theme-color2);
   font-size: 13px;
   border-radius: 50px 50px 50px 0;
 }
@@ -2917,7 +2922,7 @@ hero css
 }
 
 .room-rate .badge {
-  background: #FFA903;
+  background: var(--theme-color2);
   font-size: 13px;
 }
 
@@ -3285,7 +3290,7 @@ hero css
 }
 
 .tour-rate .badge {
-  background: #FFA903;
+  background: var(--theme-color2);
   font-size: 13px;
 }
 
@@ -3498,7 +3503,7 @@ hero css
 }
 
 .car-rate .badge {
-  background: #FFA903;
+  background: var(--theme-color2);
   font-size: 13px;
   border-radius: 50px 50px 50px 0;
 }
@@ -3743,7 +3748,7 @@ hero css
 }
 
 .activity-rate .badge {
-  background: #FFA903;
+  background: var(--theme-color2);
   font-size: 13px;
   border-radius: 50px 50px 50px 0;
 }
@@ -3897,7 +3902,7 @@ hero css
 }
 
 .cruise-rate .badge {
-  background: #FFA903;
+  background: var(--theme-color2);
   font-size: 13px;
   border-radius: 50px 50px 50px 0;
 }
@@ -4016,7 +4021,7 @@ hero css
 }
 
 .listing-rate .badge {
-  background: #FFA903;
+  background: var(--theme-color2);
   margin-right: 5px;
   border-radius: 50px 50px 50px 0;
 }
@@ -4406,7 +4411,7 @@ hero css
 }
 
 .listing-rating-star i {
-  color: #F8A611;
+  color: var(--theme-color2);
 }
 
 .listing-rating-count p {
@@ -4414,7 +4419,7 @@ hero css
 }
 
 .listing-rating-range-star i {
-  color: #F8A611;
+  color: var(--theme-color2);
   font-size: 14px;
 }
 
@@ -4488,7 +4493,7 @@ hero css
 }
 
 .listing-review-author-rating i {
-  color: #F8A611;
+  color: var(--theme-color2);
 }
 
 .listing-review-author-info span {
@@ -4590,7 +4595,7 @@ hero css
 .star-rating-box label:hover,
 .star-rating-box label:hover~label,
 .star-rating-box input:checked~label {
-  color: #F8A611;
+  color: var(--theme-color2);
 }
 
 
@@ -5999,7 +6004,7 @@ hero css
 }
 
 .booking-property-rate .badge {
-  background: #FFA903;
+  background: var(--theme-color2);
   margin-right: 5px;
   border-radius: 50px 50px 50px 0;
 }
@@ -8637,12 +8642,12 @@ sidebar css
 }
 
 .btn-fb {
-  border: 1px solid #506DAB;
-  color: #506DAB !important;
+  border: 1px solid var(--brand-secondary);
+  color: var(--brand-secondary) !important;
 }
 
 .btn-fb:hover {
-  background: #506DAB;
+  background: var(--brand-secondary);
   color: var(--color-white) !important;
 }
 
@@ -8974,7 +8979,7 @@ sidebar css
 }
 
 .dashboard-widget-color-1 {
-  background: #008FFB;
+  background: var(--brand-primary);
   color: var(--color-white);
 }
 
@@ -8984,11 +8989,11 @@ sidebar css
 
 .dashboard-widget-color-1 .dashboard-widget-icon {
   background: var(--color-white);
-  color: #008FFB;
+  color: var(--brand-primary);
 }
 
 .dashboard-widget-color-2 {
-  background: #25BDC7;
+  background: var(--brand-secondary);
   color: var(--color-white);
 }
 
@@ -8998,11 +9003,11 @@ sidebar css
 
 .dashboard-widget-color-2 .dashboard-widget-icon {
   background: var(--color-white);
-  color: #25BDC7;
+  color: var(--brand-secondary);
 }
 
 .dashboard-widget-color-3 {
-  background: #F96768;
+  background: var(--brand-accent);
   color: var(--color-white);
 }
 
@@ -9012,7 +9017,7 @@ sidebar css
 
 .dashboard-widget-color-3 .dashboard-widget-icon {
   background: var(--color-white);
-  color: #F96768;
+  color: var(--brand-accent);
 }
 
 .user-notification-item {
@@ -9101,8 +9106,8 @@ sidebar css
 }
 
 .user-profile-card .badge-warning {
-  background: rgba(0, 143, 251, .2);
-  color: #008FFB;
+  background: rgba(51, 97, 172, .2);
+  color: var(--brand-secondary);
 }
 
 .user-profile-card .badge-danger {

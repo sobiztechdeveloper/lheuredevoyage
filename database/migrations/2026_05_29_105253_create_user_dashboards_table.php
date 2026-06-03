@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('user_dashboards', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->unsignedInteger('total_bookings')->default(0);
+            $table->unsignedInteger('pending_bookings')->default(0);
+            $table->decimal('total_earned', 12, 2)->default(0);
             $table->timestamps();
         });
     }

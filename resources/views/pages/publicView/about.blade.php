@@ -13,7 +13,7 @@
     <div class="container">
         <h2 class="breadcrumb-title">About Us</h2>
         <ul class="breadcrumb-menu">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="{{ route('home') }}">Home</a></li>
             <li class="active">About Us</li>
         </ul>
     </div>
@@ -29,15 +29,15 @@
                     <div class="about-img">
                         <div class="row">
                             <div class="col-6">
-                                <img class="img-1" src="assets/img/about/01.jpg" alt="">
+                                <img class="img-1" src="{{ asset($about->image_primary ?? 'assets/img/about/01.jpg') }}" alt="">
                             </div>
                             <div class="col-6">
-                                <img class="img-2" src="assets/img/about/02.jpg" alt="">
+                                <img class="img-2" src="{{ asset($about->image_secondary ?? 'assets/img/about/02.jpg') }}" alt="">
                             </div>
                         </div>
                     </div>
                     <div class="about-experience">
-                        <h5>30<span>+</span></h5>
+                        <h5>{{ $about->experience_years ?? 30 }}<span>+</span></h5>
                         <p>Years Of Experience</p>
                     </div>
                 </div>
@@ -45,14 +45,10 @@
             <div class="col-lg-6">
                 <div class="about-right wow fadeInUp" data-wow-delay=".25s">
                     <div class="site-heading mb-3">
-                        <span class="site-title-tagline"><i class="far fa-plane"></i> About Us</span>
-                        <h2 class="site-title">We Are The World <span>Best Travel Booking</span> Agency Company
-                        </h2>
+                        <span class="site-title-tagline"><i class="far fa-plane"></i> {{ $about->subheading ?? 'About Us' }}</span>
+                        <h2 class="site-title">{{ $about->heading ?? 'We Are The World Best Travel Booking Agency Company' }}</h2>
                     </div>
-                    <p class="about-text">There are many variations of passages of Lorem Ipsum available,
-                        but the majority have suffered alteration in some form by injected humour or randomised
-                        printer took a galley of type and scrambled it to make a type specimen book.
-                        words which don't look even have suffered alteration in some form by injected.</p>
+                    <p class="about-text">{{ $about->content ?? 'Discover unforgettable journeys with L\'Heure De Voyage.' }}</p>
                     <div class="about-content">
                         <div class="row g-3">
                             <div class="col-md-6">
@@ -435,6 +431,8 @@
     </div>
 </div>
 <!-- partner area end -->
+
+@include('partials.cms.faqs', ['faqs' => $faqs ?? collect()])
 
 @endsection
 

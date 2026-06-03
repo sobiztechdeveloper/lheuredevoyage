@@ -2,64 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserDashboard;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class UserDashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
-        return view('pages.publicUserView.myDashboard');
-    }
+        $user = Auth::user();
+        $bookings = $user->bookings()->with('bookable')->latest()->get();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserDashboard $userDashboard)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserDashboard $userDashboard)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, UserDashboard $userDashboard)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(UserDashboard $userDashboard)
-    {
-        //
+        return view('pages.publicUserView.myDashboard', [
+            'user' => $user,
+            'stats' => [
+                'total' => $bookings->count(),
+                'pending' => $bookings->where('status', 'pending')->count(),
+                'earned' => $bookings->sum('total_amount'),
+            ],
+            'recentBookings' => $bookings->take(5),
+            'notifications' => $user->notifications()->latest()->take(4)->get(),
+        ]);
     }
 }

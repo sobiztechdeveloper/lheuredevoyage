@@ -2,77 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\tourPackage;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Concerns\HandlesCatalog;
+use App\Models\TourPackage;
 
 class TourPackageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    use HandlesCatalog;
+
+    protected function catalogModel(): string
     {
-        return view('pages.publicView.tourPackage.tourPackageList');
+        return TourPackage::class;
     }
 
-    public function search(Request $request)
+    protected function catalogListView(): string
     {
-        $destination = $request->destination;
-        $travelDate = $request->travel_date;
-        $travelers = $request->travelers;
-
-        return view('pages.publicView.tourpackage.tourPackageList', compact(
-            'destination',
-            'travelDate',
-            'travelers'
-        ));
+        return 'pages.publicView.tourPackage.tourPackageList';
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    protected function catalogDetailView(): string
     {
-        //
+        return 'pages.publicView.catalog.detail';
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    protected function catalogBookingView(): string
     {
-        //
+        return 'pages.publicView.catalog.booking';
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(tourPackage $tourPackage)
+    protected function catalogRoutePrefix(): string
     {
-        //
+        return 'tourpackage';
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(tourPackage $tourPackage)
+    protected function catalogMasterDataKey(): ?string
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, tourPackage $tourPackage)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(tourPackage $tourPackage)
-    {
-        //
+        return 'tourpackage';
     }
 }

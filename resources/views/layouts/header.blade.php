@@ -11,10 +11,12 @@
                        </div> -->
                        <div class="top-contact-info">
                            <ul>
-                               <li><a href="tel:+21234567897"><i class="far fa-phone-arrow-down-left"></i>+2 123
-                                       4567 897</a></li>
-                               <li><a href="mailto:info@example.com"><i
-                                           class="far fa-envelopes"></i>info@example.com</a></li>
+                               @if(($siteSettings ?? null)?->company_phone)
+                               <li><a href="tel:{{ preg_replace('/\s+/', '', $siteSettings->company_phone) }}"><i class="far fa-phone-arrow-down-left"></i>{{ $siteSettings->company_phone }}</a></li>
+                               @endif
+                               @if(($siteSettings ?? null)?->company_email)
+                               <li><a href="mailto:{{ $siteSettings->company_email }}"><i class="far fa-envelopes"></i>{{ $siteSettings->company_email }}</a></li>
+                               @endif
                            </ul>
                        </div>
                    </div>

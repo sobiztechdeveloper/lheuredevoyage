@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('user_settings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->boolean('email_notifications')->default(true);
+            $table->boolean('sms_notifications')->default(false);
+            $table->string('language', 5)->default('en');
+            $table->string('timezone')->default('UTC');
             $table->timestamps();
         });
     }

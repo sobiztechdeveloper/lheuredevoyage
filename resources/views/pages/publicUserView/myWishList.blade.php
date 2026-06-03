@@ -4,188 +4,41 @@
 
 <div class="col-lg-9">
     <div class="user-profile-wrapper">
+        @if(session('success') || session('wishlist_message'))
+            <div class="alert alert-success">{{ session('success') ?? session('wishlist_message') }}</div>
+        @endif
         <div class="user-profile-card">
-            <h4 class="user-profile-card-title">My Wishlist</h4>
-            <div class="row mt-30">
-                <div class="col-md-6 col-lg-4">
-                    <div class="hotel-item">
-                        <div class="hotel-img">
-                            <img src="assets/img/hotel/01.jpg" alt="">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
+            <h4 class="user-profile-card-title">My Wishlist ({{ $wishlists->total() }})</h4>
+            <div class="row mt-30 g-4">
+                @forelse($wishlists as $wishlist)
+                    @if($wishlist->wishlistable)
+                        @php
+                            $routePrefix = match(class_basename($wishlist->wishlistable)) {
+                                'Hotel' => 'hotel',
+                                'TourPackage' => 'tourpackage',
+                                'Cruise' => 'cruise',
+                                'RentalCar' => 'rentalcar',
+                                'TravelInsurance' => 'travelinsurance',
+                                default => 'hotel',
+                            };
+                            $bookableType = $routePrefix;
+                        @endphp
+                        <div class="col-md-6 col-lg-4 position-relative">
+                            <x-catalog-card :item="$wishlist->wishlistable" :routePrefix="$routePrefix" :bookableType="$bookableType" />
+                            <form method="POST" action="{{ route('wishlist.destroy', $wishlist) }}" class="position-absolute top-0 end-0 m-2">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" title="Remove">&times;</button>
+                            </form>
                         </div>
-                        <div class="hotel-content">
-                            <h4 class="hotel-title"><a href="#">Western Grant Park Hotel</a></h4>
-                            <p><i class="far fa-location-dot"></i> 25/B Milford Road, New York</p>
-                            <div class="hotel-rate">
-                                <span class="badge"><i class="far fa-star"></i> 5.0</span>
-                                <span class="hotel-rate-type">Excellent</span>
-                                <span class="hotel-rate-review">(2.5k Reviews)</span>
-                            </div>
-                            <div class="hotel-bottom">
-                                <div class="hotel-price">
-                                    <span class="hotel-price-amount">$300 <span class="hotel-price-type">/Per
-                                            Night</span></span>
-                                </div>
-                                <div class="hotel-text-btn">
-                                    <a href="#">See Details <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                    @endif
+                @empty
+                    <div class="col-12">
+                        <p class="text-muted">Your wishlist is empty. Browse <a href="{{ route('hotel') }}">hotels</a>, <a href="{{ route('tourpackage') }}">packages</a>, or <a href="{{ route('cruise') }}">cruises</a> and save your favorites.</p>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="hotel-item">
-                        <div class="hotel-img">
-                            <span class="badge">Featured</span>
-                            <img src="assets/img/hotel/02.jpg" alt="">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                        </div>
-                        <div class="hotel-content">
-                            <h4 class="hotel-title"><a href="#">Western Grant Park Hotel</a></h4>
-                            <p><i class="far fa-location-dot"></i> 25/B Milford Road, New York</p>
-                            <div class="hotel-rate">
-                                <span class="badge"><i class="far fa-star"></i> 5.0</span>
-                                <span class="hotel-rate-type">Excellent</span>
-                                <span class="hotel-rate-review">(2.5k Reviews)</span>
-                            </div>
-                            <div class="hotel-bottom">
-                                <div class="hotel-price">
-                                    <span class="hotel-price-amount">$300 <span class="hotel-price-type">/Per
-                                            Night</span></span>
-                                </div>
-                                <div class="hotel-text-btn">
-                                    <a href="#">See Details <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="hotel-item">
-                        <div class="hotel-img">
-                            <img src="assets/img/hotel/03.jpg" alt="">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                        </div>
-                        <div class="hotel-content">
-                            <h4 class="hotel-title"><a href="#">Western Grant Park Hotel</a></h4>
-                            <p><i class="far fa-location-dot"></i> 25/B Milford Road, New York</p>
-                            <div class="hotel-rate">
-                                <span class="badge"><i class="far fa-star"></i> 5.0</span>
-                                <span class="hotel-rate-type">Excellent</span>
-                                <span class="hotel-rate-review">(2.5k Reviews)</span>
-                            </div>
-                            <div class="hotel-bottom">
-                                <div class="hotel-price">
-                                    <span class="hotel-price-amount">$300 <span class="hotel-price-type">/Per
-                                            Night</span></span>
-                                </div>
-                                <div class="hotel-text-btn">
-                                    <a href="#">See Details <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="hotel-item">
-                        <div class="hotel-img">
-                            <img src="assets/img/hotel/04.jpg" alt="">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                        </div>
-                        <div class="hotel-content">
-                            <h4 class="hotel-title"><a href="#">Western Grant Park Hotel</a></h4>
-                            <p><i class="far fa-location-dot"></i> 25/B Milford Road, New York</p>
-                            <div class="hotel-rate">
-                                <span class="badge"><i class="far fa-star"></i> 5.0</span>
-                                <span class="hotel-rate-type">Excellent</span>
-                                <span class="hotel-rate-review">(2.5k Reviews)</span>
-                            </div>
-                            <div class="hotel-bottom">
-                                <div class="hotel-price">
-                                    <span class="hotel-price-amount">$300 <span class="hotel-price-type">/Per
-                                            Night</span></span>
-                                </div>
-                                <div class="hotel-text-btn">
-                                    <a href="#">See Details <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="hotel-item">
-                        <div class="hotel-img">
-                            <span class="badge">Featured</span>
-                            <img src="assets/img/hotel/05.jpg" alt="">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                        </div>
-                        <div class="hotel-content">
-                            <h4 class="hotel-title"><a href="#">Western Grant Park Hotel</a></h4>
-                            <p><i class="far fa-location-dot"></i> 25/B Milford Road, New York</p>
-                            <div class="hotel-rate">
-                                <span class="badge"><i class="far fa-star"></i> 5.0</span>
-                                <span class="hotel-rate-type">Excellent</span>
-                                <span class="hotel-rate-review">(2.5k Reviews)</span>
-                            </div>
-                            <div class="hotel-bottom">
-                                <div class="hotel-price">
-                                    <span class="hotel-price-amount">$300 <span class="hotel-price-type">/Per
-                                            Night</span></span>
-                                </div>
-                                <div class="hotel-text-btn">
-                                    <a href="#">See Details <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="hotel-item">
-                        <div class="hotel-img">
-                            <img src="assets/img/hotel/06.jpg" alt="">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                        </div>
-                        <div class="hotel-content">
-                            <h4 class="hotel-title"><a href="#">Western Grant Park Hotel</a></h4>
-                            <p><i class="far fa-location-dot"></i> 25/B Milford Road, New York</p>
-                            <div class="hotel-rate">
-                                <span class="badge"><i class="far fa-star"></i> 5.0</span>
-                                <span class="hotel-rate-type">Excellent</span>
-                                <span class="hotel-rate-review">(2.5k Reviews)</span>
-                            </div>
-                            <div class="hotel-bottom">
-                                <div class="hotel-price">
-                                    <span class="hotel-price-amount">$300 <span class="hotel-price-type">/Per
-                                            Night</span></span>
-                                </div>
-                                <div class="hotel-text-btn">
-                                    <a href="#">See Details <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
-            <!-- pagination -->
-            <div class="pagination-area my-4">
-                <div aria-label="Page navigation example">
-                    <ul class="pagination mt-0">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true"><i class="far fa-angle-double-left"></i></span>
-                            </a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true"><i class="far fa-angle-double-right"></i></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            {{ $wishlists->links() }}
         </div>
     </div>
 </div>

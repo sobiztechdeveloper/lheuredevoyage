@@ -9,13 +9,16 @@
             <div class="col-lg-6">
                 <div class="profile-info-list">
                     <ul>
-                        <li>Full Name: <span>Antoni Jonson</span></li>
-                        <li>Email: <span>jonson@example.com</span></li>
-                        <li>Phone: <span>+2 134 562 458</span></li>
-                        <li>Address: <span>New York, USA</span></li>
-                        <li>Join Date: <span>21 August, 2025</span></li>
+                        <li>Full Name: <span>{{ $user->name }}</span></li>
+                        <li>Email: <span>{{ $user->email }}</span></li>
+                        <li>Phone: <span>{{ $user->profile?->phone ?? '—' }}</span></li>
+                        <li>Address: <span>{{ trim(($user->profile?->city ?? '').', '.($user->profile?->country ?? ''), ', ') ?: '—' }}</span></li>
+                        <li>Join Date: <span>{{ $user->created_at->format('d F, Y') }}</span></li>
                     </ul>
                 </div>
+            </div>
+            <div class="mt-3">
+                <a href="{{ route('my-settings') }}" class="theme-btn">Edit Profile</a>
             </div>
         </div>
     </div>

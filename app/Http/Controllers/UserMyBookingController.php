@@ -2,68 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserMyBooking;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class UserMyBookingController extends Controller
 {
-
-    public function index()
+    public function index(): View
     {
-        // Gate::authorize('viewAny', Booking::class);
+        $bookings = Auth::user()
+            ->bookings()
+            ->with('bookable')
+            ->latest()
+            ->paginate(10);
 
-        // $bookings = Booking::query()
-        //     ->where('user_id', auth()->id())
-        //     ->with('bookable')
-        //     ->latest()
-        //     ->get();
-
-        return view('pages.publicUserView.myBooking');
-    }
-
-
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserMyBooking $userMyBooking)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserMyBooking $userMyBooking)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, UserMyBooking $userMyBooking)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(UserMyBooking $userMyBooking)
-    {
-        //
+        return view('pages.publicUserView.myBooking', compact('bookings'));
     }
 }

@@ -10,8 +10,12 @@
 
 <!-- hero area -->
 <div class="hero-section">
-    <div class="hero-single" style="background: url(assets/img/hero/hero-2x.jpg)">
+    @php $primaryHero = ($heroSections ?? collect())->first(); @endphp
+    <div class="hero-single" style="background: url({{ $primaryHero?->image_url ?? asset('assets/img/hero/hero-2x.jpg') }})">
         <div class="container">
+            @if($primaryHero)
+                @include('partials.cms.hero-content', ['hero' => $primaryHero])
+            @endif
             <!-- search area -->
             <div class="search-area">
                 <div class="container">
@@ -313,19 +317,20 @@
                                 aria-labelledby="pills-tab-1" tabindex="0">
                                 <div class="flight-search ft-group">
                                     <div class="search-form">
-                                        <form action="{{ route('flight.search') }}">
+                                        <form action="{{ route('flight.search.submit') }}" method="POST">
+                                            @csrf
                                             <!-- flight type -->
                                             <div class="flight-type">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" checked
-                                                        value="one-way" name="flight-type" id="flight-type1">
+                                                        value="one_way" name="trip_type" id="flight-type1">
                                                     <label class="form-check-label" for="flight-type1">
                                                         One Way
                                                     </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio"
-                                                        value="round-way" name="flight-type" id="flight-type2">
+                                                        value="round_trip" name="trip_type" id="flight-type2">
                                                     <label class="form-check-label" for="flight-type2">
                                                         Round Way
                                                     </label>
@@ -394,9 +399,9 @@
                                                                         <div class="search-form-return">
                                                                             <label>Return Date</label>
                                                                             <div class="form-group-icon">
-                                                                                <input type="text"
-                                                                                    name="return-date"
-                                                                                    class="form-control date-picker return-date">
+                                                                                <input type="date"
+                                                                                    name="return_date"
+                                                                                    class="form-control return-date">
                                                                             </div>
                                                                             <p class="return-day-name"></p>
                                                                         </div>
@@ -489,8 +494,8 @@
                                                                                     <input
                                                                                         class="form-check-input"
                                                                                         type="radio"
-                                                                                        value="Economy"
-                                                                                        name="cabin-class"
+                                                                                        value="economy"
+                                                                                        name="cabin_class"
                                                                                         id="cabin-class1">
                                                                                     <label
                                                                                         class="form-check-label"
@@ -502,8 +507,8 @@
                                                                                     <input
                                                                                         class="form-check-input"
                                                                                         checked type="radio"
-                                                                                        value="Business"
-                                                                                        name="cabin-class"
+                                                                                        value="business"
+                                                                                        name="cabin_class"
                                                                                         id="cabin-class2">
                                                                                     <label
                                                                                         class="form-check-label"
@@ -1444,327 +1449,14 @@
 </div>
 <!-- hero area end -->
 
-<!-- partner area -->
-<div class="partner-area2 bg pt-40 pb-40">
-    <div class="container">
-        <div class="partner-slider owl-carousel owl-theme">
-            <img src="assets/img/partner/01.png" alt="thumb">
-            <img src="assets/img/partner/02.png" alt="thumb">
-            <img src="assets/img/partner/03.png" alt="thumb">
-            <img src="assets/img/partner/04.png" alt="thumb">
-            <img src="assets/img/partner/01.png" alt="thumb">
-            <img src="assets/img/partner/02.png" alt="thumb">
-            <img src="assets/img/partner/03.png" alt="thumb">
-        </div>
-    </div>
-</div>
-<!-- partner area end -->
+@include('partials.home.sections')
 
-<!-- feature area -->
-<div class="feature-area2 pt-100">
-    <div class="container">
-        <div class="feature-wrapper">
-            <div class="row g-4">
-                <div class="col-lg-6 col-xl-4">
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <img src="assets/img/icon/world.svg" alt="">
-                        </div>
-                        <div class="feature-content">
-                            <h4 class="feature-title">Worldwide Coverage</h4>
-                            <p>It is a long established fact that reader will of page when looking at its make a type specimen book
-                                layout.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xl-4">
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <img src="assets/img/icon/quality.svg" alt="">
-                        </div>
-                        <div class="feature-content">
-                            <h4 class="feature-title">Best Quality Services</h4>
-                            <p>It is a long established fact that reader will of page when looking at its make a type specimen book
-                                layout.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xl-4">
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <img src="assets/img/icon/support.svg" alt="">
-                        </div>
-                        <div class="feature-content">
-                            <h4 class="feature-title">24/7 Customer Service</h4>
-                            <p>It is a long established fact that reader will of page when looking at its make a type specimen book
-                                layout.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- feature area end -->
+@include('partials.catalog.home-featured')
+@include('partials.cms.testimonials', ['testimonials' => $testimonials ?? collect()])
 
-<!-- about-area -->
-<div class="about-area py-120">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <div class="about-left wow fadeInLeft" data-wow-delay=".25s">
-                    <div class="about-img">
-                        <div class="row">
-                            <div class="col-6">
-                                <img class="img-1" src="assets/img/about/01.jpg" alt="">
-                            </div>
-                            <div class="col-6">
-                                <img class="img-2" src="assets/img/about/02.jpg" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="about-experience">
-                        <h5>30<span>+</span></h5>
-                        <p>Years Of Experience</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="about-right wow fadeInUp" data-wow-delay=".25s">
-                    <div class="site-heading mb-3">
-                        <span class="site-title-tagline"><i class="far fa-plane"></i> About Us</span>
-                        <h2 class="site-title">We Are The World <span>Best Travel Booking</span> Agency Company
-                        </h2>
-                    </div>
-                    <p class="about-text">There are many variations of passages of Lorem Ipsum available,
-                        but the majority have suffered alteration in some form by injected humour or randomised
-                        printer took a galley of type and scrambled it to make a type specimen book.
-                        words which don't look even have suffered alteration in some form by injected.</p>
-                    <div class="about-content">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="about-item">
-                                    <div class="icon">
-                                        <img src="assets/img/icon/deal.svg" alt="">
-                                    </div>
-                                    <div class="content">
-                                        <h6>Get Your Best Deals</h6>
-                                        <p>Take a look at our up of the round shows</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="about-item">
-                                    <div class="icon">
-                                        <img src="assets/img/icon/booking.svg" alt="">
-                                    </div>
-                                    <div class="content">
-                                        <h6>Easy To Booking</h6>
-                                        <p>Take a look at our up of the round shows</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="about.html" class="theme-btn">Discover More <i
-                            class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- about-area end -->
+@include('partials.cms.faqs', ['faqs' => $faqs ?? collect()])
 
-<!-- counter area -->
-<div class="counter-area">
-    <div class="col-lg-11 col-xl-9">
-        <div class="counter-wrap">
-            <div class="row">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="counter-box">
-                        <div class="icon">
-                            <img src="assets/img/icon/booking-confirm.svg" alt="">
-                        </div>
-                        <div class="counter-content">
-                            <div class="counter-number">
-                                <span class="counter" data-count="+" data-to="120" data-speed="3000">120</span>
-                                <span class="counter-sign">k</span>
-                            </div>
-                            <h6 class="title">Booking Done</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="counter-box">
-                        <div class="icon">
-                            <img src="assets/img/icon/destination.svg" alt="">
-                        </div>
-                        <div class="counter-content">
-                            <div class="counter-number">
-                                <span class="counter" data-count="+" data-to="200" data-speed="3000">200</span>
-                                <span class="counter-sign">+</span>
-                            </div>
-                            <h6 class="title">Our Destination</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="counter-box">
-                        <div class="icon">
-                            <img src="assets/img/icon/rating.svg" alt="">
-                        </div>
-                        <div class="counter-content">
-                            <div class="counter-number">
-                                <span class="counter" data-count="+" data-to="40" data-speed="3000">40</span>
-                                <span class="counter-sign">k</span>
-                            </div>
-                            <h6 class="title">Happy Clients</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="counter-box">
-                        <div class="icon">
-                            <img src="assets/img/icon/partner.svg" alt="">
-                        </div>
-                        <div class="counter-content">
-                            <div class="counter-number">
-                                <span class="counter" data-count="+" data-to="180" data-speed="3000">180</span>
-                                <span class="counter-sign">+</span>
-                            </div>
-                            <h6 class="title">Our Partners</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- counter area end -->
-
-<!-- video-area -->
-<!-- <div class="video-area">
-    <div class="container-fluid pe-0 p-lg-0">
-        <div class="col-lg-11 ms-lg-auto">
-            <div class="row g-4 align-items-center">
-                <div class="col-md-8 col-lg-4 wow fadeInLeft" data-wow-delay=".25s">
-                    <div class="site-heading mb-3">
-                        <span class="site-title-tagline"><i class="far fa-plane"></i> Our Video</span>
-                        <h2 class="site-title">
-                            Let's Check Our <span>Latest Update</span> And Video
-                        </h2>
-                    </div>
-                    <p class="about-text">
-                        There are many variations of passages available but the majority have suffered
-                        alteration in some form injected humour if you are going to use passage you need sure
-                        there
-                        isn't anything look even slightly believable.
-                    </p>
-                    <a href="about.html" class="theme-btn mt-30">Learn More<i
-                            class="fas fa-arrow-circle-right"></i></a>
-                </div>
-                <div class="col-lg-8 wow fadeInRight" data-wow-delay=".25s">
-                    <div class="video-content" style="background-image: url(assets/img/video/01.jpg);">
-                        <div class="row align-items-center">
-                            <div class="col-lg-12">
-                                <div class="video-wrapper">
-                                    <a class="play-btn popup-youtube"
-                                        href="https://www.youtube.com/watch?v=jLS3DrTJrpI">
-                                        <i class="fas fa-play"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-<!-- video-area end -->
-
-<!-- cta-area -->
-<div class="cta-area">
-    <div class="container">
-        <div class="cta-wrapper">
-            <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
-                <div class="cta-content">
-                    <div class="cta-text">
-                        <h1>First Booking <span>Get 70%</span> Discount!</h1>
-                        <p>It is a long established fact that a reader will be distracted by the readable
-                            content web page editors now use of a page when looking at its layout.</p>
-                    </div>
-                    <a href="contact.html" class="theme-btn mt-20">Book Now <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <div class="cta-img">
-                <img src="assets/img/cta/01.jpg" alt="">
-            </div>
-        </div>
-    </div>
-</div>
-<!-- cta-area end -->
-
-<!-- choose area -->
-<div class="choose-area py-120">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
-                <div class="site-heading text-center">
-                    <span class="site-title-tagline"><i class="far fa-plane"></i> Why Choose Us</span>
-                    <h2 class="site-title">Discover Beautiful Place With Us</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row align-items-center">
-            <div class="col-lg-6 wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".25s">
-                <div class="choose-item">
-                    <span class="count">01</span>
-                    <div class="icon">
-                        <img src="assets/img/icon/safety.svg" alt="">
-                    </div>
-                    <div class="content">
-                        <h4>Safety And Trust</h4>
-                        <p>It is a long established fact that a reader will be distracted by the readable
-                            content of a page when looking at its layout.</p>
-                    </div>
-                </div>
-                <div class="choose-item">
-                    <span class="count">02</span>
-                    <div class="icon">
-                        <img src="assets/img/icon/price.svg" alt="">
-                    </div>
-                    <div class="content">
-                        <h4>100% Price Transparency</h4>
-                        <p>It is a long established fact that a reader will be distracted by the readable
-                            content of a page when looking at its layout.</p>
-                    </div>
-                </div>
-                <div class="choose-item">
-                    <span class="count">03</span>
-                    <div class="icon">
-                        <img src="assets/img/icon/booking-confirm.svg" alt="">
-                    </div>
-                    <div class="content">
-                        <h4>Travel With More Confidence</h4>
-                        <p>It is a long established fact that a reader will be distracted by the readable
-                            content of a page when looking at its layout.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 wow fadeInRight" data-wow-duration="1s" data-wow-delay=".25s">
-                <div class="choose-img">
-                    <img class="shape" src="assets/img/shape/04.png" alt="">
-                    <img class="img-1" src="assets/img/choose/01.jpg" alt="">
-                    <img class="img-2" src="assets/img/choose/02.jpg" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- choose area end -->
-
-<!-- testimonial area -->
+<!-- testimonial area (legacy static - disabled) -->
 <!-- <div class="testimonial-area bg pt-70 pb-70">
     <div class="container">
         <div class="row">

@@ -1,61 +1,117 @@
- .navbar-brand img {
-     height: 55px;
-     width: auto;
-     object-fit: contain;
- }
+/* L'Heure De Voyage — brand color overrides only (no layout changes) */
 
- .footer-logo img {
-     height: 70px;
-     width: auto;
-     object-fit: contain;
- }
+.navbar-brand img {
+    height: 55px;
+    width: auto;
+    object-fit: contain;
+}
 
- .user-profile,
- .login-area {
-     margin-top: 120px;
- }
+.footer-logo img {
+    height: 70px;
+    width: auto;
+    object-fit: contain;
+}
 
- .dashboard-page {
-     background: #E7E6DD;
- }
+.user-profile,
+.login-area {
+    margin-top: 120px;
+}
 
+.dashboard-page {
+    background: #E7E6DD;
+}
 
- .dashboard-page .navbar .nav-link,
- .dashboard-page .navbar .dropdown-toggle,
- .dashboard-page .navbar .menu-link {
-     color: #0d3b8e !important;
- }
+.dashboard-page .navbar .nav-link,
+.dashboard-page .navbar .dropdown-toggle,
+.dashboard-page .navbar .menu-link {
+    color: var(--theme-color) !important;
+}
 
- .dashboard-page .navbar {
-     background: #fff;
- }
+.dashboard-page .navbar {
+    background: #fff;
+}
 
- .dashboard-page .brand-text {
-     color: #0d3b8e;
- }
+.dashboard-page .brand-text {
+    color: var(--theme-color);
+}
 
- .logo-wrapper {
-     position: relative;
- }
+.logo-wrapper {
+    position: relative;
+}
 
- .brand-text {
-     font-size: 24px;
-     font-weight: 700;
-     color: #f1f2f3;
-     white-space: nowrap;
- }
+.brand-text {
+    font-size: 24px;
+    font-weight: 700;
+    color: #f1f2f3;
+    white-space: nowrap;
+}
 
- .navbar.fixed-top .brand-text {
-     color: var(--color-dark);
- }
+.navbar.fixed-top .brand-text {
+    color: var(--color-dark);
+}
 
- .footer-brand-text {
-     font-size: 22px;
-     font-weight: 700;
-     color: #ffffff;
-     white-space: nowrap;
- }
+.footer-brand-text {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+}
 
- .footer-logo {
-     text-decoration: none;
- }
+.footer-logo {
+    text-decoration: none;
+}
+
+/* Buttons & CTAs — accent yellow */
+.theme-btn {
+    background: var(--theme-color2);
+}
+
+.theme-btn::before {
+    background: var(--brand-gold-light);
+}
+
+#scroll-top {
+    background: var(--theme-color2);
+}
+
+#scroll-top:hover {
+    background: var(--brand-gold-light);
+}
+
+/* Search tabs — active tab accent */
+.search-nav .nav-link.active {
+    background: var(--theme-color2);
+}
+
+.search-nav .nav-link.active i {
+    color: var(--color-white);
+}
+
+.search-nav .nav-link i {
+    color: var(--theme-color);
+}
+
+/* Admin panel buttons */
+.admin-main .btn-primary {
+    background-color: var(--theme-color2);
+    border-color: var(--theme-color2);
+    color: var(--color-dark);
+}
+
+.admin-main .btn-primary:hover,
+.admin-main .btn-primary:focus {
+    background-color: var(--brand-gold-light);
+    border-color: var(--brand-gold-light);
+    color: var(--color-dark);
+}
+
+.admin-main .btn-outline-primary {
+    color: var(--theme-color);
+    border-color: var(--theme-color);
+}
+
+.admin-main .btn-outline-primary:hover {
+    background-color: var(--theme-color);
+    border-color: var(--theme-color);
+    color: #fff;
+}

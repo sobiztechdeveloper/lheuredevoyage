@@ -2,64 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserSetting;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class UserSettingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
-        return view('pages.publicUserView.mySetting');
+        $user = Auth::user()->load('profile');
+        $settings = $user->settings()->firstOrCreate(['user_id' => $user->id]);
+
+        return view('pages.publicUserView.mySetting', compact('settings', 'user'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function update(Request $request): RedirectResponse
     {
-        //
-    }
+        $data = $request->validate([
+            'email_notifications' => ['nullable', 'boolean'],
+            'sms_notifications' => ['nullable', 'boolean'],
+            'language' => ['required', 'string', 'max:5'],
+            'timezone' => ['required', 'string', 'max:50'],
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $data['email_notifications'] = $request->boolean('email_notifications');
+        $data['sms_notifications'] = $request->boolean('sms_notifications');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserSetting $userSetting)
-    {
-        //
-    }
+        Auth::user()->settings()->updateOrCreate(['user_id' => Auth::id()], $data);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserSetting $userSetting)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, UserSetting $userSetting)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(UserSetting $userSetting)
-    {
-        //
+        return redirect()->route('my-settings')->with('success', 'Settings saved.');
     }
 }

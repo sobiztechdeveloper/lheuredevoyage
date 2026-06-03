@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('user_wallets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->decimal('balance', 12, 2)->default(0);
+            $table->string('currency', 3)->default('USD');
             $table->timestamps();
         });
     }

@@ -406,7 +406,7 @@ Version         : 1.0
 
     // price slider
     $(function () {
-        $(".price-range").slider({
+        $(".price-range").not("#price-range1").slider({
             step: 500,
             range: true,
             min: 0,

@@ -13,6 +13,19 @@ return new class extends Migration
     {
         Schema::create('tour_packages', function (Blueprint $table) {
             $table->id();
+            $table->string('slug')->unique();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->string('destination')->nullable();
+            $table->string('location')->nullable();
+            $table->unsignedSmallInteger('duration_days')->nullable();
+            $table->decimal('price', 12, 2);
+            $table->string('price_unit')->default('Per Person');
+            $table->string('image')->nullable();
+            $table->decimal('rating', 3, 1)->default(0);
+            $table->unsignedInteger('review_count')->default(0);
+            $table->boolean('is_featured')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

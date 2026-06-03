@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('abouts', function (Blueprint $table) {
             $table->id();
+            $table->string('heading')->nullable();
+            $table->string('subheading')->nullable();
+            $table->text('content')->nullable();
+            $table->string('image_primary')->nullable();
+            $table->string('image_secondary')->nullable();
+            $table->unsignedSmallInteger('experience_years')->default(0);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

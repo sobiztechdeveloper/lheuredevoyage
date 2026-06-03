@@ -2,60 +2,54 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\HandlesCatalog;
 use App\Models\Flight;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class FlightController extends Controller
 {
-    public function index()
+    use HandlesCatalog;
+
+    public function __construct(
+        protected FlightSearchController $flightSearchController,
+    ) {}
+
+    /**
+     * Flight search results page (/flights) with filters and sort.
+     */
+    public function index(Request $request): View
     {
-        return view('pages.publicView.flight.flightList');
+        return $this->flightSearchController->flightsPage($request);
     }
 
-    public function search(Request $request)
+    public function search(Request $request): View
     {
-        $from = $request->from_destination;
-        $to = $request->to_destination;
-        $journeyDate = $request->journey_date;
-
-        return view('pages.publicView.flight.flightList', compact(
-            'from',
-            'to',
-            'journeyDate'
-        ));
+        return $this->flightSearchController->flightsPage($request);
     }
 
-    public function create()
+    protected function catalogModel(): string
     {
-        //
+        return Flight::class;
     }
 
-
-    public function store(Request $request)
+    protected function catalogListView(): string
     {
-        //
+        return 'pages.publicView.flight.flightList';
     }
 
-
-    public function show(Flight $flight)
+    protected function catalogDetailView(): string
     {
-        //
+        return 'pages.publicView.flight.flightDetail';
     }
 
-    public function edit(Flight $flight)
+    protected function catalogBookingView(): string
     {
-        //
+        return 'pages.publicView.flight.flightBooking';
     }
 
-
-    public function update(Request $request, Flight $flight)
+    protected function catalogRoutePrefix(): string
     {
-        //
-    }
-
-
-    public function destroy(Flight $flight)
-    {
-        //
+        return 'flight';
     }
 }

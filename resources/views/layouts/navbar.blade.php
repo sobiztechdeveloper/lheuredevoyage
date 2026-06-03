@@ -3,12 +3,12 @@
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
                 <div class="logo-wrapper">
-                    <img src="{{ asset('assets/img/logo/logo.png') }}" class="logo-display" alt="logo">
-                    <img src="{{ asset('assets/img/logo/logo-dark.png') }}" class="logo-scrolled" alt="logo">
+                    <img src="{{ ($siteSettings ?? null)?->logo_url ?? asset('assets/img/logo/logo.png') }}" class="logo-display" alt="logo">
+                    <img src="{{ ($siteSettings ?? null)?->logo_url ?? asset('assets/img/logo/logo-dark.png') }}" class="logo-scrolled" alt="logo">
                 </div>
 
                 <span class="brand-text ms-2">
-                    L'Heure De Voyage
+                    {{ ($siteSettings ?? null)?->company_name ?? "L'Heure De Voyage" }}
                 </span>
             </a>
             <div class="mobile-menu-right">
@@ -25,7 +25,7 @@
                             <i class="fas fa-home me-1"></i> Home
                         </a>
                     </li>
-                    <!-- <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('flight') }}">
                             <i class="fas fa-plane me-1"></i> Flights
                         </a>
@@ -54,7 +54,7 @@
                         <a class="nav-link" href="{{ route('tourpackage') }}">
                             <i class="fas fa-binoculars me-1"></i> Tour Packages
                         </a>
-                    </li> -->
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('contact') }}">
                             <i class="fas fa-phone me-1"></i> Contact
@@ -78,6 +78,8 @@
                                 <li><a class="dropdown-item" href="{{ route('my-dashboard') }}"><i class="far fa-gauge-high"></i> Dashboard</a></li>
                                 <li><a class="dropdown-item" href="{{ route('my-profile') }}"><i class="far fa-user"></i> My Profile</a></li>
                                 <li><a class="dropdown-item" href="{{ route('my-bookings-list') }}"><i class="far fa-shopping-bag"></i> My Booking</a></li>
+                                <li><a class="dropdown-item" href="{{ route('my-flight-bookings.index') }}"><i class="far fa-plane"></i> My Flight Bookings</a></li>
+                                <li><a class="dropdown-item" href="{{ route('my-quotes.index') }}"><i class="far fa-file-invoice-dollar"></i> My Quotes</a></li>
 
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">

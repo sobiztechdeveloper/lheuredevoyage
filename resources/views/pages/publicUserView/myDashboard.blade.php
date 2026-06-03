@@ -8,7 +8,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="dashboard-widget dashboard-widget-color-1">
                     <div class="dashboard-widget-info">
-                        <h1>120</h1>
+                        <h1>{{ $stats['total'] }}</h1>
                         <span>Total Booking</span>
                     </div>
                     <div class="dashboard-widget-icon">
@@ -19,7 +19,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="dashboard-widget dashboard-widget-color-2">
                     <div class="dashboard-widget-info">
-                        <h1>26</h1>
+                        <h1>{{ $stats['pending'] }}</h1>
                         <span>Pending Booking</span>
                     </div>
                     <div class="dashboard-widget-icon">
@@ -30,8 +30,8 @@
             <div class="col-md-6 col-lg-4">
                 <div class="dashboard-widget dashboard-widget-color-3">
                     <div class="dashboard-widget-info">
-                        <h1>$60,050</h1>
-                        <span>You Earned</span>
+                        <h1>${{ number_format($stats['earned'], 0) }}</h1>
+                        <span>Total Spent</span>
                     </div>
                     <div class="dashboard-widget-icon">
                         <i class="fal fa-sack-dollar"></i>
@@ -54,50 +54,21 @@
                 <div class="user-profile-card">
                     <h4 class="user-profile-card-title">Notifications</h4>
                     <div class="user-notification">
-                        <div class="user-notification-item">
-                            <a href="#">
-                                <div class="user-notification-icon">
-                                    <i class="far fa-home"></i>
-                                </div>
-                                <div class="user-notification-info">
-                                    <p>Your Booking <b>#123456</b> Roltak Hotel Is Confirmed!</p>
-                                    <span>just now</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="user-notification-item">
-                            <a href="#">
-                                <div class="user-notification-icon">
-                                    <i class="far fa-envelope"></i>
-                                </div>
-                                <div class="user-notification-info">
-                                    <p>Your Booking <b>#123456</b> Roltak Hotel Is Confirmed!</p>
-                                    <span>15 min ago</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="user-notification-item">
-                            <a href="#">
-                                <div class="user-notification-icon">
-                                    <i class="far fa-heart"></i>
-                                </div>
-                                <div class="user-notification-info">
-                                    <p>Your Booking <b>#123456</b> Roltak Hotel Is Confirmed!</p>
-                                    <span>15 days ago</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="user-notification-item">
-                            <a href="#">
-                                <div class="user-notification-icon">
-                                    <i class="far fa-comment"></i>
-                                </div>
-                                <div class="user-notification-info">
-                                    <p>Your Booking <b>#123456</b> Roltak Hotel Is Confirmed!</p>
-                                    <span>2 months ago</span>
-                                </div>
-                            </a>
-                        </div>
+                        @forelse($notifications as $notification)
+                            <div class="user-notification-item">
+                                <a href="{{ route('my-notifications') }}">
+                                    <div class="user-notification-icon">
+                                        <i class="far fa-bell"></i>
+                                    </div>
+                                    <div class="user-notification-info">
+                                        <p><b>{{ $notification->title }}</b> — {{ $notification->body }}</p>
+                                        <span>{{ $notification->created_at->diffForHumans() }}</span>
+                                    </div>
+                                </a>
+                            </div>
+                        @empty
+                            <p class="text-muted mb-0">No notifications yet.</p>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -118,61 +89,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>01.</td>
-                                    <td><b>#12453</b></td>
-                                    <td>Hotel</td>
-                                    <td>Oct 22, 2025</td>
-                                    <td>$11,569</td>
-                                    <td><span class="badge badge-success">Confirmed</span></td>
-                                    <td>
-                                        <a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>02.</td>
-                                    <td><b>#12453</b></td>
-                                    <td>Flight</td>
-                                    <td>Oct 22, 2025</td>
-                                    <td>$11,569</td>
-                                    <td><span class="badge badge-success">Confirmed</span></td>
-                                    <td>
-                                        <a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>03.</td>
-                                    <td><b>#12453</b></td>
-                                    <td>Activity</td>
-                                    <td>Oct 22, 2025</td>
-                                    <td>$11,569</td>
-                                    <td><span class="badge badge-warning">Pending</span></td>
-                                    <td>
-                                        <a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>04.</td>
-                                    <td><b>#12453</b></td>
-                                    <td>Car</td>
-                                    <td>Oct 22, 2025</td>
-                                    <td>$11,569</td>
-                                    <td><span class="badge badge-success">Confirmed</span></td>
-                                    <td>
-                                        <a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>05.</td>
-                                    <td><b>#12453</b></td>
-                                    <td>Cruise</td>
-                                    <td>Oct 22, 2025</td>
-                                    <td>$11,569</td>
-                                    <td><span class="badge badge-danger">Cancel</span></td>
-                                    <td>
-                                        <a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
-                                    </td>
-                                </tr>
+                                @forelse($recentBookings as $index => $booking)
+                                    <tr>
+                                        <td>{{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}.</td>
+                                        <td><b>{{ $booking->reference }}</b></td>
+                                        <td>{{ class_basename($booking->bookable_type) }}</td>
+                                        <td>{{ ($booking->booked_at ?? $booking->created_at)->format('M d, Y') }}</td>
+                                        <td>${{ number_format($booking->total_amount, 2) }}</td>
+                                        <td><span class="badge badge-{{ $booking->status === 'confirmed' ? 'success' : ($booking->status === 'pending' ? 'warning' : 'danger') }}">{{ ucfirst($booking->status) }}</span></td>
+                                        <td>
+                                            <a href="{{ route('booking-history') }}" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i></a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr><td colspan="7" class="text-center">No bookings yet.</td></tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

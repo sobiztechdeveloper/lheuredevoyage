@@ -1,0 +1,16 @@
+.qt-status {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+.qt-status-draft { background: #f1f5f9; color: #64748b; }
+.qt-status-sent { background: #dbeafe; color: #1e40af; }
+.qt-status-viewed { background: #e0e7ff; color: #3730a3; }
+.qt-status-accepted { background: #dcfce7; color: #166534; }
+.qt-status-rejected { background: #fee2e2; color: #991b1b; }
+.qt-status-expired { background: #fef3c7; color: #92400e; }
+
+.quote-items-table input.form-control-sm { min-width: 80px; }

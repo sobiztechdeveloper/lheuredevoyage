@@ -6,7 +6,7 @@
     <div class="user-profile-wrapper">
         <div class="col-lg-12">
             <div class="user-profile-card profile-booking">
-                <h4 class="user-profile-card-title">Notifications (05)</h4>
+                <h4 class="user-profile-card-title">Notifications ({{ $unreadCount }} unread)</h4>
                 <div class="table-responsive">
                     <table class="table text-nowrap">
                         <thead>
@@ -15,58 +15,31 @@
                                 <th>Notification</th>
                                 <th>Date</th>
                                 <th>Status</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>01.</td>
-                                <td>
-                                    <p>There are many variations of passages orem psum available</p>
-                                </td>
-                                <td>Oct 22, 2025</td>
-                                <td><span class="badge badge-warning">Unread</span></td>
-                                <td><a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i> Mark As Read</a></td>
-                            </tr>
-                            <tr>
-                                <td>02.</td>
-                                <td>
-                                    <p>There are many variations of passages orem psum available</p>
-                                </td>
-                                <td>Oct 22, 2025</td>
-                                <td><span class="badge badge-success">Read</span></td>
-                                <td><a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye-slash"></i> Mark As Unread</a></td>
-                            </tr>
-                            <tr>
-                                <td>03.</td>
-                                <td>
-                                    <p>There are many variations of passages orem psum available</p>
-                                </td>
-                                <td>Oct 22, 2025</td>
-                                <td><span class="badge badge-warning">Unread</span></td>
-                                <td><a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye"></i> Mark As Read</a></td>
-                            </tr>
-                            <tr>
-                                <td>04.</td>
-                                <td>
-                                    <p>There are many variations of passages orem psum available</p>
-                                </td>
-                                <td>Oct 22, 2025</td>
-                                <td><span class="badge badge-success">Read</span></td>
-                                <td><a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye-slash"></i> Mark As Unread</a></td>
-                            </tr>
-                            <tr>
-                                <td>05.</td>
-                                <td>
-                                    <p>There are many variations of passages orem psum available</p>
-                                </td>
-                                <td>Oct 22, 2025</td>
-                                <td><span class="badge badge-success">Read</span></td>
-                                <td><a href="#" class="btn btn-outline-secondary btn-sm"><i class="far fa-eye-slash"></i> Mark As Unread</a></td>
-                            </tr>
+                            @forelse($notifications as $index => $notification)
+                                <tr>
+                                    <td>{{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}.</td>
+                                    <td>
+                                        <p><strong>{{ $notification->title }}</strong> — {{ $notification->body }}</p>
+                                    </td>
+                                    <td>{{ $notification->created_at->format('M d, Y') }}</td>
+                                    <td>
+                                        @if($notification->read_at)
+                                            <span class="badge badge-success">Read</span>
+                                        @else
+                                            <span class="badge badge-warning">Unread</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="4" class="text-center">No notifications yet.</td></tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
+                {{ $notifications->links() }}
             </div>
         </div>
     </div>

@@ -13,6 +13,20 @@ return new class extends Migration
     {
         Schema::create('rental_cars', function (Blueprint $table) {
             $table->id();
+            $table->string('slug')->unique();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->string('car_type')->nullable();
+            $table->string('location')->nullable();
+            $table->unsignedTinyInteger('seats')->nullable();
+            $table->string('transmission')->nullable();
+            $table->decimal('price', 12, 2);
+            $table->string('price_unit')->default('Per Day');
+            $table->string('image')->nullable();
+            $table->decimal('rating', 3, 1)->default(0);
+            $table->unsignedInteger('review_count')->default(0);
+            $table->boolean('is_featured')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

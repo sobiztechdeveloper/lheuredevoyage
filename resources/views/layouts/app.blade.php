@@ -6,16 +6,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Premium Multipurpose Admin & Dashboard Template" />
-    <meta name="author" content="Longtek" />
+    <meta name="author" content="L'Heure De Voyage" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="keywords" content="">
-
-    <!-- title -->
-    <title>@yield('title', 'Longtek Admin')</title>
+    @php $defaultSiteName = ($siteSettings ?? null)?->company_name ?? "L'Heure De Voyage"; @endphp
+    <x-seo-meta
+        :title="trim(View::yieldContent('title') ?: $defaultSiteName)"
+        :description="trim(View::yieldContent('meta_description')) ?: null"
+        :keywords="trim(View::yieldContent('meta_keywords')) ?: null"
+        :canonical="trim(View::yieldContent('canonical')) ?: null"
+    />
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/logo/favicon.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ ($siteSettings ?? null)?->favicon_url ?? asset('assets/img/logo/favicon.png') }}">
 
     <!-- css -->
     @include('layouts.styles')
