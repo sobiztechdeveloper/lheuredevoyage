@@ -20,6 +20,7 @@
             <a href="{{ route('admin.contact-details.edit') }}" class="nav-link-item {{ request()->routeIs('admin.contact-details.*') ? 'active' : '' }}"><i class="far fa-address-book"></i><span class="nav-label">Contact Details</span></a>
             <a href="{{ route('admin.home-blocks.index') }}" class="nav-link-item {{ request()->routeIs('admin.home-blocks.*') ? 'active' : '' }}"><i class="far fa-grid-2"></i><span class="nav-label">Home Blocks</span></a>
             <a href="{{ route('admin.about.edit') }}" class="nav-link-item {{ request()->routeIs('admin.about.*') ? 'active' : '' }}"><i class="far fa-file-lines"></i><span class="nav-label">About Page</span></a>
+            <a href="{{ route('admin.legal-pages.index') }}" class="nav-link-item {{ request()->routeIs('admin.legal-pages.*') ? 'active' : '' }}"><i class="far fa-scale-balanced"></i><span class="nav-label">Legal Pages</span></a>
         </div>
 
         <button class="nav-section-title" type="button" data-bs-toggle="collapse" data-bs-target="#navCatalog" data-nav-section aria-expanded="true">
@@ -65,6 +66,30 @@
                 <i class="far fa-plane-circle-check"></i><span class="nav-label">Flight Requests</span>
                 @if(($flightRequestsNewCount ?? 0) > 0)
                     <span class="badge rounded-pill bg-warning text-dark ms-auto">{{ $flightRequestsNewCount }}</span>
+                @endif
+            </a>
+            <a href="{{ route('admin.hotel-requests.index') }}" class="nav-link-item {{ request()->routeIs('admin.hotel-requests.*') ? 'active' : '' }}">
+                <i class="far fa-hotel"></i><span class="nav-label">Hotel Requests</span>
+                @if(($hotelRequestsNewCount ?? 0) > 0)
+                    <span class="badge rounded-pill bg-warning text-dark ms-auto">{{ $hotelRequestsNewCount }}</span>
+                @endif
+            </a>
+            <a href="{{ route('admin.cruise-requests.index') }}" class="nav-link-item {{ request()->routeIs('admin.cruise-requests.*') ? 'active' : '' }}">
+                <i class="far fa-ship"></i><span class="nav-label">Cruise Requests</span>
+                @if(($cruiseRequestsNewCount ?? 0) > 0)
+                    <span class="badge rounded-pill bg-warning text-dark ms-auto">{{ $cruiseRequestsNewCount }}</span>
+                @endif
+            </a>
+            <a href="{{ route('admin.car-requests.index') }}" class="nav-link-item {{ request()->routeIs('admin.car-requests.*') ? 'active' : '' }}">
+                <i class="far fa-car"></i><span class="nav-label">Car Requests</span>
+                @if(($carRequestsNewCount ?? 0) > 0)
+                    <span class="badge rounded-pill bg-warning text-dark ms-auto">{{ $carRequestsNewCount }}</span>
+                @endif
+            </a>
+            <a href="{{ route('admin.insurance-requests.index') }}" class="nav-link-item {{ request()->routeIs('admin.insurance-requests.*') ? 'active' : '' }}">
+                <i class="far fa-shield-halved"></i><span class="nav-label">Insurance Requests</span>
+                @if(($insuranceRequestsNewCount ?? 0) > 0)
+                    <span class="badge rounded-pill bg-warning text-dark ms-auto">{{ $insuranceRequestsNewCount }}</span>
                 @endif
             </a>
             <a href="{{ route('admin.quotes.index') }}" class="nav-link-item {{ request()->routeIs('admin.quotes.*') ? 'active' : '' }}"><i class="far fa-file-invoice-dollar"></i><span class="nav-label">Quotes</span></a>

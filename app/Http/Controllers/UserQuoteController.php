@@ -44,7 +44,15 @@ class UserQuoteController extends Controller
             $quote = $this->quoteService->markViewed($quote);
         }
 
-        $quote->load(['items', 'statusHistories.changedBy', 'flightBookingRequest']);
+        $quote->load([
+            'items',
+            'statusHistories.changedBy',
+            'flightBookingRequest',
+            'hotelBookingRequest',
+            'cruiseBookingRequest',
+            'carBookingRequest',
+            'insuranceBookingRequest.travelInsurance',
+        ]);
 
         return view('pages.publicUserView.quotes.show', [
             'quote' => $quote,

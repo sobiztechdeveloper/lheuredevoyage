@@ -4,7 +4,10 @@
 
 @section('content')
 <div class="d-flex justify-content-between mb-3">
-    <h2 class="h4 mb-0">Testimonials</h2>
+    <div>
+        <h2 class="h4 mb-0">Testimonials</h2>
+        <p class="text-muted small mb-0">Active testimonials appear in the carousel on the <a href="{{ route('about') }}" target="_blank" rel="noopener">About Us</a> page.</p>
+    </div>
     <a href="{{ route('admin.testimonials.create') }}" class="btn btn-primary btn-sm">Add Testimonial</a>
 </div>
 <div class="card">

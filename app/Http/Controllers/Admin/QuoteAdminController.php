@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreQuoteRequest;
 use App\Http\Requests\Admin\UpdateQuoteRequest;
+use App\Models\CarBookingRequest;
+use App\Models\CruiseBookingRequest;
 use App\Models\FlightBookingRequest;
+use App\Models\HotelBookingRequest;
+use App\Models\InsuranceBookingRequest;
 use App\Models\Quote;
 use App\Models\User;
 use App\Services\ActivityLogService;
@@ -163,6 +167,10 @@ class QuoteAdminController extends Controller
 
     public function createFromFlight(FlightBookingRequest $flightBookingRequest): RedirectResponse
     {
+        if ($redirect = $this->redirectUnlessBookingHasCustomer($flightBookingRequest->user_id, 'admin.flight-requests.show', $flightBookingRequest)) {
+            return $redirect;
+        }
+
         $quote = $this->quoteService->createDraftFromFlightRequest($flightBookingRequest);
 
         $this->activityLog->log('quote.created_from_flight', $quote, [
@@ -172,6 +180,74 @@ class QuoteAdminController extends Controller
         return redirect()
             ->route('admin.quotes.edit', $quote)
             ->with('success', 'Draft quote generated from flight request. Review and send when ready.');
+    }
+
+    public function createFromHotel(HotelBookingRequest $hotelBookingRequest): RedirectResponse
+    {
+        if ($redirect = $this->redirectUnlessBookingHasCustomer($hotelBookingRequest->customer_id, 'admin.hotel-requests.show', $hotelBookingRequest)) {
+            return $redirect;
+        }
+
+        $quote = $this->quoteService->createDraftFromHotelRequest($hotelBookingRequest);
+
+        $this->activityLog->log('quote.created_from_hotel', $quote, [
+            'hotel_reference' => $hotelBookingRequest->reference_number,
+        ]);
+
+        return redirect()
+            ->route('admin.quotes.edit', $quote)
+            ->with('success', 'Draft quote generated from hotel request. Review and send when ready.');
+    }
+
+    public function createFromCruise(CruiseBookingRequest $cruiseBookingRequest): RedirectResponse
+    {
+        if ($redirect = $this->redirectUnlessBookingHasCustomer($cruiseBookingRequest->customer_id, 'admin.cruise-requests.show', $cruiseBookingRequest)) {
+            return $redirect;
+        }
+
+        $quote = $this->quoteService->createDraftFromCruiseRequest($cruiseBookingRequest);
+
+        $this->activityLog->log('quote.created_from_cruise', $quote, [
+            'cruise_reference' => $cruiseBookingRequest->reference_number,
+        ]);
+
+        return redirect()
+            ->route('admin.quotes.edit', $quote)
+            ->with('success', 'Draft quote generated from cruise request. Review and send when ready.');
+    }
+
+    public function createFromCar(CarBookingRequest $carBookingRequest): RedirectResponse
+    {
+        if ($redirect = $this->redirectUnlessBookingHasCustomer($carBookingRequest->customer_id, 'admin.car-requests.show', $carBookingRequest)) {
+            return $redirect;
+        }
+
+        $quote = $this->quoteService->createDraftFromCarRequest($carBookingRequest);
+
+        $this->activityLog->log('quote.created_from_car', $quote, [
+            'car_reference' => $carBookingRequest->reference_number,
+        ]);
+
+        return redirect()
+            ->route('admin.quotes.edit', $quote)
+            ->with('success', 'Draft quote generated from car request. Review and send when ready.');
+    }
+
+    public function createFromInsurance(InsuranceBookingRequest $insuranceBookingRequest): RedirectResponse
+    {
+        if ($redirect = $this->redirectUnlessBookingHasCustomer($insuranceBookingRequest->customer_id, 'admin.insurance-requests.show', $insuranceBookingRequest)) {
+            return $redirect;
+        }
+
+        $quote = $this->quoteService->createDraftFromInsuranceRequest($insuranceBookingRequest);
+
+        $this->activityLog->log('quote.created_from_insurance', $quote, [
+            'insurance_reference' => $insuranceBookingRequest->reference_number,
+        ]);
+
+        return redirect()
+            ->route('admin.quotes.edit', $quote)
+            ->with('success', 'Draft quote generated from insurance request. Review and send when ready.');
     }
 
     public function send(Quote $quote): RedirectResponse
@@ -197,6 +273,23 @@ class QuoteAdminController extends Controller
         return redirect()
             ->route('admin.quotes.show', $quote)
             ->with('success', 'Quote sent to customer.');
+    }
+
+    /**
+     * @param  \Illuminate\Database\Eloquent\Model  $bookingRequest
+     */
+    protected function redirectUnlessBookingHasCustomer(
+        ?int $customerId,
+        string $returnRoute,
+        $bookingRequest,
+    ): ?RedirectResponse {
+        if ($customerId) {
+            return null;
+        }
+
+        return redirect()
+            ->route($returnRoute, $bookingRequest)
+            ->with('error', 'Cannot generate quote: no customer account is linked to this request. The guest must register or you must assign a customer before quoting.');
     }
 
     /**

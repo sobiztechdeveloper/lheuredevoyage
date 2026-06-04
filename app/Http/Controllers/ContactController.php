@@ -14,7 +14,7 @@ class ContactController extends Controller
     public function index(): View
     {
         return view('pages.publicView.contact', [
-            'contactDetail' => ContactDetail::cached(),
+            'contactDetail' => ContactDetail::query()->first(),
             'faqs' => Faq::query()->active()->ordered()->take(5)->get(),
         ]);
     }

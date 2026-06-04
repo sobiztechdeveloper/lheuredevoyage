@@ -49,7 +49,11 @@
                     </div>
                     <p class="text-muted small mb-4">Our travel consultant will contact you at <strong>{{ $booking->email }}</strong> to confirm availability and final fare.</p>
                     <div class="d-flex flex-wrap gap-2 justify-content-center">
-                        <a href="{{ route('my-flight-bookings.index') }}" class="fbw-btn-primary">My Flight Bookings</a>
+                        @auth
+                            <a href="{{ route('my-flight-bookings.index') }}" class="fbw-btn-primary">My Flight Bookings</a>
+                        @else
+                            <a href="{{ route('login') }}" class="fbw-btn-primary">Sign in to track bookings</a>
+                        @endauth
                         <a href="{{ route('home') }}" class="fbw-btn-outline">Back To Home</a>
                     </div>
                 </div>

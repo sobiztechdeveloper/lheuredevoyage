@@ -499,8 +499,6 @@ Version         : 1.0
         $(this).closest(".search-form-date").find(".return-day-name").html(returnDayName);
     });
 
-
-
     // passenger box dropdown
     $(".passenger-box .dropdown-menu").click(function (e) {
         e.stopPropagation();
@@ -512,39 +510,90 @@ Version         : 1.0
     });
 
     $(".plus-btn").on("click", function (e) {
-        var i = $(this).closest(".passenger-qty").children(".qty-amount").get(0).value++,
-            c = $(this).closest(".passenger-qty").children(".minus-btn");
+        var box = $(e.target).closest(".passenger-box");
+        var qty = $(e.target).closest(".passenger-qty").children(".qty-amount");
+        var current = parseInt(qty.val(), 10) || 0;
 
-        i >= 0 && c.removeAttr("disabled");
+        if (box.hasClass("insurance-traveler-picker")) {
+            var max = parseInt(qty.data("max"), 10) || 20;
+            if (current >= max) {
+                $(e.target).attr("disabled", "disabled");
+                return;
+            }
+            qty.val(current + 1);
+            box.find(".minus-btn").removeAttr("disabled");
+            if (current + 1 >= max) {
+                $(e.target).attr("disabled", "disabled");
+            }
+            totalPessenger(e);
+            return;
+        }
+
+        qty.get(0).value++;
+        var c = $(e.target).closest(".passenger-qty").children(".minus-btn");
+        current >= 0 && c.removeAttr("disabled");
         totalPessenger(e);
         totalRoom(e);
     }),
         $(".minus-btn").on("click", function (e) {
-            var i = $(this).closest(".passenger-qty").children(".qty-amount").get(0).value;
+            var box = $(e.target).closest(".passenger-box");
+            var qty = $(e.target).closest(".passenger-qty").children(".qty-amount");
+            var current = parseInt(qty.val(), 10) || 0;
 
-            if (i <= 1) {
-                $(this).attr("disabled", "disabled");
+            if (box.hasClass("insurance-traveler-picker")) {
+                var min = parseInt(qty.data("min"), 10) || 1;
+                if (current <= min) {
+                    $(e.target).attr("disabled", "disabled");
+                    return;
+                }
+                qty.val(current - 1);
+                box.find(".plus-btn").removeAttr("disabled");
+                if (current - 1 <= min) {
+                    $(e.target).attr("disabled", "disabled");
+                }
+                totalPessenger(e);
+                return;
+            }
+
+            if (current <= 1) {
+                $(e.target).attr("disabled", "disabled");
             } else {
-                $(this).closest(".passenger-qty").children(".qty-amount").get(0).value--;
+                qty.get(0).value--;
                 totalPessenger(e);
                 totalRoom(e);
             }
         })
 
     function totalPessenger(e) {
-        var pa = parseInt($(e.target).closest(".passenger-box").find(".passenger-adult").val());
-        var pc = parseInt($(e.target).closest(".passenger-box").find(".passenger-children").val());
-        var pi = parseInt($(e.target).closest(".passenger-box").find(".passenger-infant").val());
+        var box = $(e.target).closest(".passenger-box");
+
+        if (box.hasClass("insurance-traveler-picker")) {
+            var count = parseInt(box.find(".insurance-traveler-count").val(), 10) || 1;
+            var label = count === 1 ? "Traveler" : "Travelers";
+            box.find(".insurance-traveler-total").html(count);
+            box.find(".passenger-total").html(
+                '<span class="insurance-traveler-total">' + count + "</span> " + label
+            );
+            return;
+        }
+
+        var pa = parseInt(box.find(".passenger-adult").val(), 10) || 0;
+        var pc = parseInt(box.find(".passenger-children").val(), 10) || 0;
+        var pi = parseInt(box.find(".passenger-infant").val(), 10) || 0;
         var tp = pa + pc + pi;
-        $(e.target).closest(".passenger-box").find(".passenger-total-amount").html(tp);
+        box.find(".passenger-total-amount").html(tp);
     }
 
     function totalRoom(e) {
-        var tr = parseInt($(e.target).closest(".passenger-box").find(".passenger-room").val())
-        $(e.target).closest(".passenger-box").find(".passenger-total-room").html(tr);
+        var box = $(e.target).closest(".passenger-box");
+
+        if (box.hasClass("insurance-traveler-picker")) {
+            return;
+        }
+
+        var tr = parseInt(box.find(".passenger-room").val(), 10) || 0;
+        box.find(".passenger-total-room").html(tr);
     }
-
-
 
     // search multicity form
     $(".multicity-btn").click(function () {

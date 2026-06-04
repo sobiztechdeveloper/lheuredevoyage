@@ -33,6 +33,10 @@ class Quote extends Model
         'quote_number',
         'customer_id',
         'flight_booking_request_id',
+        'hotel_booking_request_id',
+        'cruise_booking_request_id',
+        'car_booking_request_id',
+        'insurance_booking_request_id',
         'quote_type',
         'title',
         'description',
@@ -79,6 +83,26 @@ class Quote extends Model
     public function flightBookingRequest(): BelongsTo
     {
         return $this->belongsTo(FlightBookingRequest::class);
+    }
+
+    public function hotelBookingRequest(): BelongsTo
+    {
+        return $this->belongsTo(HotelBookingRequest::class);
+    }
+
+    public function cruiseBookingRequest(): BelongsTo
+    {
+        return $this->belongsTo(CruiseBookingRequest::class);
+    }
+
+    public function carBookingRequest(): BelongsTo
+    {
+        return $this->belongsTo(CarBookingRequest::class);
+    }
+
+    public function insuranceBookingRequest(): BelongsTo
+    {
+        return $this->belongsTo(InsuranceBookingRequest::class);
     }
 
     public function items(): HasMany

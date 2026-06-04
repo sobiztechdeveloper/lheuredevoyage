@@ -19,7 +19,16 @@
                         <img src="{{ $item->image_url }}" class="img-fluid rounded mb-3" alt="{{ $item->title }}">
                         <h5>{{ $item->title }}</h5>
                         <p class="mb-2"><strong>{{ $item->formatted_price }}</strong> / {{ $item->price_unit }}</p>
-                        <a href="{{ route($routePrefix.'.book', $item->slug) }}" class="theme-btn d-block text-center">Proceed to Book</a>
+                        @php
+                            $requestBookingRoute = match ($routePrefix) {
+                                'hotel' => route('hotel.booking.create', ['hotel' => $item]),
+                                'cruise' => route('cruise.booking.create', ['cruise' => $item]),
+                                'rentalcar' => route('rentalcar.booking.create', ['rentalCar' => $item]),
+                                'travelinsurance' => route('travelinsurance.booking.create', ['travelInsurance' => $item]),
+                                default => route($routePrefix.'.book', $item->slug),
+                            };
+                        @endphp
+                        <a href="{{ $requestBookingRoute }}" class="theme-btn d-block text-center">Proceed to Book</a>
                     </div>
                     @if(isset($siteContact))
                     <div class="booking-sidebar listing-side-content mt-4">

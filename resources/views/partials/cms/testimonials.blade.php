@@ -6,7 +6,7 @@
             <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
                 <div class="site-heading text-center mb-4">
                     <span class="site-title-tagline"><i class="far fa-plane"></i> Testimonials</span>
-                    <h2 class="site-title">What Our Customers Say</h2>
+                    <h2 class="site-title">{{ $sectionTitle ?? 'What Our Customers Say' }}</h2>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                             <img src="{{ asset('assets/img/icon/quote.svg') }}" alt="">
                         </div>
                         <div class="testimonial-rate">
-                            @for($i = 0; $i < $testimonial->rating; $i++)
+                            @for($i = 0; $i < min(5, max(0, (int) $testimonial->rating)); $i++)
                                 <i class="fas fa-star"></i>
                             @endfor
                         </div>

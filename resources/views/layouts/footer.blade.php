@@ -8,11 +8,13 @@
             <div class="row footer-widget-wrapper pt-100 pb-70">
                 <div class="col-md-6 col-lg-3">
                     <div class="footer-widget-box about-us">
-                        <a href="{{ route('home') }}" class="footer-logo d-flex align-items-center">
+                        <a href="{{ route('home') }}" class="footer-logo footer-logo-stack">
                             <img src="{{ $settings->logo_url }}" alt="{{ $settings->company_name }} Logo">
-                            <span class="footer-brand-text ms-2">{{ $settings->company_name }}</span>
+                            <span class="footer-brand-text">{{ $settings->company_name }}</span>
                         </a>
-                        <p class="mb-4">{{ $settings->footer_text }}</p>
+                        @if($settings->footer_text)
+                            <p class="mb-4">{{ $settings->footer_text }}</p>
+                        @endif
                         <ul class="footer-contact">
                             @if($settings->company_phone)
                             <li>
@@ -40,8 +42,7 @@
                         <ul class="footer-list">
                             <li><a href="{{ route('about') }}"><i class="fas fa-angle-double-right"></i> About Us</a></li>
                             <li><a href="{{ route('contact') }}"><i class="fas fa-angle-double-right"></i> Contact Us</a></li>
-                            <li><a href="{{ route('hotel') }}"><i class="fas fa-angle-double-right"></i> Hotels</a></li>
-                            <li><a href="{{ route('flight') }}"><i class="fas fa-angle-double-right"></i> Flights</a></li>
+                            <li><a href="{{ route('about') }}#faqAccordion"><i class="fas fa-angle-double-right"></i> FAQ</a></li>
                         </ul>
                     </div>
                 </div>
@@ -49,18 +50,27 @@
                     <div class="footer-widget-box list">
                         <h4 class="footer-widget-title">Travel Services</h4>
                         <ul class="footer-list">
+                            <li><a href="{{ route('flight') }}"><i class="fas fa-angle-double-right"></i> Flights</a></li>
+                            <li><a href="{{ route('hotel') }}"><i class="fas fa-angle-double-right"></i> Hotels</a></li>
                             <li><a href="{{ route('cruise') }}"><i class="fas fa-angle-double-right"></i> Cruises</a></li>
                             <li><a href="{{ route('rentalcar') }}"><i class="fas fa-angle-double-right"></i> Cars</a></li>
                             <li><a href="{{ route('travelinsurance') }}"><i class="fas fa-angle-double-right"></i> Insurance</a></li>
-                            <li><a href="{{ route('tourpackage') }}"><i class="fas fa-angle-double-right"></i> Packages</a></li>
+                            <li><a href="{{ route('tourpackage') }}"><i class="fas fa-angle-double-right"></i> Holiday Packages</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-2">
                     <div class="footer-widget-box list">
-                        <h4 class="footer-widget-title">Help Center</h4>
+                        <h4 class="footer-widget-title">Help &amp; Legal</h4>
                         <ul class="footer-list">
-                            <li><a href="{{ route('about') }}#faqAccordion"><i class="fas fa-angle-double-right"></i> FAQ's</a></li>
+                            @foreach($legalFooterPages ?? [] as $legalPage)
+                                <li>
+                                    <a href="{{ $legalPage->publicUrl() }}">
+                                        <i class="fas fa-angle-double-right"></i> {{ $legalPage->footerLabel() }}
+                                    </a>
+                                </li>
+                            @endforeach
+                            <li><a href="{{ route('cookie-settings') }}"><i class="fas fa-angle-double-right"></i> Cookie Settings</a></li>
                             @auth
                             <li><a href="{{ route('my-dashboard') }}"><i class="fas fa-angle-double-right"></i> My Account</a></li>
                             @else
@@ -75,10 +85,10 @@
                         <div class="footer-newsletter">
                             <p>Subscribe for latest offers and travel inspiration.</p>
                             <div class="subscribe-form">
-                                <form action="#">
+                                <form action="#" method="post" aria-label="Newsletter signup">
                                     <div class="form-group">
                                         <div class="form-group-icon">
-                                            <input type="email" class="form-control" placeholder="Your Email">
+                                            <input type="email" class="form-control" name="email" placeholder="Your Email" autocomplete="email">
                                             <i class="far fa-envelopes"></i>
                                         </div>
                                     </div>
@@ -93,20 +103,29 @@
     </div>
     <div class="copyright">
         <div class="container">
-            <div class="row">
-                <div class="col-md-6 align-self-center">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-12">
                     <p class="copyright-text">
                         &copy; <span id="date"></span>
                         <a href="{{ route('home') }}">{{ $settings->company_name }}</a>
                         {{ $settings->copyright_text ?? 'All Rights Reserved.' }}
                     </p>
                 </div>
-                <div class="col-md-6 align-self-center">
+                @if(($legalFooterBarPages ?? collect())->isNotEmpty())
+                <div class="col-lg-4 col-md-12">
+                    <ul class="footer-menu footer-legal-menu">
+                        @foreach($legalFooterBarPages as $legalPage)
+                            <li><a href="{{ $legalPage->publicUrl() }}">{{ $legalPage->footerLabel() }}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+                <div class="col-lg-{{ ($legalFooterBarPages ?? collect())->isNotEmpty() ? '4' : '8' }} col-md-12">
                     <ul class="footer-social">
-                        @if($settings->facebook_url)<li><a href="{{ $settings->facebook_url }}" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a></li>@endif
-                        @if($settings->instagram_url)<li><a href="{{ $settings->instagram_url }}" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a></li>@endif
-                        @if($settings->linkedin_url)<li><a href="{{ $settings->linkedin_url }}" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a></li>@endif
-                        @if($settings->youtube_url)<li><a href="{{ $settings->youtube_url }}" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a></li>@endif
+                        @if($settings->facebook_url)<li><a href="{{ $settings->facebook_url }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>@endif
+                        @if($settings->instagram_url)<li><a href="{{ $settings->instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>@endif
+                        @if($settings->linkedin_url)<li><a href="{{ $settings->linkedin_url }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>@endif
+                        @if($settings->youtube_url)<li><a href="{{ $settings->youtube_url }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a></li>@endif
                     </ul>
                 </div>
             </div>

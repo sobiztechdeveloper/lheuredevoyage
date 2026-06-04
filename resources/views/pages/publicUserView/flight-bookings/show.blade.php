@@ -27,9 +27,9 @@
                 @if($passenger->passport_file)
                     <div class="mt-2">
                         @if($passenger->isPassportImage())
-                            <img src="{{ $passenger->passportFileUrl() }}" alt="Passport" class="img-thumbnail" style="max-height:120px;">
+                            <img src="{{ route('booking-files.flight.passport', [$booking, $passenger]) }}" alt="Passport" class="img-thumbnail" style="max-height:120px;">
                         @else
-                            <a href="{{ $passenger->passportFileUrl() }}" target="_blank" class="btn btn-sm btn-outline-primary">View Passport Copy (PDF)</a>
+                            <a href="{{ route('booking-files.flight.passport', [$booking, $passenger]) }}" target="_blank" class="btn btn-sm btn-outline-primary">View Passport Copy (PDF)</a>
                         @endif
                     </div>
                 @endif
@@ -45,10 +45,10 @@
             <h5 class="mt-4">Documents</h5>
             <div class="d-flex flex-wrap gap-2">
                 @if($booking->ticket_path)
-                    <a href="{{ $booking->ticketFileUrl() }}" target="_blank" class="btn btn-sm btn-primary">Ticket PDF</a>
+                    <a href="{{ route('booking-files.flight.document', [$booking, 'ticket']) }}" target="_blank" class="btn btn-sm btn-primary">Ticket PDF</a>
                 @endif
                 @if($booking->invoice_path)
-                    <a href="{{ $booking->invoiceFileUrl() }}" target="_blank" class="btn btn-sm btn-outline-primary">Invoice PDF</a>
+                    <a href="{{ route('booking-files.flight.document', [$booking, 'invoice']) }}" target="_blank" class="btn btn-sm btn-outline-primary">Invoice PDF</a>
                 @endif
             </div>
         @endif

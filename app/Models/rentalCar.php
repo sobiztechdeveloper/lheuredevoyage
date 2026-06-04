@@ -7,6 +7,7 @@ use App\Models\Master\VehicleFeature;
 use App\Models\Master\VehicleType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class RentalCar extends Model
@@ -38,6 +39,11 @@ class RentalCar extends Model
     public function bookings(): MorphMany
     {
         return $this->morphMany(Booking::class, 'bookable');
+    }
+
+    public function bookingRequests(): HasMany
+    {
+        return $this->hasMany(CarBookingRequest::class);
     }
 
     public function vehicleTypes(): BelongsToMany

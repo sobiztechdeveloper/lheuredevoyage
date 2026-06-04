@@ -36,11 +36,35 @@ class CatalogSeeder extends Seeder
         ];
 
         foreach ($hotels as $hotel) {
-            Hotel::query()->updateOrCreate(['slug' => $hotel['slug']], array_merge([
+            $model = Hotel::query()->updateOrCreate(['slug' => $hotel['slug']], array_merge([
                 'description' => 'Comfortable stay with modern amenities and excellent service.',
                 'price_unit' => 'Per Night',
                 'is_active' => true,
             ], $hotel));
+            $this->seedHotelRooms($model);
+        }
+    }
+
+    private function seedHotelRooms(Hotel $hotel): void
+    {
+        $templates = [
+            ['name' => 'Standard Room', 'room_type' => 'Standard', 'bed_type' => 'Double Bed', 'meal_plan' => 'Breakfast Included', 'price' => (float) $hotel->price, 'max_adults' => 2],
+            ['name' => 'Deluxe Room', 'room_type' => 'Deluxe', 'bed_type' => 'King Bed', 'meal_plan' => 'Half Board', 'price' => (float) $hotel->price * 1.25, 'max_adults' => 2],
+            ['name' => 'Family Room', 'room_type' => 'Family', 'bed_type' => 'Twin Beds', 'meal_plan' => 'Breakfast Included', 'price' => (float) $hotel->price * 1.4, 'max_adults' => 2, 'max_children' => 2],
+        ];
+
+        foreach ($templates as $i => $template) {
+            \App\Models\HotelRoom::query()->updateOrCreate(
+                ['hotel_id' => $hotel->id, 'name' => $template['name']],
+                array_merge($template, [
+                    'description' => 'Comfortable '.$template['name'].' at '.$hotel->name,
+                    'room_size' => '28 sqm',
+                    'currency' => 'USD',
+                    'is_active' => true,
+                    'sort_order' => $i,
+                    'features' => ['WiFi', 'Air Conditioning'],
+                ]),
+            );
         }
     }
 

@@ -3,12 +3,14 @@
            <div class="row align-items-center">
                <div class="col-md-7">
                    <div class="header-top-left">
-                       <!-- <div class="top-social">
-                           <a href="#"><i class="fab fa-facebook-f"></i></a>
-                           <a href="#"><i class="fab fa-x-twitter"></i></a>
-                           <a href="#"><i class="fab fa-instagram"></i></a>
-                           <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                       </div> -->
+                       @if(($siteSettings ?? null)?->facebook_url || ($siteSettings ?? null)?->instagram_url || ($siteSettings ?? null)?->linkedin_url || ($siteSettings ?? null)?->youtube_url)
+                       <div class="top-social">
+                           @if($siteSettings->facebook_url)<a href="{{ $siteSettings->facebook_url }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>@endif
+                           @if($siteSettings->instagram_url)<a href="{{ $siteSettings->instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>@endif
+                           @if($siteSettings->linkedin_url)<a href="{{ $siteSettings->linkedin_url }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>@endif
+                           @if($siteSettings->youtube_url)<a href="{{ $siteSettings->youtube_url }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>@endif
+                       </div>
+                       @endif
                        <div class="top-contact-info">
                            <ul>
                                @if(($siteSettings ?? null)?->company_phone)

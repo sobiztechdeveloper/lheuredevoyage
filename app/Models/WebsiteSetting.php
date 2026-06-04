@@ -12,34 +12,25 @@ class WebsiteSetting extends Model
 
     protected $fillable = [
         'company_name', 'company_email', 'company_phone', 'company_address',
-        'logo', 'favicon', 'facebook_url', 'instagram_url', 'linkedin_url', 'youtube_url',
+        'vat_number', 'registration_number', 'business_hours',
+        'logo', 'favicon', 'default_breadcrumb_image',
+        'facebook_url', 'instagram_url', 'linkedin_url', 'youtube_url',
         'footer_text', 'copyright_text',
     ];
 
     public static function cached(): self
     {
-        $data = Cache::get('website_settings');
+        $settings = static::query()->first();
 
-        if ($data !== null && ! is_array($data)) {
-            Cache::forget('website_settings');
-            $data = null;
+        if ($settings) {
+            Cache::put('website_settings', $settings->toArray(), 3600);
+
+            return $settings;
         }
 
-        if (is_array($data)) {
-            if (! empty($data['id'])) {
-                return static::query()->find($data['id']) ?? static::make($data);
-            }
-
-            return static::make($data);
-        }
-
-        $settings = static::query()->first() ?? new static([
+        return new static([
             'company_name' => "L'Heure De Voyage",
         ]);
-
-        Cache::put('website_settings', $settings->exists ? $settings->toArray() : $settings->getAttributes(), 3600);
-
-        return $settings;
     }
 
     public static function clearCache(): void
@@ -61,5 +52,18 @@ class WebsiteSetting extends Model
     public function getFaviconUrlAttribute(): string
     {
         return $this->mediaUrl($this->favicon, 'assets/img/logo/favicon.png');
+    }
+
+    public function getDefaultBreadcrumbImageUrlAttribute(): string
+    {
+        return $this->mediaUrl(
+            $this->default_breadcrumb_image,
+            config('page-banners.default', 'assets/img/breadcrumb/01.jpg')
+        );
+    }
+
+    public function hasCustomLogo(): bool
+    {
+        return filled($this->logo);
     }
 }

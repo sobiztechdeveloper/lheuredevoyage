@@ -17,10 +17,14 @@
         </p>
     </div>
     <div class="d-flex flex-wrap gap-2">
-        <form method="POST" action="{{ route('admin.flight-requests.generate-quote', $bookingRequest) }}" class="d-inline">
-            @csrf
-            <button type="submit" class="btn btn-admin-primary btn-sm"><i class="far fa-file-invoice-dollar me-1"></i> Generate Quote</button>
-        </form>
+        @if($bookingRequest->user_id)
+            <form method="POST" action="{{ route('admin.flight-requests.generate-quote', $bookingRequest) }}" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-admin-primary btn-sm"><i class="far fa-file-invoice-dollar me-1"></i> Generate Quote</button>
+            </form>
+        @else
+            <span class="btn btn-admin-outline btn-sm disabled" title="Link a registered customer before generating a quote">Generate Quote</span>
+        @endif
         <a href="{{ route('admin.flight-requests.index') }}" class="btn btn-admin-outline btn-sm">Back to list</a>
     </div>
 </div>
@@ -106,13 +110,13 @@
                         <h6 class="mb-2">{{ $passenger->fullName() }}</h6>
                         @if($passenger->passport_file)
                             @if($passenger->isPassportImage())
-                                <a href="{{ $passenger->passportFileUrl() }}" target="_blank" rel="noopener">
-                                    <img src="{{ $passenger->passportFileUrl() }}" alt="Passport" class="fbr-doc-thumb img-fluid mb-2 d-block">
+                                <a href="{{ route('admin.booking-files.flight.passport', [$bookingRequest, $passenger]) }}" target="_blank" rel="noopener">
+                                    <img src="{{ route('admin.booking-files.flight.passport', [$bookingRequest, $passenger]) }}" alt="Passport" class="fbr-doc-thumb img-fluid mb-2 d-block">
                                 </a>
                             @else
                                 <p class="mb-2"><i class="far fa-file-pdf text-danger"></i> PDF document</p>
                             @endif
-                            <a href="{{ $passenger->passportFileUrl() }}" target="_blank" rel="noopener" class="btn btn-sm btn-admin-outline">Download / view</a>
+                            <a href="{{ route('admin.booking-files.flight.passport', [$bookingRequest, $passenger]) }}" target="_blank" rel="noopener" class="btn btn-sm btn-admin-outline">Download / view</a>
                         @else
                             <p class="text-muted small mb-0">No passport copy uploaded.</p>
                         @endif
@@ -216,14 +220,14 @@
                 <div class="mb-3">
                     <label class="form-label">Ticket PDF</label>
                     @if($bookingRequest->ticket_path)
-                        <p class="small mb-1"><a href="{{ $bookingRequest->ticketFileUrl() }}" target="_blank" rel="noopener">Current ticket</a></p>
+                        <p class="small mb-1"><a href="{{ route('admin.booking-files.flight.document', [$bookingRequest, 'ticket']) }}" target="_blank" rel="noopener">Current ticket</a></p>
                     @endif
                     <input type="file" name="ticket" class="form-control" accept="application/pdf">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Invoice PDF</label>
                     @if($bookingRequest->invoice_path)
-                        <p class="small mb-1"><a href="{{ $bookingRequest->invoiceFileUrl() }}" target="_blank" rel="noopener">Current invoice</a></p>
+                        <p class="small mb-1"><a href="{{ route('admin.booking-files.flight.document', [$bookingRequest, 'invoice']) }}" target="_blank" rel="noopener">Current invoice</a></p>
                     @endif
                     <input type="file" name="invoice" class="form-control" accept="application/pdf">
                 </div>

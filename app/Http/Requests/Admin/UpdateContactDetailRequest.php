@@ -19,6 +19,9 @@ class UpdateContactDetailRequest extends FormRequest
             'email' => ['nullable', 'email', 'max:255'],
             'google_map_embed' => ['nullable', 'string', 'max:5000'],
             'whatsapp_number' => ['nullable', 'string', 'max:50'],
+            'breadcrumb_image' => ['nullable', 'image', 'max:4096'],
+            'form_title' => ['nullable', 'string', 'max:255'],
+            'form_subtitle' => ['nullable', 'string', 'max:1000'],
         ];
     }
 }

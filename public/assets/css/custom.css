@@ -61,6 +61,63 @@
     text-decoration: none;
 }
 
+.footer-logo-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.footer-logo-stack img {
+    margin-bottom: 0 !important;
+    max-width: 180px;
+}
+
+.footer-logo-stack .footer-brand-text {
+    margin-left: 0 !important;
+    line-height: 1.3;
+    white-space: normal;
+}
+
+.footer-legal-menu {
+    text-align: center;
+}
+
+.copyright .footer-social {
+    justify-content: flex-end;
+}
+
+/* About / Contact — space above FAQ block */
+.inner-page-faq {
+    margin-top: 4rem;
+    padding-top: 5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.contact-map + .inner-page-faq {
+    margin-top: 5rem;
+}
+
+/* Breadcrumb backgrounds (component uses background-image) */
+.site-breadcrumb {
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: cover !important;
+}
+
+@media all and (max-width: 991px) {
+    .footer-legal-menu {
+        text-align: left;
+        margin-top: 12px;
+        margin-bottom: 8px;
+    }
+
+    .copyright .footer-social {
+        justify-content: flex-start;
+    }
+}
+
 /* Buttons & CTAs — accent yellow */
 .theme-btn {
     background: var(--theme-color2);
@@ -114,4 +171,34 @@
     background-color: var(--theme-color);
     border-color: var(--theme-color);
     color: #fff;
+}
+
+/* Homepage hero — tighter spacing on smaller screens */
+.home-3 .hero-single .hero-content {
+    padding-top: 0 !important;
+    padding-bottom: 0.5rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.home-3 .hero-single .hero-content .hero-title {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+@media all and (max-width: 991px) {
+    .home-3 .hero-single {
+        padding-top: 160px;
+        padding-bottom: 120px;
+    }
+}
+
+@media all and (max-width: 767px) {
+    .home-3 .hero-single {
+        padding-top: 140px;
+        padding-bottom: 100px;
+    }
+
+    .home-3 .hero-single .hero-content .hero-title {
+        font-size: 36px;
+    }
 }

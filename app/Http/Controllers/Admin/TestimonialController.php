@@ -52,7 +52,7 @@ class TestimonialController extends Controller
 
     private function prepareData(StoreTestimonialRequest $request, CmsImageUploader $uploader, ?Testimonial $existing = null): array
     {
-        $data = $request->validated();
+        $data = $request->safe()->except(['image']);
         $data['status'] = $request->boolean('status', true);
         $data['image'] = $uploader->upload($request->file('image'), 'testimonials', $existing?->image);
 

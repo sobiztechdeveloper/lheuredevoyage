@@ -1,5 +1,5 @@
 @if(isset($faqs) && $faqs->isNotEmpty())
-<div class="faq-area py-80">
+<div class="faq-area py-80 {{ $sectionClass ?? '' }}">
     <div class="container">
         <div class="site-heading text-center mb-4">
             <span class="site-title-tagline"><i class="far fa-question-circle"></i> FAQ</span>

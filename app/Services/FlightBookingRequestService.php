@@ -186,7 +186,7 @@ class FlightBookingRequestService
             return null;
         }
 
-        return $file->store('passports', 'public');
+        return $file->store('flight-bookings/passports', 'local');
     }
 
     public function updateStatus(FlightBookingRequest $booking, string $status, ?string $notes = null): void

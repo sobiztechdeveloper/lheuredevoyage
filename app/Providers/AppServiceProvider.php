@@ -3,10 +3,16 @@
 namespace App\Providers;
 
 use App\Models\Booking;
+use App\Models\CarBookingRequest;
 use App\Models\ContactDetail;
+use App\Models\CruiseBookingRequest;
 use App\Models\FlightBookingRequest;
+use App\Models\LegalPage;
 use App\Models\Quote;
+use App\Models\InsuranceBookingRequest;
+use App\Policies\LegalPagePolicy;
 use App\Policies\QuotePolicy;
+use App\Services\LegalPageService;
 use App\Models\SupportTicket;
 use App\Models\User;
 use App\Models\Cruise;
@@ -44,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(RentalCar::class, CatalogItemPolicy::class);
         Gate::policy(TravelInsurance::class, CatalogItemPolicy::class);
         Gate::policy(Booking::class, BookingPolicy::class);
+        Gate::policy(LegalPage::class, LegalPagePolicy::class);
         Gate::policy(Quote::class, QuotePolicy::class);
         Gate::policy(SupportTicket::class, SupportTicketPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
@@ -77,13 +84,39 @@ class AppServiceProvider extends ServiceProvider
             $view->with('wishlistedKeys', $keys);
         });
 
-        View::composer(['layouts.app', 'layouts.footer', 'layouts.header', 'layouts.navbar'], function ($view) {
+        View::composer([
+            'layouts.app',
+            'layouts.footer',
+            'layouts.header',
+            'layouts.navbar',
+            'components.seo-meta',
+            'partials.cms.contact-info',
+            'pages.publicView.contact',
+        ], function ($view) {
             $view->with('siteSettings', WebsiteSetting::cached());
             $view->with('siteContact', ContactDetail::cached());
         });
 
+        $legalComposer = function ($view) {
+            $service = app(LegalPageService::class);
+            $view->with('legalFooterPages', LegalPage::footerMenuPages());
+            $view->with('legalFooterBarPages', LegalPage::footerBarPages());
+            $view->with('legalUrls', $service->activeUrlMap());
+        };
+
+        View::composer([
+            'layouts.footer',
+            'components.legal-booking-consent',
+            'components.legal-quote-acceptance',
+            'components.cookie-consent-banner',
+        ], $legalComposer);
+
         View::composer(['layouts.admin.sidebar', 'layouts.admin.header'], function ($view) {
             $view->with('flightRequestsNewCount', FlightBookingRequest::query()->where('status', 'new')->count());
+            $view->with('hotelRequestsNewCount', \App\Models\HotelBookingRequest::query()->where('status', 'new')->count());
+            $view->with('cruiseRequestsNewCount', CruiseBookingRequest::query()->where('status', 'new')->count());
+            $view->with('carRequestsNewCount', CarBookingRequest::query()->where('status', 'new')->count());
+            $view->with('insuranceRequestsNewCount', InsuranceBookingRequest::query()->where('status', 'new')->count());
         });
     }
 }

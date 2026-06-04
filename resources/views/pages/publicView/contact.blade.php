@@ -8,18 +8,15 @@
 
 @section('content')
 
-<!-- breadcrumb -->
-<div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
-    <div class="container">
-        <h2 class="breadcrumb-title">Contact Us</h2>
-        <ul class="breadcrumb-menu">
-            <li><a href="{{ route('home') }}">Home</a></li>
-            <li class="active">Contact Us</li>
-        </ul>
-    </div>
-</div>
-<!-- breadcrumb end -->
+@php
+    $contact = $contactDetail ?? \App\Models\ContactDetail::query()->first() ?? new \App\Models\ContactDetail;
+@endphp
 
+<x-site-breadcrumb
+    title="Contact Us"
+    page="contact"
+    :image="$contact->breadcrumb_image ? $contact->breadcrumb_image_url : null"
+/>
 
 <!-- contact area -->
 <div class="contact-area py-120">
@@ -28,15 +25,14 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="contact-content">
-                        @include('partials.cms.contact-info', ['contactDetail' => $contactDetail ?? null])
+                        @include('partials.cms.contact-info', ['contactDetail' => $contact])
                     </div>
                 </div>
                 <div class="col-lg-8 align-self-center">
                     <div class="contact-form">
                         <div class="contact-form-header">
-                            <h2>Get In Touch</h2>
-                            <p>It is a long established fact that a reader will be distracted by the readable
-                                content of a page randomised words which don't look even slightly when looking at its layout. </p>
+                            <h2>{{ $contact->resolvedFormTitle() }}</h2>
+                            <p>{{ $contact->resolvedFormSubtitle() }}</p>
                         </div>
                         @if(session('success'))
                             <div class="alert alert-success">{{ session('success') }}</div>
@@ -80,19 +76,22 @@
 </div>
 <!-- end contact area -->
 
-@if(($contactDetail ?? null)?->google_map_embed)
+@if($contact->google_map_embed)
 <!-- map -->
 <div class="contact-map">
-    @if(str_contains($contactDetail->google_map_embed, '<iframe'))
-        {!! $contactDetail->google_map_embed !!}
+    @if(str_contains($contact->google_map_embed, '<iframe'))
+        {!! $contact->google_map_embed !!}
     @else
-        <iframe src="{{ $contactDetail->google_map_embed }}" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <iframe src="{{ $contact->google_map_embed }}" style="border:0;" allowfullscreen="" loading="lazy" title="Office location map"></iframe>
     @endif
 </div>
 <!-- map end -->
 @endif
 
-@include('partials.cms.faqs', ['faqs' => $faqs ?? collect()])
+@include('partials.cms.faqs', [
+    'faqs' => $faqs ?? collect(),
+    'sectionClass' => 'inner-page-faq',
+])
 
 @endsection
 

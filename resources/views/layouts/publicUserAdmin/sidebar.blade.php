@@ -19,6 +19,10 @@
             <li><a class="{{ request()->routeIs('my-profile') ? 'active' : '' }}" href="{{ route('my-profile') }}"><i class="far fa-user"></i> My Profile</a></li>
             <li><a class="{{ request()->routeIs('my-bookings-list') ? 'active' : '' }}" href="{{ route('my-bookings-list') }}"><i class="far fa-shopping-bag"></i> My Booking</a></li>
             <li><a class="{{ request()->routeIs('my-flight-bookings.*') ? 'active' : '' }}" href="{{ route('my-flight-bookings.index') }}"><i class="far fa-plane"></i> My Flight Bookings</a></li>
+            <li><a class="{{ request()->routeIs('my-hotel-bookings.*') ? 'active' : '' }}" href="{{ route('my-hotel-bookings.index') }}"><i class="far fa-hotel"></i> My Hotel Bookings</a></li>
+            <li><a class="{{ request()->routeIs('my-cruise-bookings.*') ? 'active' : '' }}" href="{{ route('my-cruise-bookings.index') }}"><i class="far fa-ship"></i> My Cruise Bookings</a></li>
+            <li><a class="{{ request()->routeIs('my-car-bookings.*') ? 'active' : '' }}" href="{{ route('my-car-bookings.index') }}"><i class="far fa-car"></i> My Car Bookings</a></li>
+            <li><a class="{{ request()->routeIs('my-insurance-requests.*') ? 'active' : '' }}" href="{{ route('my-insurance-requests.index') }}"><i class="far fa-shield-halved"></i> My Insurance Requests</a></li>
             <li><a class="{{ request()->routeIs('my-quotes.*') ? 'active' : '' }}" href="{{ route('my-quotes.index') }}"><i class="far fa-file-invoice-dollar"></i> My Quotes</a></li>
             <li><a class="{{ request()->routeIs('booking-history') ? 'active' : '' }}" href="{{ route('booking-history') }}"><i class="far fa-clipboard-list"></i> Booking History</a></li>
             <li><a class="{{ request()->routeIs('my-wishlist') ? 'active' : '' }}" href="{{ route('my-wishlist') }}"><i class="far fa-heart"></i> My Wishlist</a></li>

@@ -1783,6 +1783,14 @@ hero css
   display: flex;
 }
 
+.search-form .form-group-icon select.form-control {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  cursor: pointer;
+  padding-right: 42px;
+}
+
 .search-form .passenger-total {
   border-radius: 12px;
   padding: 2.4px 0px;
@@ -8356,8 +8364,9 @@ sidebar css
   background-position: center !important;
   background-size: cover !important;
   position: relative;
-  padding-top: 270px;
-  padding-bottom: 150px;
+  min-height: 350px;
+  padding-top: 130px;
+  padding-bottom: 70px;
   z-index: 1;
 }
 
@@ -8429,7 +8438,22 @@ sidebar css
 
 @media (max-width: 991px) {
   .site-breadcrumb {
-    padding-top: 360px;
+    min-height: 300px;
+    padding-top: 115px;
+    padding-bottom: 60px;
+  }
+}
+
+@media (max-width: 767px) {
+  .site-breadcrumb {
+    min-height: 260px;
+    padding-top: 100px;
+    padding-bottom: 50px;
+  }
+
+  .site-breadcrumb .breadcrumb-title {
+    font-size: 28px;
+    margin-bottom: 6px;
   }
 }
 
@@ -10166,16 +10190,28 @@ sidebar css
 }
 
 .home-3 .hero-single {
-  padding-top: 320px;
-  padding-bottom: 180px;
+  padding-top: 200px;
+  padding-bottom: 150px;
+  align-items: flex-start;
 }
 
 .home-3 .hero-single::before {
   background: rgba(0, 0, 0, .5);
 }
 
+.home-3 .hero-single .hero-content {
+  padding-top: 0;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.home-3 .hero-single .hero-content .hero-title {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
 .home-3 .search-wrapper {
-  margin-top: 100;
+  margin-top: 0;
 }
 
 .home-3 .search-header {

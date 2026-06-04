@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<div class="py-100">
+<div class="py-100 fbw-main">
     <div class="container">
         @if($errors->any())
             <div class="alert alert-danger">
@@ -226,14 +226,7 @@
                             <div class="fbw-notice">
                                 <strong>This is a booking request only.</strong> Availability and final fare will be confirmed by our travel consultant before ticket issuance. No payment is required at this stage.
                             </div>
-                            <div class="form-check mt-3">
-                                <input class="form-check-input @error('accept_conditions') is-invalid @enderror" type="checkbox"
-                                    name="accept_conditions" value="1" id="accept_conditions" required>
-                                <label class="form-check-label" for="accept_conditions">
-                                    I understand this is not a confirmed ticket and agree to the booking conditions.
-                                </label>
-                                @error('accept_conditions')<span class="fbw-invalid-inline d-block">{{ $message }}</span>@enderror
-                            </div>
+                            <x-legal-booking-consent id="accept_conditions" />
                             <div class="fbw-actions">
                                 <button type="button" class="fbw-btn-outline" data-fbw-prev>Back</button>
                                 <button type="submit" class="fbw-btn-primary">Submit Booking Request</button>

@@ -1,9 +1,13 @@
-@props(['item', 'routePrefix', 'bookableType' => null])
+@props(['item', 'routePrefix', 'bookableType' => null, 'searchQuery' => []])
 
 @php
     $type = $bookableType ?? $routePrefix;
     $wishlistKey = class_basename($item).':'.$item->id;
     $inWishlist = in_array($wishlistKey, $wishlistedKeys ?? [], true);
+    $detailUrl = route($routePrefix.'.show', $item->slug);
+    if (! empty($searchQuery)) {
+        $detailUrl .= '?'.http_build_query($searchQuery);
+    }
 @endphp
 
 <div class="col-md-6 col-lg-4">
@@ -28,7 +32,7 @@
         </div>
         <div class="hotel-content">
             <h4 class="hotel-title">
-                <a href="{{ route($routePrefix.'.show', $item->slug) }}">{{ $item->title }}</a>
+                <a href="{{ $detailUrl }}">{{ $item->title }}</a>
             </h4>
             @if($item->location ?? null)
                 <p><i class="far fa-location-dot"></i> {{ $item->location }}</p>
@@ -47,7 +51,7 @@
                     </span>
                 </div>
                 <div class="hotel-text-btn">
-                    <a href="{{ route($routePrefix.'.show', $item->slug) }}">See Details <i class="fas fa-arrow-right"></i></a>
+                    <a href="{{ $detailUrl }}">See Details <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>

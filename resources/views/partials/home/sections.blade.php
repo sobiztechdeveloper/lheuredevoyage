@@ -76,61 +76,8 @@
 </div>
 @endif
 
-<!-- counter area -->
-@if(($counters ?? collect())->isNotEmpty())
-<div class="counter-area">
-    <div class="col-lg-11 col-xl-9">
-        <div class="counter-wrap">
-            <div class="row">
-                @foreach($counters as $counter)
-                    @php $meta = $counter->metadata ?? []; @endphp
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="counter-box">
-                            <div class="icon">
-                                <img src="{{ $counter->icon_url }}" alt="">
-                            </div>
-                            <div class="counter-content">
-                                <div class="counter-number">
-                                    <span class="counter" data-count="{{ $meta['prefix'] ?? '+' }}" data-to="{{ $counter->display_value ?? $counter->value }}" data-speed="3000">{{ $counter->display_value ?? $counter->value }}</span>
-                                    <span class="counter-sign">{{ $meta['suffix'] ?? '' }}</span>
-                                </div>
-                                <h6 class="title">{{ $counter->title }}</h6>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</div>
-@endif
-
-<!-- cta-area -->
-@if($cta)
-<div class="cta-area">
-    <div class="container">
-        <div class="cta-wrapper">
-            <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
-                <div class="cta-content">
-                    <div class="cta-text">
-                        <h1>{!! $cta->title !!}</h1>
-                        <p>{{ $cta->content }}</p>
-                    </div>
-                    <a href="{{ $cta->link ? url($cta->link) : route('contact') }}" class="theme-btn mt-20">Book Now <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            @if($cta->image_url)
-            <div class="cta-img">
-                <img src="{{ $cta->image_url }}" alt="">
-            </div>
-            @endif
-        </div>
-    </div>
-</div>
-@endif
-
 <!-- choose area -->
-@if(($chooseItems ?? collect())->isNotEmpty())
+<!-- @if(($chooseItems ?? collect())->isNotEmpty())
 <div class="choose-area py-120">
     <div class="container">
         @if($chooseHeader)
@@ -172,5 +119,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 @endif

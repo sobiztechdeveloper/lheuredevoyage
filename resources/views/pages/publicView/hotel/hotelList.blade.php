@@ -11,7 +11,13 @@
 <!-- breadcrumb -->
 <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/05.jpg)">
     <div class="container">
-        <h2 class="breadcrumb-title">Hotels</h2>
+        <h2 class="breadcrumb-title">
+            @if(isset($resultsCount))
+                {{ number_format($resultsCount) }}@if(isset($totalResultsCount) && $totalResultsCount !== $resultsCount) of {{ number_format($totalResultsCount) }}@endif Hotels Found
+            @else
+                Hotels
+            @endif
+        </h2>
         <ul class="breadcrumb-menu">
             <li><a href="{{ route('home') }}">Home</a></li>
             <li class="active">Hotel Search</li>
@@ -24,10 +30,31 @@
 <div class="search-area search-common">
     <div class="container">
         <div class="search-wrapper">
-            <!-- hotel search -->
             <div class="search-box hotel-search">
                 <div class="search-form">
-                    <form action="#">
+                    <form method="POST" action="{{ isset($search) ? route('hotel.search.update', $search) : route('hotel.search.submit') }}">
+                        @csrf
+                        @isset($search)
+                            @foreach($activeFilters ?? [] as $filterKey => $filterValues)
+                                @if(is_array($filterValues) && ! in_array($filterKey, ['sort', 'price_min', 'price_max', 'stars'], true))
+                                    @foreach($filterValues as $filterValue)
+                                        <input type="hidden" name="{{ $filterKey }}[]" value="{{ $filterValue }}">
+                                    @endforeach
+                                @endif
+                            @endforeach
+                            @if(!empty($activeFilters['stars']))
+                                @foreach($activeFilters['stars'] as $star)
+                                    <input type="hidden" name="stars[]" value="{{ $star }}">
+                                @endforeach
+                            @endif
+                            @if(request()->has('price_min'))
+                                <input type="hidden" name="price_min" value="{{ (int) $priceMin }}">
+                            @endif
+                            @if(request()->has('price_max'))
+                                <input type="hidden" name="price_max" value="{{ (int) $priceMax }}">
+                            @endif
+                            <input type="hidden" name="sort" value="{{ $sort ?? 'default' }}">
+                        @endisset
                         <div class="hotel-search-wrapper">
                             <div class="row">
                                 <div class="col-lg-4">
@@ -35,10 +62,12 @@
                                         <label>Destination</label>
                                         <div class="form-group-icon">
                                             <input type="text" name="destination" class="form-control"
-                                                value="Reserva Ecologica">
+                                                value="{{ $search->destination ?? '' }}" placeholder="City, hotel or area" required>
                                             <i class="fal fa-earth-americas"></i>
                                         </div>
-                                        <p>Comuna 1, Argentina</p>
+                                        @if(!empty($search?->destination))
+                                        <p>{{ $search->destination }}</p>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
@@ -48,7 +77,8 @@
                                                 <label>Check In</label>
                                                 <div class="form-group-icon">
                                                     <input type="text" name="journey-date"
-                                                        class="form-control date-picker journey-date">
+                                                        class="form-control date-picker journey-date"
+                                                        value="{{ isset($search) ? $search->journey_date->format('Y-m-d') : '' }}" required>
                                                     <i class="fal fa-calendar-days"></i>
                                                 </div>
                                                 <p class="journey-day-name"></p>
@@ -57,7 +87,8 @@
                                                 <label>Check Out</label>
                                                 <div class="form-group-icon">
                                                     <input type="text" name="return-date"
-                                                        class="form-control date-picker return-date">
+                                                        class="form-control date-picker return-date"
+                                                        value="{{ isset($search) && $search->return_date ? $search->return_date->format('Y-m-d') : '' }}">
                                                 </div>
                                                 <p class="return-day-name"></p>
                                             </div>
@@ -71,12 +102,12 @@
                                             <label>Rooms, Guests</label>
                                             <div class="form-group-icon">
                                                 <div class="passenger-total">
-                                                    <span class="passenger-total-room">2</span> Rooms,
-                                                    <span class="passenger-total-amount">2</span> Guests
+                                                    <span class="passenger-total-room">{{ $search->rooms ?? 1 }}</span> Rooms,
+                                                    <span class="passenger-total-amount">{{ ($search->adult ?? 2) + ($search->children ?? 0) + ($search->infant ?? 0) }}</span> Guests
                                                 </div>
                                                 <i class="fal fa-user-tie-hair"></i>
                                             </div>
-                                            <p class="passenger-class-name">Double Room</p>
+                                            <p class="passenger-class-name">{{ $search->room_type ?? 'Double Room' }}</p>
                                         </div>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <div class="dropdown-item">
@@ -86,13 +117,10 @@
                                                         <p>12+ Years</p>
                                                     </div>
                                                     <div class="passenger-qty">
-                                                        <button type="button" class="minus-btn"><i
-                                                                class="far fa-minus"></i></button>
-                                                        <input type="text" name="adult"
-                                                            class="qty-amount passenger-adult" value="2"
-                                                            readonly>
-                                                        <button type="button" class="plus-btn"><i
-                                                                class="far fa-plus"></i></button>
+                                                        <button type="button" class="minus-btn"><i class="far fa-minus"></i></button>
+                                                        <input type="text" name="adult" class="qty-amount passenger-adult"
+                                                            value="{{ $search->adult ?? 2 }}" readonly>
+                                                        <button type="button" class="plus-btn"><i class="far fa-plus"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -103,13 +131,10 @@
                                                         <p>2-12 Years</p>
                                                     </div>
                                                     <div class="passenger-qty">
-                                                        <button type="button" class="minus-btn"><i
-                                                                class="far fa-minus"></i></button>
-                                                        <input type="text" name="children"
-                                                            class="qty-amount passenger-children"
-                                                            value="0" readonly>
-                                                        <button type="button" class="plus-btn"><i
-                                                                class="far fa-plus"></i></button>
+                                                        <button type="button" class="minus-btn"><i class="far fa-minus"></i></button>
+                                                        <input type="text" name="children" class="qty-amount passenger-children"
+                                                            value="{{ $search->children ?? 0 }}" readonly>
+                                                        <button type="button" class="plus-btn"><i class="far fa-plus"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -120,13 +145,10 @@
                                                         <p>Below 2 Years</p>
                                                     </div>
                                                     <div class="passenger-qty">
-                                                        <button type="button" class="minus-btn"><i
-                                                                class="far fa-minus"></i></button>
-                                                        <input type="text" name="infant"
-                                                            class="qty-amount passenger-infant"
-                                                            value="0" readonly>
-                                                        <button type="button" class="plus-btn"><i
-                                                                class="far fa-plus"></i></button>
+                                                        <button type="button" class="minus-btn"><i class="far fa-minus"></i></button>
+                                                        <input type="text" name="infant" class="qty-amount passenger-infant"
+                                                            value="{{ $search->infant ?? 0 }}" readonly>
+                                                        <button type="button" class="plus-btn"><i class="far fa-plus"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -136,46 +158,27 @@
                                                         <h6>Rooms</h6>
                                                     </div>
                                                     <div class="passenger-qty">
-                                                        <button type="button" class="minus-btn"><i
-                                                                class="far fa-minus"></i></button>
-                                                        <input type="text" name="room"
-                                                            class="qty-amount passenger-room" value="2"
-                                                            readonly>
-                                                        <button type="button" class="plus-btn"><i
-                                                                class="far fa-plus"></i></button>
+                                                        <button type="button" class="minus-btn"><i class="far fa-minus"></i></button>
+                                                        <input type="text" name="room" class="qty-amount passenger-room"
+                                                            value="{{ $search->rooms ?? 1 }}" readonly>
+                                                        <button type="button" class="plus-btn"><i class="far fa-plus"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="dropdown-item">
                                                 <h6 class="mb-3 mt-2">Room Type</h6>
                                                 <div class="passenger-class-info">
+                                                    @foreach(['Single Room', 'Double Room', 'Deluxe Room'] as $type)
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                            value="Single Room" name="room-type"
-                                                            id="room-type1">
-                                                        <label class="form-check-label"
-                                                            for="room-type1">
-                                                            Single Room
+                                                            value="{{ $type }}" name="room-type"
+                                                            id="room-type-{{ Str::slug($type) }}"
+                                                            @checked(($search->room_type ?? 'Double Room') === $type)>
+                                                        <label class="form-check-label" for="room-type-{{ Str::slug($type) }}">
+                                                            {{ $type }}
                                                         </label>
                                                     </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" checked
-                                                            type="radio" value="Double Room"
-                                                            name="room-type" id="room-type2">
-                                                        <label class="form-check-label"
-                                                            for="room-type2">
-                                                            Double Room
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio"
-                                                            value="Deluxe Room" name="room-type"
-                                                            id="room-type3">
-                                                        <label class="form-check-label"
-                                                            for="room-type3">
-                                                            Deluxe Room
-                                                        </label>
-                                                    </div>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
@@ -183,14 +186,12 @@
                                 </div>
                             </div>
                             <div class="search-btn">
-                                <button type="submit" class="theme-btn"><span
-                                        class="far fa-search"></span>Search Now</button>
+                                <button type="submit" class="theme-btn"><span class="far fa-search"></span>Search Now</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <!-- hotel search end -->
         </div>
     </div>
 </div>
@@ -200,148 +201,61 @@
 <div class="hotel-grid py-120">
     <div class="container">
         <div class="row">
-            <!-- hotel booking sidebar -->
             <div class="col-lg-4 col-xl-3 mb-4">
-                @include('partials.catalog.filters-sidebar', ['filterGroups' => $filterGroups ?? []])
-                <div class="booking-sidebar">
-                    <div class="booking-item">
-                        <h4 class="booking-title">Hotel Price</h4>
-                        <div class="hotel-price">
-                            <div class="price-range-slider">
-                                <div class="price-range-info">
-                                    <label for="priceRange1">Price:</label>
-                                    <input type="text" class="priceRange" id="priceRange1" readonly>
-                                </div>
-                                <div id="price-range1" class="price-range slider"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="booking-item">
-                        <h4 class="booking-title">Hotel Star</h4>
-                        <div class="hotel-star">
-                            <div class="form-check">
-                                <input class="form-check-input" name="hotel-star" type="checkbox" value="1"
-                                    id="hotel-star1">
-                                <label class="form-check-label" for="hotel-star1">
-                                    5 Star <span>(20)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="hotel-star" type="checkbox" value="2"
-                                    id="hotel-star2">
-                                <label class="form-check-label" for="hotel-star2">
-                                    4 Star <span>(15)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="hotel-star" type="checkbox" value="3"
-                                    id="hotel-star3">
-                                <label class="form-check-label" for="hotel-star3">
-                                    3 Star <span>(18)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="hotel-star" type="checkbox" value="4"
-                                    id="hotel-star4">
-                                <label class="form-check-label" for="hotel-star4">
-                                    2 Star <span>(25)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="hotel-star" type="checkbox" value="5"
-                                    id="hotel-star5">
-                                <label class="form-check-label" for="hotel-star5">
-                                    1 Star <span>(27)</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="booking-item">
-                        <h4 class="booking-title">Languages</h4>
-                        <div class="language">
-                            <div class="form-check">
-                                <input class="form-check-input" name="language" type="checkbox" value="1"
-                                    id="language1">
-                                <label class="form-check-label" for="language1">
-                                    English <span>(20)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="language" type="checkbox" value="2"
-                                    id="language2">
-                                <label class="form-check-label" for="language2">
-                                    Spanish <span>(15)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="language" type="checkbox" value="3"
-                                    id="language3">
-                                <label class="form-check-label" for="language3">
-                                    French <span>(18)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="language" type="checkbox" value="4"
-                                    id="language4">
-                                <label class="form-check-label" for="language4">
-                                    Turkish <span>(25)</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="booking-item">
-                        <h4 class="booking-title">Review Score</h4>
-                        <div class="review-score">
-                            <div class="form-check">
-                                <input class="form-check-input" name="review-score" type="checkbox"
-                                    value="1" id="review-score1">
-                                <label class="form-check-label" for="review-score1">
-                                    Excellent <span>(20)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="review-score" type="checkbox"
-                                    value="2" id="review-score2">
-                                <label class="form-check-label" for="review-score2">
-                                    Very GoodK <span>(15)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="review-score" type="checkbox"
-                                    value="3" id="review-score3">
-                                <label class="form-check-label" for="review-score3">
-                                    Average <span>(18)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="review-score" type="checkbox"
-                                    value="4" id="review-score4">
-                                <label class="form-check-label" for="review-score4">
-                                    Poor <span>(18)</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @isset($search)
+                    @include('pages.publicView.hotel.partials.hotel-filters', [
+                        'search' => $search,
+                        'filterGroups' => $filterGroups ?? [],
+                        'facets' => $facets ?? [],
+                        'activeFilters' => $activeFilters ?? [],
+                        'filterAction' => $filterAction ?? route('hotel.search'),
+                        'sort' => $sort ?? 'default',
+                        'priceMin' => $priceMin ?? null,
+                        'priceMax' => $priceMax ?? null,
+                    ])
+                @endisset
             </div>
-            <!-- hotel booking grid -->
             <div class="col-lg-8 col-xl-9">
                 <div class="col-md-12">
                     <div class="booking-sort">
-                        <h5>{{ $items->total() ?? 0 }} Hotels Found</h5>
+                        <h5>
+                            @if(isset($resultsCount))
+                                {{ number_format($resultsCount) }}@if(isset($totalResultsCount) && $totalResultsCount !== $resultsCount) of {{ number_format($totalResultsCount) }}@endif Hotels Found
+                            @else
+                                0 Hotels Found
+                            @endif
+                        </h5>
                         <div class="col-md-3 booking-sort-box">
-                            <select class="select">
-                                <option value="1">Sort By Default</option>
-                                <option value="2">Sort By Popular</option>
-                                <option value="3">Sort By Low Price</option>
-                                <option value="4">Sort By High Price</option>
+                            <select class="select" id="hotel-sort" name="sort">
+                                @foreach(\App\Services\HotelSearchResultsService::SORT_OPTIONS as $value => $label)
+                                <option value="{{ $value }}" @selected(($sort ?? 'default') === $value)>{{ $label }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
                 </div>
-                @include('components.catalog-list-results', ['items' => $items, 'routePrefix' => $routePrefix ?? 'hotel', 'label' => 'Hotels'])
-
+                <div class="row">
+                    @forelse(($results ?? []) as $result)
+                        @include('pages.publicView.hotel.partials.hotel-result-item', ['result' => $result, 'search' => $search ?? null])
+                    @empty
+                        <div class="col-12">
+                            <p class="text-center py-5">
+                                @isset($search)
+                                    No hotels match your filters. Adjust filters or update your search.
+                                @else
+                                    Search for hotels using the form above.
+                                @endisset
+                            </p>
+                        </div>
+                    @endforelse
                 </div>
+                @if(isset($resultsCount) && $resultsCount > 0)
+                <div class="pagination-area mt-4">
+                    <div class="pagination-showing">
+                        <p>Showing {{ $resultsCount > 0 ? 1 : 0 }} - {{ $resultsCount }} of {{ $totalResultsCount ?? $resultsCount }} Hotels</p>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -354,6 +268,14 @@
 
 @endsection
 
-@section('scripts')
+@push('styles')
+@isset($search)
+<link rel="stylesheet" href="{{ asset('assets/css/flight-list-filters.css') }}?v={{ filemtime(public_path('assets/css/flight-list-filters.css')) }}">
+@endisset
+@endpush
 
-@endsection
+@push('scripts')
+@isset($search)
+<script src="{{ asset('assets/js/hotel-list-filters.js') }}?v={{ filemtime(public_path('assets/js/hotel-list-filters.js')) }}"></script>
+@endisset
+@endpush

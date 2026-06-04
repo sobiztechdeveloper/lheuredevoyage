@@ -25,6 +25,12 @@
             @if(session('success'))
                 <div id="adminFlashSuccess" class="d-none" data-message="{{ session('success') }}"></div>
             @endif
+            @if(session('error'))
+                <div class="alert alert-warning alert-dismissible fade show mb-3" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
             @if($errors->any())
                 <div id="adminFlashError" class="d-none" data-message="{{ $errors->first() }}"></div>
                 <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">

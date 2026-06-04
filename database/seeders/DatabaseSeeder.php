@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             CatalogSeeder::class,
             CmsSeeder::class,
             HomeBlockSeeder::class,
+            LegalPageSeeder::class,
         ]);
 
         $admin = User::query()->updateOrCreate(

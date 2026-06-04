@@ -12,6 +12,7 @@ use App\Models\Master\RoomFacility;
 use App\Models\Master\RoomType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Hotel extends Model
@@ -41,6 +42,26 @@ class Hotel extends Model
     public function bookings(): MorphMany
     {
         return $this->morphMany(Booking::class, 'bookable');
+    }
+
+    public function rooms(): HasMany
+    {
+        return $this->hasMany(HotelRoom::class)->orderBy('sort_order')->orderBy('name');
+    }
+
+    public function activeRooms(): HasMany
+    {
+        return $this->rooms()->where('is_active', true);
+    }
+
+    public function bookingRequests(): HasMany
+    {
+        return $this->hasMany(HotelBookingRequest::class);
+    }
+
+    public function starCount(): int
+    {
+        return (int) ($this->star_rating ?? $this->stars ?? 0);
     }
 
     public function facilities(): BelongsToMany

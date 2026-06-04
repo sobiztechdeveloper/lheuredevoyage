@@ -66,6 +66,9 @@
                             <button class="btn btn-sm btn-admin-outline dropdown-toggle" type="button" data-bs-toggle="dropdown">Actions</button>
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0">
                                 <li><a class="dropdown-item" href="{{ route('admin.'.$resource.'.edit', $item) }}"><i class="far fa-pen me-2"></i>Edit</a></li>
+                                @if($resource === 'hotels')
+                                <li><a class="dropdown-item" href="{{ route('admin.hotels.rooms.index', $item) }}"><i class="far fa-bed me-2"></i>Manage Rooms</a></li>
+                                @endif
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form action="{{ route('admin.'.$resource.'.destroy', $item) }}" method="POST" onsubmit="return confirm('Delete this item?')">

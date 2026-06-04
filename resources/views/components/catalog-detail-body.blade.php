@@ -129,8 +129,22 @@
 
     @auth
         <div class="listing-item">
-            <h4 class="mb-3">Book This {{ ucfirst($bookableType) }}</h4>
-            <x-booking-form :item="$item" :bookable-type="$bookableType" />
+            @php
+                $bookingRoute = match ($routePrefix) {
+                    'hotel' => route('hotel.booking.create', ['hotel' => $item]),
+                    'cruise' => route('cruise.booking.create', ['cruise' => $item]),
+                    'rentalcar' => route('rentalcar.booking.create', ['rentalCar' => $item]),
+                    'travelinsurance' => route('travelinsurance.booking.create', ['travelInsurance' => $item]),
+                    default => null,
+                };
+            @endphp
+            @if($bookingRoute)
+                <h4 class="mb-3">Request {{ ucfirst($bookableType) }} Booking</h4>
+                <a href="{{ $bookingRoute }}" class="theme-btn">Request Booking <i class="far fa-arrow-right"></i></a>
+            @else
+                <h4 class="mb-3">Book This {{ ucfirst($bookableType) }}</h4>
+                <x-booking-form :item="$item" :bookable-type="$bookableType" />
+            @endif
         </div>
     @else
         <div class="listing-item">

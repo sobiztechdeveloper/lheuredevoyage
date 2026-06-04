@@ -1,10 +1,17 @@
 <div class="main-navigation">
     <nav class="navbar navbar-expand-lg ">
         <div class="container">
+            @php
+                $navSettings = $siteSettings ?? null;
+                $navLogo = $navSettings?->logo_url ?? asset('assets/img/logo/logo.png');
+                $navLogoScrolled = ($navSettings && $navSettings->hasCustomLogo())
+                    ? $navLogo
+                    : asset('assets/img/logo/logo-dark.png');
+            @endphp
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
                 <div class="logo-wrapper">
-                    <img src="{{ ($siteSettings ?? null)?->logo_url ?? asset('assets/img/logo/logo.png') }}" class="logo-display" alt="logo">
-                    <img src="{{ ($siteSettings ?? null)?->logo_url ?? asset('assets/img/logo/logo-dark.png') }}" class="logo-scrolled" alt="logo">
+                    <img src="{{ $navLogo }}" class="logo-display" alt="{{ $navSettings?->company_name ?? 'Logo' }}">
+                    <img src="{{ $navLogoScrolled }}" class="logo-scrolled" alt="{{ $navSettings?->company_name ?? 'Logo' }}">
                 </div>
 
                 <span class="brand-text ms-2">
@@ -25,7 +32,7 @@
                             <i class="fas fa-home me-1"></i> Home
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="{{ route('flight') }}">
                             <i class="fas fa-plane me-1"></i> Flights
                         </a>
@@ -54,7 +61,7 @@
                         <a class="nav-link" href="{{ route('tourpackage') }}">
                             <i class="fas fa-binoculars me-1"></i> Tour Packages
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('contact') }}">
                             <i class="fas fa-phone me-1"></i> Contact

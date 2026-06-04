@@ -69,6 +69,7 @@
     <div class="user-profile-card">
         <h5 class="mb-3">Your response</h5>
         <p class="text-muted small">This is a quotation only — no online payment. Accept to proceed with manual ticketing by our consultants.</p>
+        <x-legal-quote-acceptance />
         <div class="row g-3">
             <div class="col-md-6">
                 <form method="POST" action="{{ route('my-quotes.accept', $quote) }}">

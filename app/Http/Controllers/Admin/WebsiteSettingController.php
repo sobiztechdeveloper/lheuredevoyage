@@ -20,14 +20,19 @@ class WebsiteSettingController extends Controller
 
     public function update(UpdateWebsiteSettingRequest $request, CmsImageUploader $uploader): RedirectResponse
     {
-        $settings = WebsiteSetting::query()->first() ?? new WebsiteSetting;
-        $data = $request->validated();
+        $existing = WebsiteSetting::query()->first();
+        $data = $request->safe()->except(['logo', 'favicon', 'default_breadcrumb_image']);
 
-        $data['logo'] = $uploader->upload($request->file('logo'), 'settings', $settings->logo);
-        $data['favicon'] = $uploader->upload($request->file('favicon'), 'settings', $settings->favicon);
+        $data['logo'] = $uploader->upload($request->file('logo'), 'settings', $existing?->logo);
+        $data['favicon'] = $uploader->upload($request->file('favicon'), 'settings', $existing?->favicon);
+        $data['default_breadcrumb_image'] = $uploader->upload(
+            $request->file('default_breadcrumb_image'),
+            'settings',
+            $existing?->default_breadcrumb_image
+        );
 
-        $settings->fill($data);
-        $settings->save();
+        WebsiteSetting::query()->updateOrCreate(['id' => 1], $data);
+        WebsiteSetting::clearCache();
 
         return redirect()->route('admin.settings.edit')->with('success', 'Website settings updated successfully.');
     }

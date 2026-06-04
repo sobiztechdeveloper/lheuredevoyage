@@ -7,6 +7,46 @@
     background: #f4f7fc;
 }
 
+/* Templates use py-100 but theme style.css only defines pt/pb-100, not py-100 */
+.fbw-page .py-100,
+.fbw-page .fbw-main {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.fbw-page .site-breadcrumb .breadcrumb-title {
+    margin-bottom: 1.25rem;
+}
+
+.fbw-page .site-breadcrumb .breadcrumb-menu {
+    margin-top: 0.35rem;
+}
+
+.fbw-page .site-breadcrumb .breadcrumb-menu li {
+    line-height: 1.6;
+}
+
+.fbw-page .fbw-progress {
+    margin-top: 0.25rem;
+    margin-bottom: 2.5rem;
+}
+
+.fbw-page .container > .alert {
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 767px) {
+    .fbw-page .py-100,
+    .fbw-page .fbw-main {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+
+    .fbw-page .site-breadcrumb .breadcrumb-title {
+        margin-bottom: 0.85rem;
+    }
+}
+
 .fbw-progress {
     display: flex;
     flex-wrap: wrap;

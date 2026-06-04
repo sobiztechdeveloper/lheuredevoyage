@@ -21,6 +21,10 @@ class StoreQuoteRequest extends FormRequest
         return [
             'customer_id' => ['nullable', 'exists:users,id'],
             'flight_booking_request_id' => ['nullable', 'exists:flight_booking_requests,id'],
+            'hotel_booking_request_id' => ['nullable', 'exists:hotel_booking_requests,id'],
+            'cruise_booking_request_id' => ['nullable', 'exists:cruise_booking_requests,id'],
+            'car_booking_request_id' => ['nullable', 'exists:car_booking_requests,id'],
+            'insurance_booking_request_id' => ['nullable', 'exists:insurance_booking_requests,id'],
             'quote_type' => ['required', Rule::in(Quote::TYPES)],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:10000'],

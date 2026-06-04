@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\AuthorizesBookingConfirmation;
 use App\Http\Requests\StoreFlightBookingRequest;
 use App\Models\FlightBookingRequest;
 use App\Models\FlightSearchResult;
@@ -9,10 +10,12 @@ use App\Services\ActivityLogService;
 use App\Services\FlightBookingNotificationService;
 use App\Services\FlightBookingRequestService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class FlightBookingRequestController extends Controller
 {
+    use AuthorizesBookingConfirmation;
     public function __construct(
         protected FlightBookingRequestService $flightBookingRequestService,
         protected FlightBookingNotificationService $notifications,
@@ -56,11 +59,13 @@ class FlightBookingRequestController extends Controller
             'reference' => $booking->booking_reference,
         ]);
 
-        return redirect()->route('flight.booking.confirmation', $booking);
+        return $this->redirectToSignedBookingConfirmation('flight.booking.confirmation', $booking);
     }
 
-    public function confirmation(FlightBookingRequest $flightBookingRequest): View
+    public function confirmation(Request $request, FlightBookingRequest $flightBookingRequest): View
     {
+        $this->authorizeBookingConfirmation($request, $flightBookingRequest, 'user_id');
+
         $flightBookingRequest->load(['passengers', 'flightSearchResult', 'flightSearch']);
 
         return view('pages.publicView.flight.flightBookingConfirmation', [

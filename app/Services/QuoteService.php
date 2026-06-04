@@ -3,6 +3,10 @@
 namespace App\Services;
 
 use App\Models\FlightBookingRequest;
+use App\Models\HotelBookingRequest;
+use App\Models\CruiseBookingRequest;
+use App\Models\CarBookingRequest;
+use App\Models\InsuranceBookingRequest;
 use App\Models\Quote;
 use App\Models\QuoteItem;
 use App\Models\QuoteStatusHistory;
@@ -23,6 +27,10 @@ class QuoteService
                 'quote_number' => Quote::generateQuoteNumber(),
                 'customer_id' => $data['customer_id'] ?? null,
                 'flight_booking_request_id' => $data['flight_booking_request_id'] ?? null,
+                'hotel_booking_request_id' => $data['hotel_booking_request_id'] ?? null,
+                'cruise_booking_request_id' => $data['cruise_booking_request_id'] ?? null,
+                'car_booking_request_id' => $data['car_booking_request_id'] ?? null,
+                'insurance_booking_request_id' => $data['insurance_booking_request_id'] ?? null,
                 'quote_type' => $data['quote_type'],
                 'title' => $data['title'],
                 'description' => $data['description'] ?? null,
@@ -44,8 +52,20 @@ class QuoteService
             if ($quote->flight_booking_request_id && $quote->status === 'sent') {
                 $this->syncFlightRequestQuoted($quote);
             }
+            if ($quote->hotel_booking_request_id && $quote->status === 'sent') {
+                $this->syncHotelRequestQuoted($quote);
+            }
+            if ($quote->cruise_booking_request_id && $quote->status === 'sent') {
+                $this->syncCruiseRequestQuoted($quote);
+            }
+            if ($quote->car_booking_request_id && $quote->status === 'sent') {
+                $this->syncCarRequestQuoted($quote);
+            }
+            if ($quote->insurance_booking_request_id && $quote->status === 'sent') {
+                $this->syncInsuranceRequestQuoted($quote);
+            }
 
-            return $quote->load(['items', 'customer', 'flightBookingRequest']);
+            return $quote->load(['items', 'customer', 'flightBookingRequest', 'hotelBookingRequest', 'cruiseBookingRequest', 'carBookingRequest', 'insuranceBookingRequest']);
         });
     }
 
@@ -62,6 +82,10 @@ class QuoteService
             $quote->update([
                 'customer_id' => $data['customer_id'] ?? null,
                 'flight_booking_request_id' => $data['flight_booking_request_id'] ?? $quote->flight_booking_request_id,
+                'hotel_booking_request_id' => $data['hotel_booking_request_id'] ?? $quote->hotel_booking_request_id,
+                'cruise_booking_request_id' => $data['cruise_booking_request_id'] ?? $quote->cruise_booking_request_id,
+                'car_booking_request_id' => $data['car_booking_request_id'] ?? $quote->car_booking_request_id,
+                'insurance_booking_request_id' => $data['insurance_booking_request_id'] ?? $quote->insurance_booking_request_id,
                 'quote_type' => $data['quote_type'],
                 'title' => $data['title'],
                 'description' => $data['description'] ?? null,
@@ -82,7 +106,7 @@ class QuoteService
                 $this->recordStatus($quote, $previousStatus, $quote->status, 'Quote updated by admin.');
             }
 
-            return $quote->fresh(['items', 'customer', 'flightBookingRequest']);
+            return $quote->fresh(['items', 'customer', 'flightBookingRequest', 'hotelBookingRequest', 'cruiseBookingRequest', 'carBookingRequest', 'insuranceBookingRequest']);
         });
     }
 
@@ -123,6 +147,145 @@ class QuoteService
         ], $items);
     }
 
+    public function createDraftFromHotelRequest(HotelBookingRequest $request): Quote
+    {
+        $request->load(['guests', 'hotel', 'room', 'customer']);
+
+        $hotelName = $request->selected_hotel['name'] ?? $request->hotel?->name ?? 'Hotel';
+        $roomName = $request->selected_room['name'] ?? $request->room?->name ?? 'Room';
+
+        $description = "Reference: {$request->reference_number}\n"
+            ."Hotel: {$hotelName}\n"
+            ."Room: {$roomName}\n"
+            ."Check-in: {$request->check_in_date->format('M d, Y')}\n"
+            ."Check-out: {$request->check_out_date->format('M d, Y')}\n"
+            ."Guests: {$request->guestCount()}";
+
+        $items = [[
+            'item_name' => 'Hotel — '.$hotelName.' ('.$roomName.')',
+            'description' => "{$request->nights()} night(s), {$request->rooms} room(s)",
+            'quantity' => 1,
+            'unit_price' => (float) $request->estimated_amount,
+            'sort_order' => 0,
+        ]];
+
+        return $this->create([
+            'customer_id' => $request->customer_id,
+            'hotel_booking_request_id' => $request->id,
+            'quote_type' => 'hotel',
+            'title' => 'Hotel Quote — '.$hotelName,
+            'description' => $description,
+            'currency' => $request->currency ?? 'USD',
+            'tax_amount' => 0,
+            'service_fee' => 0,
+            'valid_until' => now()->addDays(7)->toDateString(),
+            'status' => 'draft',
+            'notes' => 'Generated from hotel request '.$request->reference_number.'.',
+        ], $items);
+    }
+
+    public function createDraftFromCruiseRequest(CruiseBookingRequest $request): Quote
+    {
+        $request->load(['passengers', 'cruise', 'customer']);
+
+        $cruiseName = $request->selected_cruise['name'] ?? $request->cruise?->name ?? 'Cruise';
+        $description = "Reference: {$request->reference_number}\n"
+            ."Cruise: {$cruiseName}\n"
+            ."Departure: {$request->departure_date->format('M d, Y')}\n"
+            .($request->return_date ? "Return: {$request->return_date->format('M d, Y')}\n" : '')
+            ."Passengers: {$request->passengerCount()}";
+
+        $items = [[
+            'item_name' => 'Cruise — '.$cruiseName,
+            'description' => ($request->cabin_type ? "Cabin: {$request->cabin_type}" : 'Cruise booking request'),
+            'quantity' => 1,
+            'unit_price' => (float) $request->estimated_amount,
+            'sort_order' => 0,
+        ]];
+
+        return $this->create([
+            'customer_id' => $request->customer_id,
+            'cruise_booking_request_id' => $request->id,
+            'quote_type' => 'cruise',
+            'title' => 'Cruise Quote — '.$cruiseName,
+            'description' => trim($description),
+            'currency' => $request->currency ?? 'USD',
+            'tax_amount' => 0,
+            'service_fee' => 0,
+            'valid_until' => now()->addDays(7)->toDateString(),
+            'status' => 'draft',
+            'notes' => 'Generated from cruise request '.$request->reference_number.'.',
+        ], $items);
+    }
+
+    public function createDraftFromCarRequest(CarBookingRequest $request): Quote
+    {
+        $request->load(['drivers', 'rentalCar', 'customer']);
+
+        $carName = $request->selected_vehicle['name'] ?? $request->rentalCar?->name ?? 'Rental Car';
+        $description = "Reference: {$request->reference_number}\n"
+            ."Vehicle: {$carName}\n"
+            ."Pick-up: {$request->pickup_location} on {$request->pickup_date->format('M d, Y')}\n"
+            ."Return: ".($request->dropoff_location ?: $request->pickup_location)." on {$request->return_date->format('M d, Y')}\n"
+            ."Drivers: {$request->drivers()->count()}";
+
+        $items = [[
+            'item_name' => 'Rental Car — '.$carName,
+            'description' => $request->pickup_location.' to '.($request->dropoff_location ?: $request->pickup_location),
+            'quantity' => 1,
+            'unit_price' => (float) $request->estimated_amount,
+            'sort_order' => 0,
+        ]];
+
+        return $this->create([
+            'customer_id' => $request->customer_id,
+            'car_booking_request_id' => $request->id,
+            'quote_type' => 'car',
+            'title' => 'Car Quote — '.$carName,
+            'description' => $description,
+            'currency' => $request->currency ?? 'USD',
+            'tax_amount' => 0,
+            'service_fee' => 0,
+            'valid_until' => now()->addDays(7)->toDateString(),
+            'status' => 'draft',
+            'notes' => 'Generated from car request '.$request->reference_number.'.',
+        ], $items);
+    }
+
+    public function createDraftFromInsuranceRequest(InsuranceBookingRequest $request): Quote
+    {
+        $request->load(['travelers', 'travelInsurance', 'customer']);
+
+        $policyName = $request->selected_policy['name'] ?? $request->travelInsurance?->name ?? 'Travel Insurance';
+        $description = "Reference: {$request->reference_number}\n"
+            ."Policy: {$policyName}\n"
+            ."Destination: ".($request->destination ?: 'Not specified')."\n"
+            ."Travel: {$request->travel_start->format('M d, Y')} to {$request->travel_end->format('M d, Y')}\n"
+            ."Travelers: {$request->travelers()->count()}";
+
+        $items = [[
+            'item_name' => 'Travel Insurance — '.$policyName,
+            'description' => $request->coverage_type ?: 'Travel policy coverage',
+            'quantity' => 1,
+            'unit_price' => (float) $request->estimated_amount,
+            'sort_order' => 0,
+        ]];
+
+        return $this->create([
+            'customer_id' => $request->customer_id,
+            'insurance_booking_request_id' => $request->id,
+            'quote_type' => 'insurance',
+            'title' => 'Insurance Quote — '.$policyName,
+            'description' => $description,
+            'currency' => $request->currency ?? 'USD',
+            'tax_amount' => 0,
+            'service_fee' => 0,
+            'valid_until' => now()->addDays(7)->toDateString(),
+            'status' => 'draft',
+            'notes' => 'Generated from insurance request '.$request->reference_number.'.',
+        ], $items);
+    }
+
     public function send(Quote $quote): Quote
     {
         $previous = $quote->status;
@@ -135,6 +298,10 @@ class QuoteService
 
         $this->transition($quote, 'sent', 'Quote sent to customer.');
         $this->syncFlightRequestQuoted($quote);
+        $this->syncHotelRequestQuoted($quote);
+        $this->syncCruiseRequestQuoted($quote);
+        $this->syncCarRequestQuoted($quote);
+        $this->syncInsuranceRequestQuoted($quote);
 
         return $quote->fresh();
     }
@@ -153,6 +320,8 @@ class QuoteService
         $this->ensureCustomerActionAllowed($quote);
         $note = $comment ? "Customer accepted: {$comment}" : 'Customer accepted the quote.';
         $this->transition($quote, 'accepted', $note);
+        app(InsuranceBookingRequestService::class)->syncFromQuoteAcceptance($quote->fresh());
+        app(CruiseBookingRequestService::class)->syncFromQuoteAcceptance($quote->fresh());
 
         return $quote->fresh();
     }
@@ -162,6 +331,8 @@ class QuoteService
         $this->ensureCustomerActionAllowed($quote);
         $note = $comment ? "Customer rejected: {$comment}" : 'Customer rejected the quote.';
         $this->transition($quote, 'rejected', $note);
+        app(InsuranceBookingRequestService::class)->syncFromQuoteRejection($quote->fresh());
+        app(CruiseBookingRequestService::class)->syncFromQuoteRejection($quote->fresh());
 
         return $quote->fresh();
     }
@@ -260,6 +431,70 @@ class QuoteService
         $request = $quote->flightBookingRequest;
         if ($request && $request->status !== 'ticketed' && $request->status !== 'cancelled') {
             app(FlightBookingRequestService::class)->updateStatus(
+                $request,
+                'quoted',
+                'Quote '.$quote->quote_number.' sent to customer.',
+            );
+        }
+    }
+
+    protected function syncHotelRequestQuoted(Quote $quote): void
+    {
+        if (! $quote->hotel_booking_request_id) {
+            return;
+        }
+
+        $request = $quote->hotelBookingRequest;
+        if ($request && ! in_array($request->status, ['completed', 'cancelled', 'voucher_sent'], true)) {
+            app(HotelBookingRequestService::class)->updateStatus(
+                $request,
+                'quoted',
+                'Quote '.$quote->quote_number.' sent to customer.',
+            );
+        }
+    }
+
+    protected function syncCruiseRequestQuoted(Quote $quote): void
+    {
+        if (! $quote->cruise_booking_request_id) {
+            return;
+        }
+
+        $request = $quote->cruiseBookingRequest;
+        if ($request && ! in_array($request->status, ['completed', 'cancelled', 'voucher_sent', 'accepted', 'rejected'], true)) {
+            app(CruiseBookingRequestService::class)->updateStatus(
+                $request,
+                'quoted',
+                'Quote '.$quote->quote_number.' sent to customer.',
+            );
+        }
+    }
+
+    protected function syncCarRequestQuoted(Quote $quote): void
+    {
+        if (! $quote->car_booking_request_id) {
+            return;
+        }
+
+        $request = $quote->carBookingRequest;
+        if ($request && ! in_array($request->status, ['completed', 'cancelled', 'voucher_sent'], true)) {
+            app(CarBookingRequestService::class)->updateStatus(
+                $request,
+                'quoted',
+                'Quote '.$quote->quote_number.' sent to customer.',
+            );
+        }
+    }
+
+    protected function syncInsuranceRequestQuoted(Quote $quote): void
+    {
+        if (! $quote->insurance_booking_request_id) {
+            return;
+        }
+
+        $request = $quote->insuranceBookingRequest;
+        if ($request && ! in_array($request->status, ['completed', 'cancelled', 'policy_issued', 'accepted', 'rejected'], true)) {
+            app(InsuranceBookingRequestService::class)->updateStatus(
                 $request,
                 'quoted',
                 'Quote '.$quote->quote_number.' sent to customer.',

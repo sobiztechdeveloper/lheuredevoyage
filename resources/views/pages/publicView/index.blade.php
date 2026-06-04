@@ -718,42 +718,29 @@
                                         <form action="{{ route('cruise.search') }}">
                                             <div class="cruise-search-wrapper">
                                                 <div class="row">
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-3">
                                                         <div class="form-group">
                                                             <label>Destination</label>
                                                             <div class="form-group-icon">
                                                                 <input type="text" name="destination"
                                                                     class="form-control"
-                                                                    value="New York, United States">
+                                                                    placeholder="Region or port">
                                                                 <i class="fal fa-earth-americas"></i>
                                                             </div>
                                                             <p>Where Are You Going?</p>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-3">
                                                         <div class="form-group">
-                                                            <div class="search-form-date">
-                                                                <div class="search-form-journey">
-                                                                    <label>Journey Date</label>
-                                                                    <div class="form-group-icon">
-                                                                        <input type="text" name="journey-date"
-                                                                            class="form-control date-picker journey-date">
-                                                                        <i class="fal fa-calendar-days"></i>
-                                                                    </div>
-                                                                    <p class="journey-day-name"></p>
-                                                                </div>
-                                                                <div class="search-form-return">
-                                                                    <label>Return Date</label>
-                                                                    <div class="form-group-icon">
-                                                                        <input type="text" name="return-date"
-                                                                            class="form-control date-picker return-date">
-                                                                    </div>
-                                                                    <p class="return-day-name"></p>
-                                                                </div>
-                                                            </div>
+                                                            <x-cruise-search-dates />
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    <div class="col-lg-3">
+                                                        <div class="form-group">
+                                                            <x-cruise-search-line />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
                                                         <div class="form-group dropdown passenger-box">
                                                             <div class="passenger-class" role="menu"
                                                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -921,137 +908,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        <div class="form-group dropdown passenger-box">
-                                                            <div class="passenger-class" role="menu"
-                                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                                <label>Rooms, Guests</label>
-                                                                <div class="form-group-icon">
-                                                                    <div class="passenger-total">
-                                                                        <span
-                                                                            class="passenger-total-room">2</span>
-                                                                        Rooms,
-                                                                        <span
-                                                                            class="passenger-total-amount">2</span>
-                                                                        Guests
-                                                                    </div>
-                                                                    <i class="fal fa-user-tie-hair"></i>
-                                                                </div>
-                                                                <p class="passenger-class-name">Double Room</p>
-                                                            </div>
-                                                            <div class="dropdown-menu dropdown-menu-end">
-                                                                <div class="dropdown-item">
-                                                                    <div class="passenger-item">
-                                                                        <div class="passenger-info">
-                                                                            <h6>Adults</h6>
-                                                                            <p>12+ Years</p>
-                                                                        </div>
-                                                                        <div class="passenger-qty">
-                                                                            <button type="button"
-                                                                                class="minus-btn"><i
-                                                                                    class="far fa-minus"></i></button>
-                                                                            <input type="text" name="adult"
-                                                                                class="qty-amount passenger-adult"
-                                                                                value="2" readonly>
-                                                                            <button type="button"
-                                                                                class="plus-btn"><i
-                                                                                    class="far fa-plus"></i></button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="dropdown-item">
-                                                                    <div class="passenger-item">
-                                                                        <div class="passenger-info">
-                                                                            <h6>Children</h6>
-                                                                            <p>2-12 Years</p>
-                                                                        </div>
-                                                                        <div class="passenger-qty">
-                                                                            <button type="button"
-                                                                                class="minus-btn"><i
-                                                                                    class="far fa-minus"></i></button>
-                                                                            <input type="text" name="children"
-                                                                                class="qty-amount passenger-children"
-                                                                                value="0" readonly>
-                                                                            <button type="button"
-                                                                                class="plus-btn"><i
-                                                                                    class="far fa-plus"></i></button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="dropdown-item">
-                                                                    <div class="passenger-item">
-                                                                        <div class="passenger-info">
-                                                                            <h6>Infant</h6>
-                                                                            <p>Below 2 Years</p>
-                                                                        </div>
-                                                                        <div class="passenger-qty">
-                                                                            <button type="button"
-                                                                                class="minus-btn"><i
-                                                                                    class="far fa-minus"></i></button>
-                                                                            <input type="text" name="infant"
-                                                                                class="qty-amount passenger-infant"
-                                                                                value="0" readonly>
-                                                                            <button type="button"
-                                                                                class="plus-btn"><i
-                                                                                    class="far fa-plus"></i></button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="dropdown-item">
-                                                                    <div class="passenger-item">
-                                                                        <div class="passenger-info">
-                                                                            <h6>Rooms</h6>
-                                                                        </div>
-                                                                        <div class="passenger-qty">
-                                                                            <button type="button"
-                                                                                class="minus-btn"><i
-                                                                                    class="far fa-minus"></i></button>
-                                                                            <input type="text" name="room"
-                                                                                class="qty-amount passenger-room"
-                                                                                value="2" readonly>
-                                                                            <button type="button"
-                                                                                class="plus-btn"><i
-                                                                                    class="far fa-plus"></i></button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="dropdown-item">
-                                                                    <h6 class="mb-3 mt-2">Room Type</h6>
-                                                                    <div class="passenger-class-info">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input"
-                                                                                type="radio" value="Single Room"
-                                                                                name="room-type"
-                                                                                id="room-type10">
-                                                                            <label class="form-check-label"
-                                                                                for="room-type10">
-                                                                                Single Room
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input"
-                                                                                checked type="radio"
-                                                                                value="Double Room"
-                                                                                name="room-type"
-                                                                                id="room-type11">
-                                                                            <label class="form-check-label"
-                                                                                for="room-type11">
-                                                                                Double Room
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input"
-                                                                                type="radio" value="Deluxe Room"
-                                                                                name="room-type"
-                                                                                id="room-type12">
-                                                                            <label class="form-check-label"
-                                                                                for="room-type12">
-                                                                                Deluxe Room
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <x-insurance-traveler-picker />
                                                     </div>
                                                 </div>
                                                 <div class="search-btn">
@@ -1069,7 +926,8 @@
                                 aria-labelledby="pills-tab-2" tabindex="0">
                                 <div class="hotel-search">
                                     <div class="search-form">
-                                        <form action="{{ route('hotel.search') }}">
+                                        <form action="{{ route('hotel.search.submit') }}" method="POST">
+                                            @csrf
                                             <div class="hotel-search-wrapper">
                                                 <div class="row">
                                                     <div class="col-lg-4">
@@ -1451,226 +1309,10 @@
 
 @include('partials.home.sections')
 
-@include('partials.catalog.home-featured')
-@include('partials.cms.testimonials', ['testimonials' => $testimonials ?? collect()])
+{{--@include('partials.cms.testimonials', ['testimonials' => $testimonials ?? collect()])--}}
 
 @include('partials.cms.faqs', ['faqs' => $faqs ?? collect()])
 
-<!-- testimonial area (legacy static - disabled) -->
-<!-- <div class="testimonial-area bg pt-70 pb-70">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
-                <div class="site-heading text-center mb-4">
-                    <span class="site-title-tagline"><i class="far fa-plane"></i> Testimonials</span>
-                    <h2 class="site-title">What Our Customers Are Saying About Us?</h2>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial-slider owl-carousel owl-theme wow fadeInUp" data-wow-duration="1s"
-            data-wow-delay=".25s">
-            <div class="testimonial-single">
-                <div class="testimonial-content">
-                    <div class="testimonial-author-img">
-                        <img src="assets/img/testimonial/01.jpg" alt="">
-                    </div>
-                </div>
-                <div class="testimonial-quote">
-                    <span class="count">01</span>
-                    <div class="testimonial-author-info">
-                        <h4>Diana Carter</h4>
-                        <p>Our Clients</p>
-                    </div>
-                    <p>
-                        There are many variations passages of available but to the majority have
-                        suffered for the alteration in some form injected humour words which look even slig
-                        believable.
-                    </p>
-                    <div class="testimonial-quote-icon">
-                        <img src="assets/img/icon/quote.svg" alt="">
-                    </div>
-                    <div class="testimonial-rate">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-single">
-                <div class="testimonial-content">
-                    <div class="testimonial-author-img">
-                        <img src="assets/img/testimonial/02.jpg" alt="">
-                    </div>
-                </div>
-                <div class="testimonial-quote">
-                    <span class="count">02</span>
-                    <div class="testimonial-author-info">
-                        <h4>Brandon Wigfall</h4>
-                        <p>Our Clients</p>
-                    </div>
-                    <p>
-                        There are many variations passages of available but to the majority have
-                        suffered for the alteration in some form injected humour words which look even slig
-                        believable.
-                    </p>
-                    <div class="testimonial-quote-icon">
-                        <img src="assets/img/icon/quote.svg" alt="">
-                    </div>
-                    <div class="testimonial-rate">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-single">
-                <div class="testimonial-content">
-                    <div class="testimonial-author-img">
-                        <img src="assets/img/testimonial/03.jpg" alt="">
-                    </div>
-                </div>
-                <div class="testimonial-quote">
-                    <span class="count">03</span>
-                    <div class="testimonial-author-info">
-                        <h4>Sylvia Green</h4>
-                        <p>Our Clients</p>
-                    </div>
-                    <p>
-                        There are many variations passages of available but to the majority have
-                        suffered for the alteration in some form injected humour words which look even slig
-                        believable.
-                    </p>
-                    <div class="testimonial-quote-icon">
-                        <img src="assets/img/icon/quote.svg" alt="">
-                    </div>
-                    <div class="testimonial-rate">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-single">
-                <div class="testimonial-content">
-                    <div class="testimonial-author-img">
-                        <img src="assets/img/testimonial/04.jpg" alt="">
-                    </div>
-                </div>
-                <div class="testimonial-quote">
-                    <span class="count">04</span>
-                    <div class="testimonial-author-info">
-                        <h4>Miguel Woodworth</h4>
-                        <p>Our Clients</p>
-                    </div>
-                    <p>
-                        There are many variations passages of available but to the majority have
-                        suffered for the alteration in some form injected humour words which look even slig
-                        believable.
-                    </p>
-                    <div class="testimonial-quote-icon">
-                        <img src="assets/img/icon/quote.svg" alt="">
-                    </div>
-                    <div class="testimonial-rate">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-<!-- testimonial area end -->
-
-<!-- blog area -->
-<!-- <div class="blog-area py-120">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
-                <div class="site-heading text-center">
-                    <span class="site-title-tagline"><i class="far fa-plane"></i> Our Blog</span>
-                    <h2 class="site-title">Our Latest Blog & News</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-lg-4">
-                <div class="blog-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
-                    <span class="blog-date">August 25, 2025</span>
-                    <div class="blog-item-img">
-                        <img src="assets/img/blog/01.jpg" alt="Thumb">
-                    </div>
-                    <div class="blog-item-info">
-                        <div class="blog-item-meta">
-                            <ul>
-                                <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-                                <li><a href="#"><i class="far fa-comments"></i> 25.5k Comments</a></li>
-                            </ul>
-                        </div>
-                        <h4 class="blog-title">
-                            <a href="blog-single.html">There are many variations available For majority in some injected
-                                humour</a>
-                        </h4>
-                        <a class="theme-btn mt-3" href="blog-single.html">Read More <i
-                                class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="blog-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".50s">
-                    <span class="blog-date">August 27, 2025</span>
-                    <div class="blog-item-img">
-                        <img src="assets/img/blog/02.jpg" alt="Thumb">
-                    </div>
-                    <div class="blog-item-info">
-                        <div class="blog-item-meta">
-                            <ul>
-                                <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-                                <li><a href="#"><i class="far fa-comments"></i> 25.5k Comments</a></li>
-                            </ul>
-                        </div>
-                        <h4 class="blog-title">
-                            <a href="blog-single.html">Established fact that reader distract will by the readable content</a>
-                        </h4>
-                        <a class="theme-btn mt-3" href="blog-single.html">Read More <i
-                                class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="blog-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".75s">
-                    <span class="blog-date">August 30, 2025</span>
-                    <div class="blog-item-img">
-                        <img src="assets/img/blog/03.jpg" alt="Thumb">
-                    </div>
-                    <div class="blog-item-info">
-                        <div class="blog-item-meta">
-                            <ul>
-                                <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-                                <li><a href="#"><i class="far fa-comments"></i> 25.5k Comments</a></li>
-                            </ul>
-                        </div>
-                        <h4 class="blog-title">
-                            <a href="blog-single.html">Contrary to popular belief simply text random roots piece of
-                                classical</a>
-                        </h4>
-                        <a class="theme-btn mt-3" href="blog-single.html">Read More <i
-                                class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-<!-- blog area end -->
 
 @endsection
 

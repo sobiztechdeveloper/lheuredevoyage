@@ -16,8 +16,11 @@ class CmsSeeder extends Seeder
         WebsiteSetting::query()->updateOrCreate(['id' => 1], [
             'company_name' => "L'Heure De Voyage",
             'company_email' => 'info@lheuredevoyage.com',
-            'company_phone' => '+1 234 567 890',
-            'company_address' => '25/B Milford Road, New York, USA',
+            'company_phone' => '+41 44 000 00 00',
+            'company_address' => 'Bahnhofstrasse 1, 8001 Zürich, Switzerland',
+            'vat_number' => 'CHE-000.000.000 MWST',
+            'registration_number' => 'CH-000.0.000.000-0',
+            'business_hours' => 'Monday – Friday, 09:00 – 18:00 (CET)',
             'footer_text' => 'Your trusted partner for flights, hotels, cruises, cars, insurance and holiday packages worldwide.',
             'copyright_text' => "L'Heure De Voyage. All Rights Reserved.",
             'facebook_url' => 'https://facebook.com',
@@ -27,18 +30,20 @@ class CmsSeeder extends Seeder
         ]);
 
         ContactDetail::query()->updateOrCreate(['id' => 1], [
-            'address' => '25/B Milford, New York, USA',
-            'phone' => '+1 234 567 890',
+            'address' => 'Bahnhofstrasse 1, 8001 Zürich, Switzerland',
+            'phone' => '+41 44 000 00 00',
             'email' => 'info@lheuredevoyage.com',
-            'whatsapp_number' => '+1234567890',
-            'google_map_embed' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d-74.00425878428698!3d40.74076684379132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bf5c1654f3%3A0xc80f9cfce5383d5d!2sGoogle!5e0!3m2!1sen!2sin!4v1586000412513!5m2!1sen!2sin',
+            'whatsapp_number' => '+41 44 000 00 00',
+            'form_title' => 'Get in Touch',
+            'form_subtitle' => 'Have a question about flights, hotels, packages or an existing booking? Send us a message and our team will respond as soon as possible.',
+            'google_map_embed' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2701.5!2d8.5417!3d47.3769!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDfCsDIyJzM2LjgiTiA4wrAzMiczMC4xIkU!5e0!3m2!1sen!2sch!4v1',
         ]);
 
         HeroSection::query()->updateOrCreate(['id' => 1], [
             'title' => 'Explore The World Together',
             'subtitle' => 'Find awesome flights, hotels, tours, cars and packages',
-            'button_text' => 'Start Exploring',
-            'button_url' => '/tourpackages',
+            'button_text' => null,
+            'button_url' => null,
             'image' => 'assets/img/hero/hero-2x.jpg',
             'status' => true,
             'sort_order' => 0,
