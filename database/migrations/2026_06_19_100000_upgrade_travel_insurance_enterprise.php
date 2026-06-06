@@ -103,7 +103,7 @@ return new class extends Migration
 
         Schema::create('insurance_request_documents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('insurance_booking_request_id')->constrained('insurance_booking_requests')->cascadeOnDelete();
+            $table->foreignId('insurance_booking_request_id')->constrained('insurance_booking_requests', indexName: 'ins_req_docs_request_fk')->cascadeOnDelete();
             $table->string('document_type', 40);
             $table->string('disk', 20)->default('local');
             $table->string('path');

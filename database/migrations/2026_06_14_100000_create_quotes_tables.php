@@ -13,7 +13,7 @@ return new class extends Migration
                 $table->id();
                 $table->string('quote_number')->unique();
                 $table->foreignId('customer_id')->nullable()->constrained('users')->nullOnDelete();
-                $table->foreignId('flight_booking_request_id')->nullable()->constrained()->nullOnDelete();
+                $table->foreignId('flight_booking_request_id')->nullable()->constrained('flight_booking_requests', indexName: 'quotes_flight_request_fk')->nullOnDelete();
                 $table->string('quote_type', 30);
                 $table->string('title');
                 $table->text('description')->nullable();

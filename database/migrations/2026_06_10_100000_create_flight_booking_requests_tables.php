@@ -12,9 +12,9 @@ return new class extends Migration
             Schema::create('flight_booking_requests', function (Blueprint $table) {
                 $table->id();
                 $table->string('booking_reference')->unique();
-                $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-                $table->foreignId('flight_search_id')->nullable()->constrained()->nullOnDelete();
-                $table->foreignId('flight_search_result_id')->nullable()->constrained()->nullOnDelete();
+                $table->foreignId('user_id')->nullable()->constrained('users', indexName: 'fb_req_user_fk')->nullOnDelete();
+                $table->foreignId('flight_search_id')->nullable()->constrained('flight_searches', indexName: 'fb_req_search_fk')->nullOnDelete();
+                $table->foreignId('flight_search_result_id')->nullable()->constrained('flight_search_results', indexName: 'fb_req_search_result_fk')->nullOnDelete();
 
                 $table->string('trip_type', 20);
                 $table->string('origin');
@@ -58,7 +58,7 @@ return new class extends Migration
         if (! Schema::hasTable('flight_booking_passengers')) {
             Schema::create('flight_booking_passengers', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('flight_booking_request_id')->constrained()->cascadeOnDelete();
+                $table->foreignId('flight_booking_request_id')->constrained('flight_booking_requests', indexName: 'fb_passengers_request_fk')->cascadeOnDelete();
                 $table->string('passenger_type', 10);
                 $table->string('title', 10);
                 $table->string('first_name');
@@ -75,10 +75,10 @@ return new class extends Migration
         if (! Schema::hasTable('flight_booking_request_status_histories')) {
             Schema::create('flight_booking_request_status_histories', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('flight_booking_request_id')->constrained()->cascadeOnDelete();
+                $table->foreignId('flight_booking_request_id')->constrained('flight_booking_requests', indexName: 'fb_status_hist_request_fk')->cascadeOnDelete();
                 $table->string('status', 30);
                 $table->text('notes')->nullable();
-                $table->foreignId('changed_by')->nullable()->constrained('users')->nullOnDelete();
+                $table->foreignId('changed_by')->nullable()->constrained('users', indexName: 'fb_status_hist_user_fk')->nullOnDelete();
                 $table->timestamps();
             });
         }
