@@ -29,7 +29,7 @@ class AdminLoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (! Auth::guard('admin')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -37,13 +37,13 @@ class AdminLoginRequest extends FormRequest
             ]);
         }
 
-        if (! Auth::user()->isAdmin()) {
-            Auth::logout();
+        if (! Auth::guard('admin')->user()->isActive()) {
+            Auth::guard('admin')->logout();
 
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => 'This account is not authorized for admin access.',
+                'email' => 'This administrator account has been suspended.',
             ]);
         }
 

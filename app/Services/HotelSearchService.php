@@ -18,8 +18,12 @@ class HotelSearchService
             ->first();
 
         if ($search) {
-            if ($this->hotelCatalogService->resultsAreStale($search)) {
-                $this->hotelCatalogService->syncSearchResults($search);
+            $criteria = $this->hotelCatalogService->defaultBrowseCriteria();
+
+            if ($search->destination !== $criteria['destination']
+                || $this->hotelCatalogService->resultsAreStale($search)) {
+                $search = $this->updateSearch($search, $criteria);
+                $search->update(['provider' => 'browse']);
             }
 
             return $search->load(['results.catalogHotel']);

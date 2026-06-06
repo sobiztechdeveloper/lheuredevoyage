@@ -57,7 +57,7 @@ class HomeController extends Controller
                 TourPackage::query()->active()->distinct('destination')->count('destination')
                 + Hotel::query()->active()->distinct('location')->count('location')
             ),
-            'Happy Clients' => $this->formatStat(User::query()->where('is_admin', false)->count()),
+            'Happy Clients' => $this->formatStat(User::query()->count()),
             'Our Partners' => (string) HomeBlock::query()->active()->section('partner')->count(),
         ];
 

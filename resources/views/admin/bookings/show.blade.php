@@ -11,21 +11,19 @@
     <div class="card-body">
         <h2 class="h5">{{ $booking->reference }}</h2>
         <p class="mb-1"><strong>Customer:</strong> {{ $booking->user?->name }} ({{ $booking->user?->email }})</p>
-        <p class="mb-1"><strong>Product:</strong> {{ class_basename($booking->bookable_type) }} — {{ $booking->bookable?->title }}</p>
+        <p class="mb-1"><strong>Product:</strong> {{ $booking->bookableTypeLabel() }} — {{ $booking->bookable?->title }}</p>
         <p class="mb-1"><strong>Amount:</strong> {{ $booking->currency }} {{ number_format($booking->total_amount, 2) }}</p>
         <p class="mb-1"><strong>Booked:</strong> {{ ($booking->booked_at ?? $booking->created_at)->format('M d, Y H:i') }}</p>
         <p class="mb-0">
             <a href="{{ route('admin.bookings.invoice', $booking) }}" class="btn btn-outline-primary btn-sm">Invoice</a>
             <a href="{{ route('admin.bookings.invoice.pdf', $booking) }}" class="btn btn-outline-secondary btn-sm">PDF</a>
         </p>
-        @if($booking->booking_data)
+        @if($details = $booking->displayBookingDetails())
             <hr>
-            <h6>Guest details</h6>
+            <h6>Booking details</h6>
             <ul class="mb-0">
-                @foreach($booking->booking_data as $key => $value)
-                    @if($value)
-                        <li><strong>{{ ucfirst(str_replace('_', ' ', $key)) }}:</strong> {{ $value }}</li>
-                    @endif
+                @foreach($details as $label => $value)
+                    <li><strong>{{ $label }}:</strong> {{ $value }}</li>
                 @endforeach
             </ul>
         @endif

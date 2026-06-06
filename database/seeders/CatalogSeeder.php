@@ -139,9 +139,9 @@ class CatalogSeeder extends Seeder
     private function seedTourPackages(): void
     {
         $packages = [
-            ['slug' => 'paris-romantic-getaway', 'title' => 'Paris Romantic Getaway', 'destination' => 'Paris', 'location' => 'France', 'duration_days' => 5, 'price' => 899, 'image' => 'assets/img/tour/01.jpg', 'rating' => 4.9, 'review_count' => 780, 'is_featured' => true],
-            ['slug' => 'bali-adventure-tour', 'title' => 'Bali Adventure Tour', 'destination' => 'Bali', 'location' => 'Indonesia', 'duration_days' => 7, 'price' => 749, 'image' => 'assets/img/tour/02.jpg', 'rating' => 4.8, 'review_count' => 650],
-            ['slug' => 'swiss-alps-explorer', 'title' => 'Swiss Alps Explorer', 'destination' => 'Zurich', 'location' => 'Switzerland', 'duration_days' => 6, 'price' => 1299, 'image' => 'assets/img/tour/03.jpg', 'rating' => 4.9, 'review_count' => 420],
+            ['slug' => 'paris-romantic-getaway', 'title' => 'Paris Romantic Getaway', 'destination' => 'Paris', 'country' => 'France', 'location' => 'France', 'holiday_type' => 'honeymoon', 'duration' => '5 Days / 4 Nights', 'duration_days' => 5, 'duration_nights' => 4, 'included_services' => ['hotel', 'transfer', 'guide', 'breakfast'], 'short_description' => 'Romantic Paris escape with boutique hotel, private transfers, and guided city tour.', 'price' => 899, 'image' => 'assets/img/tour/01.jpg', 'rating' => 4.9, 'review_count' => 780, 'is_featured' => true],
+            ['slug' => 'bali-adventure-tour', 'title' => 'Bali Adventure Tour', 'destination' => 'Bali', 'country' => 'Indonesia', 'location' => 'Indonesia', 'holiday_type' => 'adventure', 'duration' => '7 Days / 6 Nights', 'duration_days' => 7, 'duration_nights' => 6, 'included_services' => ['hotel', 'transfer', 'excursions'], 'short_description' => 'Active Bali holiday with rafting, temple visits, and beach time.', 'price' => 749, 'image' => 'assets/img/tour/02.jpg', 'rating' => 4.8, 'review_count' => 650],
+            ['slug' => 'swiss-alps-explorer', 'title' => 'Swiss Alps Explorer', 'destination' => 'Zurich', 'country' => 'Switzerland', 'location' => 'Switzerland', 'holiday_type' => 'nature_tour', 'duration' => '6 Days / 5 Nights', 'duration_days' => 6, 'duration_nights' => 5, 'included_services' => ['hotel', 'transfer', 'guide', 'meals'], 'short_description' => 'Scenic Switzerland package with alpine excursions and lake cruises.', 'price' => 1299, 'image' => 'assets/img/tour/03.jpg', 'rating' => 4.9, 'review_count' => 420],
         ];
 
         foreach ($packages as $package) {

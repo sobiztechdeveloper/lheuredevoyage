@@ -4,13 +4,11 @@ namespace App\Policies;
 
 use App\Models\SupportTicket;
 use App\Models\User;
+use App\Policies\Concerns\GrantsAdminsFullAccess;
 
 class SupportTicketPolicy
 {
-    public function before(User $user, string $ability): ?bool
-    {
-        return $user->isAdmin() ? true : null;
-    }
+    use GrantsAdminsFullAccess;
 
     public function viewAny(User $user): bool
     {
@@ -24,7 +22,7 @@ class SupportTicketPolicy
 
     public function create(User $user): bool
     {
-        return ! $user->isAdmin();
+        return true;
     }
 
     public function reply(User $user, SupportTicket $ticket): bool

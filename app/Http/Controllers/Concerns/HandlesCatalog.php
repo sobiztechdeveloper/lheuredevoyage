@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Concerns;
 use App\Services\CatalogMasterDataService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
@@ -23,18 +24,19 @@ trait HandlesCatalog
 
     public function index(Request $request): View
     {
-        $items = $this->catalogQuery($request)->paginate(12);
+        $items = $this->catalogQuery($request)->paginate(12)->withQueryString();
 
         return view($this->catalogListView(), [
             'items' => $items,
             'routePrefix' => $this->catalogRoutePrefix(),
             'filterGroups' => $this->catalogFilterGroups(),
+            'searchQuery' => $this->catalogSearchQuery($request),
         ]);
     }
 
-    public function search(Request $request): View
+    public function search(Request $request): RedirectResponse
     {
-        return $this->index($request);
+        return redirect()->route($this->catalogRoutePrefix(), $request->query());
     }
 
     public function show(string $slug): View
@@ -48,7 +50,22 @@ trait HandlesCatalog
     {
         $item = $this->findCatalogItem($slug);
 
-        return view($this->catalogBookingView(), $this->catalogViewData($item));
+        return view($this->catalogBookingView(), array_merge(
+            $this->catalogViewData($item),
+            ['travelers' => $this->catalogBookingTravelers(request())],
+        ));
+    }
+
+    /**
+     * @return array{adult: int, children: int, infant: int}
+     */
+    protected function catalogBookingTravelers(Request $request): array
+    {
+        return [
+            'adult' => max(1, (int) $request->input('adult', 2)),
+            'children' => max(0, (int) $request->input('children', 0)),
+            'infant' => max(0, (int) $request->input('infant', 0)),
+        ];
     }
 
     /**
@@ -90,7 +107,30 @@ trait HandlesCatalog
             app(CatalogMasterDataService::class)->applyMasterFilters($query, $request, $key);
         }
 
+        $this->applyCatalogSort($query, $request);
+
         return $query;
+    }
+
+    protected function applyCatalogSort(Builder $query, Request $request): void
+    {
+        match ($request->input('sort', 'default')) {
+            'price_asc' => $query->reorder()->orderBy('price', 'asc'),
+            'price_desc' => $query->reorder()->orderBy('price', 'desc'),
+            'name' => $query->reorder()->orderBy('name', 'asc'),
+            default => $query,
+        };
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function catalogSearchQuery(Request $request): array
+    {
+        return array_filter(
+            $request->query(),
+            fn ($value) => $value !== null && $value !== '' && $value !== [],
+        );
     }
 
     protected function catalogMasterDataKey(): ?string

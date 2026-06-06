@@ -52,7 +52,7 @@ class BookingController extends Controller
             'status' => 'pending',
             'total_amount' => $amount,
             'currency' => 'USD',
-            'booking_data' => $request->only(['guest_name', 'guest_email', 'guest_phone', 'travel_date', 'notes']),
+            'booking_data' => $request->only(['guest_name', 'guest_email', 'guest_phone', 'travel_date', 'notes', 'adult', 'children', 'infant']),
             'booked_at' => now(),
         ]);
 

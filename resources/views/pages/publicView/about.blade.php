@@ -27,10 +27,10 @@
                     <div class="about-img">
                         <div class="row">
                             <div class="col-6">
-                                <img class="img-1" src="{{ asset($about->image_primary ?? 'assets/img/about/01.jpg') }}" alt="">
+                                <img class="img-1" src="{{ $about->image_primary_url }}" alt="">
                             </div>
                             <div class="col-6">
-                                <img class="img-2" src="{{ asset($about->image_secondary ?? 'assets/img/about/02.jpg') }}" alt="">
+                                <img class="img-2" src="{{ $about->image_secondary_url }}" alt="">
                             </div>
                         </div>
                     </div>

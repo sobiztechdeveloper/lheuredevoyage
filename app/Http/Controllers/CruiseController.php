@@ -53,9 +53,9 @@ class CruiseController extends Controller
         return $this->cruiseListing($request);
     }
 
-    public function search(Request $request): View
+    public function search(Request $request): RedirectResponse
     {
-        return $this->cruiseListing($request);
+        return redirect()->route('cruise', $request->query());
     }
 
     protected function cruiseListing(Request $request): View

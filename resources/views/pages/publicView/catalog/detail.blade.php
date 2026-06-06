@@ -25,9 +25,12 @@
                                 'cruise' => route('cruise.booking.create', ['cruise' => $item]),
                                 'rentalcar' => route('rentalcar.booking.create', ['rentalCar' => $item]),
                                 'travelinsurance' => route('travelinsurance.booking.create', ['travelInsurance' => $item]),
-                                default => route($routePrefix.'.book', $item->slug),
+                                default => null,
                             };
                         @endphp
+                        @if(! $requestBookingRoute)
+                            @php $requestBookingRoute = \App\Support\CatalogUrls::bookUrl($routePrefix, $item); @endphp
+                        @endif
                         <a href="{{ $requestBookingRoute }}" class="theme-btn d-block text-center">Proceed to Book</a>
                     </div>
                     @if(isset($siteContact))

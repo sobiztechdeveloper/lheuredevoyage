@@ -1,6 +1,6 @@
 @php
     $unreadInquiries = \App\Models\Contact::query()->whereNull('read_at')->count();
-    $user = auth()->user();
+    $user = auth('admin')->user();
     $initials = collect(explode(' ', $user->name ?? 'A'))->map(fn ($w) => strtoupper(substr($w, 0, 1)))->take(2)->join('');
 @endphp
 <header class="admin-topbar">

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Booking;
 use App\Models\Hotel;
+use App\Models\Admin;
 use App\Models\User;
 use App\Models\UserBookingHistory;
 use App\Models\UserMyBooking;
@@ -23,15 +24,16 @@ class DatabaseSeeder extends Seeder
             CmsSeeder::class,
             HomeBlockSeeder::class,
             LegalPageSeeder::class,
+            TravelDestinationSeeder::class,
         ]);
 
-        $admin = User::query()->updateOrCreate(
+        Admin::query()->updateOrCreate(
             ['email' => 'admin@lheuredevoyage.com'],
             [
                 'name' => 'Admin User',
                 'password' => Hash::make('password'),
-                'is_admin' => true,
                 'email_verified_at' => now(),
+                'status' => 'active',
             ]
         );
 
@@ -40,12 +42,11 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Demo Customer',
                 'password' => Hash::make('password'),
-                'is_admin' => false,
                 'email_verified_at' => now(),
             ]
         );
 
-        foreach (User::query()->where('is_admin', false)->get() as $user) {
+        foreach (User::query()->get() as $user) {
             UserProfile::query()->updateOrCreate(['user_id' => $user->id], [
                 'phone' => '+1 234 567 890',
                 'city' => 'New York',

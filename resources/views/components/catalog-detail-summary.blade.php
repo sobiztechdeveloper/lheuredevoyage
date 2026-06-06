@@ -9,6 +9,6 @@
             @endif
             <p class="mb-0 mt-2"><strong>{{ $item->formatted_price }}</strong> / {{ $item->price_unit }}</p>
         </div>
-        <a href="{{ route($routePrefix.'.book', $item->slug) }}" class="theme-btn">Book Now <i class="far fa-arrow-right"></i></a>
+        <a href="{{ \App\Support\CatalogUrls::bookUrl($routePrefix, $item) }}" class="theme-btn">Book Now <i class="far fa-arrow-right"></i></a>
     </div>
 </div>

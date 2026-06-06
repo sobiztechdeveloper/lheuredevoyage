@@ -298,7 +298,6 @@ class QuoteAdminController extends Controller
     protected function customerOptions()
     {
         return User::query()
-            ->where('is_admin', false)
             ->orderBy('name')
             ->get(['id', 'name', 'email']);
     }

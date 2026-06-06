@@ -27,11 +27,11 @@ Visit `http://localhost:8000`.
 
 | Role     | Email                      | Password  |
 |----------|----------------------------|-----------|
-| Admin    | admin@lheuredevoyage.com   | password  |
-| Customer | customer@example.com       | password  |
+| Admin    | admin@lheuredevoyage.com   | password  | `admins` table |
+| Customer | customer@example.com       | password  | `users` table  |
 
-- Admin panel login: `/admin/login` (then `/admin/dashboard`)
-- Customer login: `/login` and register: `/register`
+- Admin panel login: `/admin/login` (then `/admin/dashboard`) — uses the `admin` auth guard
+- Customer login: `/login` and register: `/register` — uses the `web` auth guard
 - Customer dashboard: `/my-dashboard`
 
 ## Features

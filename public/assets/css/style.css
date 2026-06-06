@@ -1939,8 +1939,29 @@ hero css
   padding: 0;
 }
 
-.flight-search .flight-search .search-form-return {
+.flight-search .search-form-return {
   display: none;
+}
+
+.flight-search .search-form-date {
+  gap: 0.75rem;
+}
+
+.flight-search .search-form-journey,
+.flight-search .search-form-return {
+  flex: 1 1 50%;
+  min-width: 0;
+}
+
+.flight-search .flight-type .form-check-input {
+  width: 1.05em;
+  height: 1.05em;
+  flex-shrink: 0;
+}
+
+.flight-search .flight-type .form-check-input:checked {
+  background-color: var(--theme-color2);
+  border-color: var(--theme-color2);
 }
 
 .flight-search .search-form .flight-multicity-item {

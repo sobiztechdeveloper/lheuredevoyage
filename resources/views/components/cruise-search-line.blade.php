@@ -4,7 +4,10 @@
 
 @php
     $search = app(\App\Services\CruiseSearchService::class);
-    $cruiseLineOptions = $cruiseLineOptions ?? $search->cruiseLineOptions();
+    $cruiseLineOptions = $cruiseLineOptions ?? ['' => 'Any Line'] + app(\App\Services\CruiseLineService::class)->activeOptions();
+    if (count($cruiseLineOptions) <= 1) {
+        $cruiseLineOptions = $search->cruiseLineOptions();
+    }
     $selectedLine = old('cruise_line', request('cruise_line', ''));
 @endphp
 

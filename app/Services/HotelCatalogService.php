@@ -21,15 +21,28 @@ class HotelCatalogService
         $destination = trim((string) $search->destination);
 
         if ($destination !== '') {
-            $matched = (clone $query)->search($destination)->get();
+            $matched = $this->hotelsMatchingDestination($query, $destination);
 
-            if ($matched->isNotEmpty()) {
-                return $this->filterByRoomType($matched, $search->room_type);
-            }
+            return $this->filterByRoomType($matched, $search->room_type);
         }
 
-        // No destination match: show full active catalog (same as flight route fallback).
         return $this->filterByRoomType($query->get(), $search->room_type);
+    }
+
+    /**
+     * @return Collection<int, Hotel>
+     */
+    private function hotelsMatchingDestination(Builder $query, string $destination): Collection
+    {
+        $needles = app(CatalogListSearchService::class)->destinationNeedles($destination);
+        $matched = collect();
+
+        foreach ($needles as $needle) {
+            $batch = (clone $query)->search($needle)->get();
+            $matched = $matched->merge($batch);
+        }
+
+        return $matched->unique('id')->values();
     }
 
     /**
@@ -141,14 +154,14 @@ class HotelCatalogService
         $hotel = Hotel::query()->active()->orderBy('id')->first();
 
         return [
-            'destination' => $hotel?->location ?? $hotel?->title ?? 'Hotels',
+            'destination' => '',
             'journey_date' => now()->addDays(7)->toDateString(),
             'return_date' => now()->addDays(8)->toDateString(),
             'adult' => 2,
             'children' => 0,
             'infant' => 0,
             'rooms' => 1,
-            'room_type' => 'Double Room',
+            'room_type' => null,
         ];
     }
 }

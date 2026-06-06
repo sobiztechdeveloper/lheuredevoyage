@@ -1,4 +1,4 @@
-<form method="GET" action="{{ route('travelinsurance.search') }}" id="insurance-filters-form">
+<form method="GET" action="{{ route('travelinsurance') }}" id="insurance-filters-form">
     @foreach(['destination', 'q', 'journey-date', 'return-date', 'travelers', 'sort'] as $preserve)
         @if(request()->filled($preserve))
             <input type="hidden" name="{{ $preserve }}" value="{{ request($preserve) }}">

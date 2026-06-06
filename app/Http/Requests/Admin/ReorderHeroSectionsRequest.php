@@ -2,14 +2,8 @@
 
 namespace App\Http\Requests\Admin;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class ReorderHeroSectionsRequest extends FormRequest
+class ReorderHeroSectionsRequest extends AdminFormRequest
 {
-    public function authorize(): bool
-    {
-        return $this->user()?->isAdmin() ?? false;
-    }
 
     public function rules(): array
     {

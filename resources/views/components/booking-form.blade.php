@@ -1,4 +1,8 @@
-@props(['item', 'bookableType'])
+@props([
+    'item',
+    'bookableType',
+    'travelers' => ['adult' => 2, 'children' => 0, 'infant' => 0],
+])
 
 <form method="POST" action="{{ route('bookings.store') }}" class="booking-form mb-4">
     @csrf
@@ -20,6 +24,13 @@
         <div class="col-md-6">
             <label class="form-label">Travel Date</label>
             <input type="date" name="travel_date" class="form-control" value="{{ old('travel_date') }}">
+        </div>
+        <div class="col-md-6">
+            <x-catalog-traveler-picker
+                :adult="$travelers['adult'] ?? 2"
+                :children="$travelers['children'] ?? 0"
+                :infant="$travelers['infant'] ?? 0"
+            />
         </div>
         <div class="col-12">
             <label class="form-label">Notes</label>

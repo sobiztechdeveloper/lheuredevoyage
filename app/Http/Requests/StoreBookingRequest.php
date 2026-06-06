@@ -20,7 +20,18 @@ class StoreBookingRequest extends FormRequest
             'guest_email' => ['required', 'email', 'max:255'],
             'guest_phone' => ['nullable', 'string', 'max:50'],
             'travel_date' => ['nullable', 'date'],
+            'adult' => ['required', 'integer', 'min:1', 'max:20'],
+            'children' => ['nullable', 'integer', 'min:0', 'max:20'],
+            'infant' => ['nullable', 'integer', 'min:0', 'max:10'],
             'notes' => ['nullable', 'string', 'max:2000'],
+            'accept_conditions' => ['accepted'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'accept_conditions.accepted' => 'Please accept the Terms & Conditions and Privacy Policy.',
         ];
     }
 }

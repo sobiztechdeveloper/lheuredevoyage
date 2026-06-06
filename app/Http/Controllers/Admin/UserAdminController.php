@@ -20,7 +20,6 @@ class UserAdminController extends Controller
         $this->authorize('viewAny', User::class);
 
         $users = User::query()
-            ->where('is_admin', false)
             ->withCount('bookings')
             ->when($request->input('q'), function ($q, $term) {
                 $q->where(function ($inner) use ($term) {
@@ -44,10 +43,6 @@ class UserAdminController extends Controller
     {
         $this->authorize('view', $user);
 
-        if ($user->is_admin) {
-            abort(404);
-        }
-
         $user->loadCount(['bookings', 'supportTickets']);
         $user->load(['bookings' => fn ($q) => $q->latest()->limit(10)]);
 
@@ -57,10 +52,6 @@ class UserAdminController extends Controller
     public function update(Request $request, User $user): RedirectResponse
     {
         $this->authorize('update', $user);
-
-        if ($user->is_admin) {
-            abort(404);
-        }
 
         $data = $request->validate([
             'status' => ['required', 'in:active,suspended'],

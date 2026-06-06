@@ -135,20 +135,18 @@
                     'cruise' => route('cruise.booking.create', ['cruise' => $item]),
                     'rentalcar' => route('rentalcar.booking.create', ['rentalCar' => $item]),
                     'travelinsurance' => route('travelinsurance.booking.create', ['travelInsurance' => $item]),
+                    'tourpackage' => \App\Support\CatalogUrls::bookUrl($routePrefix, $item),
                     default => null,
                 };
             @endphp
             @if($bookingRoute)
-                <h4 class="mb-3">Request {{ ucfirst($bookableType) }} Booking</h4>
+                <h4 class="mb-3">Request {{ $bookableType === 'tourpackage' ? 'Package' : ucfirst($bookableType) }} Booking</h4>
                 <a href="{{ $bookingRoute }}" class="theme-btn">Request Booking <i class="far fa-arrow-right"></i></a>
-            @else
-                <h4 class="mb-3">Book This {{ ucfirst($bookableType) }}</h4>
-                <x-booking-form :item="$item" :bookable-type="$bookableType" />
             @endif
         </div>
     @else
         <div class="listing-item">
-            <a href="{{ route($routePrefix.'.book', $item->slug) }}" class="theme-btn">Book Now <i class="far fa-arrow-right"></i></a>
+            <a href="{{ \App\Support\CatalogUrls::bookUrl($routePrefix, $item) }}" class="theme-btn">Book Now <i class="far fa-arrow-right"></i></a>
             <p class="mt-2 text-muted"><a href="{{ route('login') }}">Sign in</a> to book instantly from this page.</p>
         </div>
     @endauth

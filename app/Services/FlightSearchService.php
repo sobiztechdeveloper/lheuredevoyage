@@ -18,8 +18,13 @@ class FlightSearchService
             ->first();
 
         if ($search) {
-            if ($this->flightCatalogService->resultsAreStale($search)) {
-                $this->flightCatalogService->syncSearchResults($search);
+            $criteria = $this->flightCatalogService->defaultBrowseCriteria();
+
+            if ($search->from_destination !== $criteria['from_destination']
+                || $search->to_destination !== $criteria['to_destination']
+                || $this->flightCatalogService->resultsAreStale($search)) {
+                $search = $this->updateSearch($search, $criteria);
+                $search->update(['provider' => 'browse']);
             }
 
             return $search->load(['results.catalogFlight']);

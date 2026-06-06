@@ -32,7 +32,7 @@
                             <i class="fas fa-home me-1"></i> Home
                         </a>
                     </li>
-                    <!-- <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('flight') }}">
                             <i class="fas fa-plane me-1"></i> Flights
                         </a>
@@ -54,14 +54,14 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('travelinsurance') }}">
-                            <i class="fas fa-shield-alt me-1"></i> Travel Insurances
+                            <i class="fas fa-shield-alt me-1"></i> Insurance
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('tourpackage') }}">
-                            <i class="fas fa-binoculars me-1"></i> Tour Packages
+                            <i class="fas fa-binoculars me-1"></i> Packages
                         </a>
-                    </li> -->
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('contact') }}">
                             <i class="fas fa-phone me-1"></i> Contact

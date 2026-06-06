@@ -37,14 +37,22 @@ class TourPackageAdminController extends Controller
 
     protected function catalogFields(): array
     {
-        return ['destination', 'duration'];
+        return ['destination', 'country', 'holiday_type', 'duration', 'duration_days', 'duration_nights', 'included_services'];
     }
 
     protected function catalogRules(): array
     {
+        $holidayTypes = array_keys(config('tourpackage.holiday_types', []));
+
         return [
-            'destination' => ['required', 'string', 'max:255'],
+            'destination' => ['nullable', 'string', 'max:255'],
+            'country' => ['required', 'string', 'max:255'],
+            'holiday_type' => ['required', 'string', 'in:'.implode(',', $holidayTypes)],
             'duration' => ['nullable', 'string', 'max:100'],
+            'duration_days' => ['nullable', 'integer', 'min:1', 'max:365'],
+            'duration_nights' => ['nullable', 'integer', 'min:0', 'max:365'],
+            'included_services' => ['nullable', 'array'],
+            'included_services.*' => ['string', 'max:50'],
             'price' => ['required', 'numeric', 'min:0'],
         ];
     }

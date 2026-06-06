@@ -6,6 +6,7 @@ use App\Models\Cruise;
 use App\Models\Hotel;
 use App\Models\HotelRoom;
 use App\Models\RentalCar;
+use App\Models\TourPackage;
 use App\Models\TravelInsurance;
 use Carbon\Carbon;
 
@@ -108,6 +109,36 @@ class BookingWizardSummary
                 'Guests' => $occupancy,
             ]),
             'fare' => strtoupper($context['currency'] ?? 'CHF').' '.number_format((float) ($context['estimated_amount'] ?? 0), 0),
+            'footnote' => 'Final price confirmed by our consultant. No payment required now.',
+        ];
+    }
+
+    /**
+     * @param  array{adult: int, children: int, infant: int}  $travelers
+     * @return array<string, mixed>
+     */
+    public static function forTourPackage(TourPackage $package, array $travelers): array
+    {
+        $occupancy = $travelers['adult'].' adult(s)';
+        if ($travelers['children']) {
+            $occupancy .= ', '.$travelers['children'].' child(ren)';
+        }
+        if ($travelers['infant']) {
+            $occupancy .= ', '.$travelers['infant'].' infant(s)';
+        }
+
+        return [
+            'title' => 'Package Summary',
+            'image' => $package->image_url,
+            'headline' => $package->title,
+            'subtitle' => $package->displayCountry(),
+            'meta' => array_filter([
+                'Duration' => $package->displayDuration(),
+                'Holiday type' => $package->holidayTypeLabel(),
+                'Travelers' => $occupancy,
+            ]),
+            'fare' => $package->formatted_price,
+            'fare_label' => 'From',
             'footnote' => 'Final price confirmed by our consultant. No payment required now.',
         ];
     }

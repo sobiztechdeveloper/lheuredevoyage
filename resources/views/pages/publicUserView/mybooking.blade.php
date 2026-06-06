@@ -27,7 +27,9 @@
                         <tr>
                             <td>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}.</td>
                             <td><b>{{ $booking->reference }}</b></td>
-                            <td>{{ class_basename($booking->bookable_type) }}<br><small>{{ $booking->bookable?->title }}</small></td>
+                            <td>{{ $booking->bookableTypeLabel() }}<br><small>{{ $booking->bookable?->title }}</small>
+                                @if($booking->travelersLabel())<br><small class="text-muted">{{ $booking->travelersLabel() }}</small>@endif
+                            </td>
                             <td>{{ ($booking->booked_at ?? $booking->created_at)->format('M d, Y') }}</td>
                             <td>${{ number_format($booking->total_amount, 2) }}</td>
                             <td><span class="badge badge-{{ $booking->status === 'confirmed' ? 'success' : ($booking->status === 'pending' ? 'warning' : 'danger') }}">{{ ucfirst($booking->status) }}</span></td>

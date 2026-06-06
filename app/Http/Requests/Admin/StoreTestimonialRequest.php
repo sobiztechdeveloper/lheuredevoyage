@@ -2,14 +2,8 @@
 
 namespace App\Http\Requests\Admin;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class StoreTestimonialRequest extends FormRequest
+class StoreTestimonialRequest extends AdminFormRequest
 {
-    public function authorize(): bool
-    {
-        return $this->user()?->isAdmin() ?? false;
-    }
 
     public function rules(): array
     {

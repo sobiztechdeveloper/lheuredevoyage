@@ -35,7 +35,9 @@
                 <tr>
                     <td><code>{{ $booking->reference }}</code></td>
                     <td>{{ $booking->user?->name }}<br><small class="text-muted">{{ $booking->user?->email }}</small></td>
-                    <td>{{ class_basename($booking->bookable_type) }}<br><small>{{ $booking->bookable?->title }}</small></td>
+                    <td>{{ $booking->bookableTypeLabel() }}<br><small>{{ $booking->bookable?->title }}</small>
+                        @if($booking->travelersLabel())<br><small class="text-muted">{{ $booking->travelersLabel() }}</small>@endif
+                    </td>
                     <td class="fw-semibold">{{ $booking->currency }} {{ number_format($booking->total_amount, 2) }}</td>
                     <td>
                         @php $statusClass = match($booking->status) { 'confirmed','completed' => 'badge-status-active', 'pending' => 'badge-status-pending', default => 'badge-status-inactive' }; @endphp

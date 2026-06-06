@@ -345,13 +345,15 @@ Version         : 1.0
     });
 
 
-    $(window).scroll(function () {
-        if ($(this).scrollTop() > 50) {
-            $('.navbar').addClass("fixed-top");
-        } else {
-            $('.navbar').removeClass("fixed-top");
-        }
-    });
+    function updateStickyHeader() {
+        var scrolled = $(window).scrollTop() > 50;
+        $('body').toggleClass('is-scrolled', scrolled);
+        $('.navbar').toggleClass('fixed-top', scrolled);
+        $('.header').toggleClass('header-scrolled', scrolled);
+    }
+
+    $(window).on('scroll', updateStickyHeader);
+    updateStickyHeader();
 
 
     // countdown
@@ -455,21 +457,68 @@ Version         : 1.0
 
 
     // flight type search form
-    $('.flight-type .form-check-input').change(function (e) {
-        var ft = $(this).val();
-        if (ft === "round-way") {
-            $('.flight-search .search-form-return').show();
-            $('.have-to-clone').hide();
-            $('.another-item').remove();
-        } else if (ft === "multi-city") {
-            $('.flight-search .search-form-return').hide();
-            $('.have-to-clone').show();
-            $('.another-item').remove();
-        } else {
-            $('.flight-search .search-form-return').hide();
-            $('.have-to-clone').hide();
-            $('.another-item').remove();
+    function flightSearchScope($el) {
+        var $scope = $el.closest('.flight-search');
+
+        if (!$scope.length) {
+            $scope = $el.closest('.search-form');
         }
+
+        return $scope;
+    }
+
+    function toggleFlightSectionInputs($section, enabled) {
+        $section.find(':input').each(function () {
+            $(this).prop('disabled', !enabled);
+        });
+    }
+
+    // Hidden multi-city rows duplicate field names and overwrite filled values on submit.
+    function syncFlightFormInputs($scope) {
+        var ft = ($scope.find('.flight-type input[name="flight-type"]:checked').val() || '').toString();
+        var isMultiCity = ft === 'multi-city';
+        var $mainLeg = $scope.find('.flight-search-item').not('.flight-multicity-item').not('.another-item').first();
+        var $multiLegs = $scope.find('.flight-multicity-item, .another-item');
+
+        toggleFlightSectionInputs($mainLeg, !isMultiCity);
+
+        $multiLegs.each(function () {
+            var $leg = $(this);
+            toggleFlightSectionInputs($leg, isMultiCity && $leg.is(':visible'));
+        });
+    }
+
+    function applyFlightTripType($radio) {
+        var $scope = flightSearchScope($radio);
+        var ft = $radio.val();
+
+        if (ft === 'round-way' || ft === 'round_trip') {
+            $scope.find('.search-form-return').show();
+            $scope.find('.have-to-clone').hide();
+            $scope.find('.another-item').remove();
+        } else if (ft === 'multi-city') {
+            $scope.find('.search-form-return').hide();
+            $scope.find('.have-to-clone').show();
+            $scope.find('.another-item').remove();
+        } else {
+            $scope.find('.search-form-return').hide();
+            $scope.find('.have-to-clone').hide();
+            $scope.find('.another-item').remove();
+        }
+
+        syncFlightFormInputs($scope);
+    }
+
+    $('.flight-type input[name="flight-type"]').on('change', function () {
+        applyFlightTripType($(this));
+    });
+
+    $('.flight-type input[name="flight-type"]:checked').each(function () {
+        applyFlightTripType($(this));
+    });
+
+    $(document).on('submit', '.flight-search form', function () {
+        syncFlightFormInputs(flightSearchScope($(this)));
     });
 
 
@@ -564,8 +613,32 @@ Version         : 1.0
             }
         })
 
+    function holidayTravelerSummary(box) {
+        var pa = parseInt(box.find(".passenger-adult").val(), 10) || 0;
+        var pc = parseInt(box.find(".passenger-children").val(), 10) || 0;
+        var pi = parseInt(box.find(".passenger-infant").val(), 10) || 0;
+        var parts = [];
+
+        if (pa > 0) {
+            parts.push(pa + (pa === 1 ? " Adult" : " Adults"));
+        }
+        if (pc > 0) {
+            parts.push(pc + (pc === 1 ? " Child" : " Children"));
+        }
+        if (pi > 0) {
+            parts.push(pi + (pi === 1 ? " Infant" : " Infants"));
+        }
+
+        box.find(".holiday-passenger-summary").html(parts.length ? parts.join(", ") : "2 Adults");
+    }
+
     function totalPessenger(e) {
         var box = $(e.target).closest(".passenger-box");
+
+        if (box.hasClass("holiday-traveler-picker")) {
+            holidayTravelerSummary(box);
+            return;
+        }
 
         if (box.hasClass("insurance-traveler-picker")) {
             var count = parseInt(box.find(".insurance-traveler-count").val(), 10) || 1;
@@ -587,7 +660,7 @@ Version         : 1.0
     function totalRoom(e) {
         var box = $(e.target).closest(".passenger-box");
 
-        if (box.hasClass("insurance-traveler-picker")) {
+        if (box.hasClass("insurance-traveler-picker") || box.hasClass("holiday-traveler-picker")) {
             return;
         }
 
@@ -611,6 +684,8 @@ Version         : 1.0
         cloneMulticity.find(".multicity-btn").addClass("multicity-item-remove").html(`<div>
         <i class="fal fa-circle-xmark"></i> Remove Flight</div>`);
         $(".flight-search-content").append(cloneMulticity);
+
+        syncFlightFormInputs(flightSearchScope($(this)));
 
         var i = 0;
         $('.flight-multicity-item .date-picker').each(function () {

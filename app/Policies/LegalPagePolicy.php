@@ -4,13 +4,11 @@ namespace App\Policies;
 
 use App\Models\LegalPage;
 use App\Models\User;
+use App\Policies\Concerns\GrantsAdminsFullAccess;
 
 class LegalPagePolicy
 {
-    public function before(User $user, string $ability): ?bool
-    {
-        return $user->isAdmin() ? true : null;
-    }
+    use GrantsAdminsFullAccess;
 
     public function viewAny(User $user): bool
     {

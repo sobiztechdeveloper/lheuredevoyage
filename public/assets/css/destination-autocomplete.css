@@ -1,0 +1,65 @@
+/* Match template search field size; dropdown on click/focus */
+.search-form .row > [class*='col-'] {
+    display: flex;
+}
+
+.search-form .row > [class*='col-'] > .form-group,
+.search-form .row > [class*='col-'] > .destination-autocomplete-wrap {
+    flex: 1 1 auto;
+    width: 100%;
+}
+
+.destination-autocomplete-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.destination-autocomplete-wrap .form-group-icon {
+    width: 100%;
+    flex: 1 1 auto;
+}
+
+.destination-autocomplete-wrap .form-group-icon .form-control,
+.destination-autocomplete-wrap .destination-autocomplete-input {
+    width: 100%;
+    min-height: 34px;
+    cursor: pointer;
+}
+
+.destination-autocomplete-wrap .destination-field-meta {
+    min-height: 22px;
+    line-height: 22px;
+    margin: 0;
+    color: var(--color-dark, #162f65);
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.destination-autocomplete-menu.ui-autocomplete {
+    z-index: 1050;
+    max-height: 280px;
+    overflow-y: auto;
+    border: none;
+    border-radius: 16px;
+    padding: 8px 0;
+    background: var(--color-white, #fff);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+}
+
+.destination-autocomplete-menu .ui-menu-item-wrapper {
+    padding: 10px 18px;
+    font-size: 15px;
+    color: var(--color-dark, #162f65);
+    border: none;
+}
+
+.destination-autocomplete-menu .ui-state-active,
+.destination-autocomplete-menu .ui-menu-item-wrapper:hover {
+    background: var(--theme-color-light, #eef2f7);
+    color: var(--color-dark, #162f65);
+    border: none;
+    margin: 0;
+}

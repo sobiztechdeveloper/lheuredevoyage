@@ -5,12 +5,8 @@ namespace App\Http\Requests\Admin;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreHomeBlockRequest extends FormRequest
+class StoreHomeBlockRequest extends AdminFormRequest
 {
-    public function authorize(): bool
-    {
-        return $this->user()?->isAdmin() ?? false;
-    }
 
     public function rules(): array
     {

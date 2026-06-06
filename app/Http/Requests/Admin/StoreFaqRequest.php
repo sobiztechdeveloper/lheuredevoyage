@@ -2,15 +2,8 @@
 
 namespace App\Http\Requests\Admin;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class StoreFaqRequest extends FormRequest
+class StoreFaqRequest extends AdminFormRequest
 {
-    public function authorize(): bool
-    {
-        return $this->user()?->isAdmin() ?? false;
-    }
-
     public function rules(): array
     {
         return [

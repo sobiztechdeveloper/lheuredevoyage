@@ -6,12 +6,8 @@ use App\Models\Quote;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreQuoteRequest extends FormRequest
+class StoreQuoteRequest extends AdminFormRequest
 {
-    public function authorize(): bool
-    {
-        return $this->user()?->isAdmin() ?? false;
-    }
 
     /**
      * @return array<string, mixed>

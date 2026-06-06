@@ -59,4 +59,69 @@ class Booking extends Model
     {
         return 'LDV-'.strtoupper(substr(uniqid(), -8));
     }
+
+    public function bookableTypeLabel(): string
+    {
+        return match (class_basename($this->bookable_type)) {
+            'TourPackage' => 'Tour Package',
+            'Hotel' => 'Hotel',
+            'Cruise' => 'Cruise',
+            'RentalCar' => 'Rental Car',
+            'TravelInsurance' => 'Travel Insurance',
+            default => class_basename($this->bookable_type),
+        };
+    }
+
+    public function travelersLabel(): ?string
+    {
+        $data = $this->booking_data ?? [];
+
+        if (! isset($data['adult'])) {
+            return null;
+        }
+
+        $parts = [];
+        $adult = (int) $data['adult'];
+        $children = (int) ($data['children'] ?? 0);
+        $infant = (int) ($data['infant'] ?? 0);
+
+        if ($adult > 0) {
+            $parts[] = $adult.' '.($adult === 1 ? 'Adult' : 'Adults');
+        }
+        if ($children > 0) {
+            $parts[] = $children.' '.($children === 1 ? 'Child' : 'Children');
+        }
+        if ($infant > 0) {
+            $parts[] = $infant.' '.($infant === 1 ? 'Infant' : 'Infants');
+        }
+
+        return $parts !== [] ? implode(', ', $parts) : null;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function displayBookingDetails(): array
+    {
+        $data = $this->booking_data ?? [];
+        $details = [];
+
+        foreach ([
+            'guest_name' => 'Contact name',
+            'guest_email' => 'Email',
+            'guest_phone' => 'Phone',
+            'travel_date' => 'Travel date',
+            'notes' => 'Notes',
+        ] as $key => $label) {
+            if (! empty($data[$key])) {
+                $details[$label] = (string) $data[$key];
+            }
+        }
+
+        if ($travelers = $this->travelersLabel()) {
+            $details['Travelers'] = $travelers;
+        }
+
+        return $details;
+    }
 }

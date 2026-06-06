@@ -6,7 +6,9 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\BookingCancellationAdminController;
 use App\Http\Controllers\Admin\BookingAdminController;
 use App\Http\Controllers\Admin\Auth\AdminAuthenticatedSessionController;
+use App\Http\Controllers\Admin\CruiseLineAdminController;
 use App\Http\Controllers\Admin\ContactAdminController;
+use App\Http\Controllers\Admin\DestinationAdminController;
 use App\Http\Controllers\Admin\ContactDetailController;
 use App\Http\Controllers\Admin\CruiseBookingRequestAdminController;
 use App\Http\Controllers\Admin\CruiseAdminController;
@@ -37,7 +39,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () {
-        if (auth()->check() && auth()->user()->isAdmin()) {
+        if (auth('admin')->check()) {
             return redirect()->route('admin.dashboard');
         }
 
@@ -47,7 +49,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('login', [AdminAuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AdminAuthenticatedSessionController::class, 'store'])->name('login.store');
 
-    Route::middleware(['auth', 'admin'])->group(function () {
+    Route::middleware(['auth:admin', 'admin.guard'])->group(function () {
         Route::post('logout', [AdminAuthenticatedSessionController::class, 'destroy'])->name('logout');
 
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -147,6 +149,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('reports/bookings', [ReportAdminController::class, 'bookings'])->name('reports.bookings');
         Route::get('reports/customers', [ReportAdminController::class, 'customers'])->name('reports.customers');
+
+        Route::get('destinations/trashed', [DestinationAdminController::class, 'trashed'])->name('destinations.trashed');
+        Route::get('destinations/import', [DestinationAdminController::class, 'importForm'])->name('destinations.import');
+        Route::post('destinations/import', [DestinationAdminController::class, 'import'])->name('destinations.import.store');
+        Route::post('destinations/bulk', [DestinationAdminController::class, 'bulk'])->name('destinations.bulk');
+        Route::post('destinations/{id}/restore', [DestinationAdminController::class, 'restore'])->name('destinations.restore');
+        Route::patch('destinations/{destination}/toggle-status', [DestinationAdminController::class, 'toggleStatus'])->name('destinations.toggle-status');
+        Route::resource('destinations', DestinationAdminController::class)->except(['show']);
+
+        Route::get('cruise-lines/trashed', [CruiseLineAdminController::class, 'trashed'])->name('cruise-lines.trashed');
+        Route::post('cruise-lines/{id}/restore', [CruiseLineAdminController::class, 'restore'])->name('cruise-lines.restore');
+        Route::patch('cruise-lines/{cruise_line}/toggle-status', [CruiseLineAdminController::class, 'toggleStatus'])->name('cruise-lines.toggle-status');
+        Route::resource('cruise-lines', CruiseLineAdminController::class)->except(['show'])->parameters(['cruise-lines' => 'cruise_line']);
 
         foreach (MasterDataRegistry::types() as $key => $cfg) {
             $prefix = 'master-data/'.$cfg['route'];

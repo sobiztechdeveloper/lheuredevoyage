@@ -8,17 +8,10 @@
 
 @section('content')
 
-<!-- breadcrumb -->
-<div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/07.jpg)">
-    <div class="container">
-        <h2 class="breadcrumb-title">2,350 Results Found</h2>
-        <ul class="breadcrumb-menu">
-            <li><a href="index.html">Home</a></li>
-            <li class="active">Car Search</li>
-        </ul>
-    </div>
-</div>
-<!-- breadcrumb end -->
+<x-site-breadcrumb :title="$items->total().' '.Str::plural('Car', $items->total()).' Found'" page="rentalcar">
+    <li><a href="{{ route('rentalcar') }}">Cars</a></li>
+    <li class="active">Search Results</li>
+</x-site-breadcrumb>
 
 
 <!-- search area -->
@@ -28,20 +21,19 @@
             <!-- car search -->
             <div class="search-box car-search">
                 <div class="search-form">
-                    <form method="GET" action="{{ route('rentalcar.search') }}">
-                        <x-catalog-search-preserved-inputs :except="['destination', 'q', 'page', 'picking-up', 'pickup-date', 'pick-up-time', 'dropoff']" />
+                    <form method="GET" action="{{ route('rentalcar') }}">
+                        <x-catalog-search-preserved-inputs :except="['destination', 'q', 'page', 'pickup-date', 'pick-up-time', 'return-date', 'drop-off-time', 'dropoff', 'sort', 'vehicle_types', 'vehicle_features']" />
                         <div class="car-search-wrapper">
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label>Picking Up</label>
-                                        <div class="form-group-icon">
-                                            <input type="text" name="destination" class="form-control"
-                                                value="{{ request('destination', request('q', '')) }}" placeholder="City, airport or address">
-                                            <i class="fal fa-location-dot"></i>
-                                        </div>
-                                        <p>City, Airport Or Address</p>
-                                    </div>
+                                    <x-destination-autocomplete
+                                        name="destination"
+                                        context="car_pickup"
+                                        :value="request('destination', request('q', ''))"
+                                        label="Picking Up"
+                                        icon="fal fa-location-dot"
+                                        placeholder="City, airport or address"
+                                    />
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
@@ -70,15 +62,15 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
-                                    <div class="form-group mt-lg-4">
-                                        <label>Drop Off</label>
-                                        <div class="form-group-icon">
-                                            <input type="text" name="dropoff" class="form-control"
-                                                value="{{ request('dropoff') }}" placeholder="Drop-off location">
-                                            <i class="fal fa-location-dot"></i>
-                                        </div>
-                                        <p>City, Airport Or Address</p>
-                                    </div>
+                                    <x-destination-autocomplete
+                                        class="mt-lg-4"
+                                        name="dropoff"
+                                        context="car_dropoff"
+                                        :value="request('dropoff')"
+                                        label="Drop Off"
+                                        icon="fal fa-location-dot"
+                                        placeholder="Drop-off location"
+                                    />
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group mt-lg-4">
@@ -126,145 +118,41 @@
 <div class="car-grid py-120">
     <div class="container">
         <div class="row">
-            <!-- car booking sidebar -->
             <div class="col-lg-4 col-xl-3 mb-4">
-                @include('partials.catalog.filters-sidebar', ['filterGroups' => $filterGroups ?? []])
-                <div class="booking-sidebar">
-                    <div class="booking-item">
-                        <h4 class="booking-title">Car Price</h4>
-                        <div class="car-price">
-                            <div class="price-range-slider">
-                                <div class="price-range-info">
-                                    <label for="priceRange1">Price:</label>
-                                    <input type="text" class="priceRange" id="priceRange1" readonly>
-                                </div>
-                                <div id="price-range1" class="price-range slider"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="booking-item">
-                        <h4 class="booking-title">Car Condition</h4>
-                        <div class="car-condition">
-                            <div class="form-check">
-                                <input class="form-check-input" name="car-condition" type="checkbox" value="1"
-                                    id="car-condition1">
-                                <label class="form-check-label" for="car-condition1">
-                                    All <span>(20)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="car-condition" type="checkbox" value="2"
-                                    id="car-condition2">
-                                <label class="form-check-label" for="car-condition2">
-                                    New <span>(15)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="car-condition" type="checkbox" value="3"
-                                    id="car-condition3">
-                                <label class="form-check-label" for="car-condition3">
-                                    Used <span>(18)</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="booking-item">
-                        <h4 class="booking-title">Listed By</h4>
-                        <div class="car-listed">
-                            <div class="form-check">
-                                <input class="form-check-input" name="car-listed" type="checkbox" value="1"
-                                    id="car-listed1">
-                                <label class="form-check-label" for="car-listed1">
-                                    Dealer <span>(20)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="car-listed" type="checkbox" value="2"
-                                    id="car-listed2">
-                                <label class="form-check-label" for="car-listed2">
-                                    Individual <span>(15)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="car-listed" type="checkbox" value="3"
-                                    id="car-listed3">
-                                <label class="form-check-label" for="car-listed3">
-                                    Reseller <span>(18)</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="booking-item">
-                        <h4 class="booking-title">Fuel Type</h4>
-                        <div class="fuel-type">
-                            <div class="form-check">
-                                <input class="form-check-input" name="fuel-type" type="checkbox"
-                                    value="1" id="fuel-type1">
-                                <label class="form-check-label" for="fuel-type1">
-                                    Electric <span>(20)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="fuel-type" type="checkbox"
-                                    value="2" id="fuel-type2">
-                                <label class="form-check-label" for="fuel-type2">
-                                    Diesel <span>(15)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="fuel-type" type="checkbox"
-                                    value="3" id="fuel-type3">
-                                <label class="form-check-label" for="fuel-type3">
-                                    Hybrid <span>(18)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="fuel-type" type="checkbox"
-                                    value="4" id="fuel-type4">
-                                <label class="form-check-label" for="fuel-type4">
-                                    Petrol <span>(18)</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="booking-item">
-                        <h4 class="booking-title">Transmission</h4>
-                        <div class="transmission">
-                            <div class="form-check">
-                                <input class="form-check-input" name="transmission" type="checkbox"
-                                    value="1" id="transmission1">
-                                <label class="form-check-label" for="transmission1">
-                                    Automatic <span>(20)</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" name="transmission" type="checkbox"
-                                    value="2" id="transmission2">
-                                <label class="form-check-label" for="transmission2">
-                                    Manual <span>(15)</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @include('partials.catalog.filters-sidebar', [
+                    'filterGroups' => $filterGroups ?? [],
+                    'filterAction' => route('rentalcar'),
+                ])
             </div>
-            <!-- car booking grid -->
             <div class="col-lg-8 col-xl-9">
-                <div class="col-md-12">
-                    <div class="booking-sort">
-                        <h5>2,350 Results Found</h5>
-                        <div class="col-md-3 booking-sort-box">
-                            <select class="select">
-                                <option value="1">Sort By Default</option>
-                                <option value="2">Sort By Popular</option>
-                                <option value="3">Sort By Low Price</option>
-                                <option value="4">Sort By High Price</option>
-                            </select>
-                        </div>
-                    </div>
+                <div class="booking-sort mb-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
+                    <h5 class="mb-0">{{ $items->total() }} {{ Str::plural('Car', $items->total()) }} Found</h5>
+                    <form method="GET" action="{{ route('rentalcar') }}" class="booking-sort-box" style="min-width:220px;">
+                        @foreach(request()->except(['sort', 'page']) as $key => $value)
+                            @if(is_array($value))
+                                @foreach($value as $item)
+                                    <input type="hidden" name="{{ $key }}[]" value="{{ $item }}">
+                                @endforeach
+                            @else
+                                <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                            @endif
+                        @endforeach
+                        <select name="sort" class="select" onchange="this.form.submit()">
+                            <option value="default" @selected(request('sort', 'default') === 'default')>Sort: Recommended</option>
+                            <option value="price_asc" @selected(request('sort') === 'price_asc')>Price: Low to High</option>
+                            <option value="price_desc" @selected(request('sort') === 'price_desc')>Price: High to Low</option>
+                            <option value="name" @selected(request('sort') === 'name')>Car Name</option>
+                        </select>
+                    </form>
                 </div>
-                @include('components.catalog-list-results', ['items' => $items, 'routePrefix' => $routePrefix ?? 'rentalcar', 'label' => 'Cars'])
-</div>
+
+                @include('components.catalog-list-results', [
+                    'items' => $items,
+                    'routePrefix' => $routePrefix ?? 'rentalcar',
+                    'label' => 'Cars',
+                    'showHeader' => false,
+                    'searchQuery' => $searchQuery ?? [],
+                ])
             </div>
         </div>
     </div>

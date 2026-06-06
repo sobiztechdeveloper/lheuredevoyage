@@ -14,7 +14,9 @@ class CmsImageUploader
             return $existingPath;
         }
 
-        if ($existingPath && ! str_starts_with($existingPath, 'http')) {
+        if ($existingPath
+            && ! str_starts_with($existingPath, 'http')
+            && ! str_starts_with($existingPath, 'assets/')) {
             Storage::disk('public')->delete($existingPath);
         }
 

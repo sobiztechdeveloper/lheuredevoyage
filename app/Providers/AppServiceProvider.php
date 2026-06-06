@@ -21,10 +21,14 @@ use App\Models\Hotel;
 use App\Models\RentalCar;
 use App\Models\TourPackage;
 use App\Models\TravelInsurance;
+use App\Models\TravelDestination;
+use App\Models\CruiseLine;
 use App\Models\WebsiteSetting;
 use App\Policies\BookingPolicy;
 use App\Policies\CatalogItemPolicy;
+use App\Policies\CruiseLinePolicy;
 use App\Policies\MasterDataPolicy;
+use App\Policies\TravelDestinationPolicy;
 use App\Policies\SupportTicketPolicy;
 use App\Policies\UserPolicy;
 use App\Services\MasterDataRegistry;
@@ -54,6 +58,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Quote::class, QuotePolicy::class);
         Gate::policy(SupportTicket::class, SupportTicketPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
+        Gate::policy(TravelDestination::class, TravelDestinationPolicy::class);
+        Gate::policy(CruiseLine::class, CruiseLinePolicy::class);
 
         foreach (MasterDataRegistry::types() as $config) {
             Gate::policy($config['model'], MasterDataPolicy::class);

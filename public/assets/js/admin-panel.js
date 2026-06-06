@@ -88,12 +88,16 @@
             const $el = $(this);
             if ($el.hasClass('select2-hidden-accessible')) return;
 
+            const isTags = $el.data('tags') === true || $el.data('tags') === 'true';
+            const isMultiple = $el.prop('multiple');
+
             $el.select2({
                 theme: 'bootstrap-5',
                 width: '100%',
-                placeholder: $el.data('placeholder') || 'Select options',
+                placeholder: $el.data('placeholder') || (isMultiple ? 'Select options' : 'Select'),
                 allowClear: true,
-                closeOnSelect: false,
+                tags: isTags,
+                closeOnSelect: !isMultiple,
             });
         });
     }

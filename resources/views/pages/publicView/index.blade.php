@@ -80,234 +80,7 @@
                                 aria-labelledby="pills-tab-4" tabindex="0">
                                 <div class="holiday-search">
                                     <div class="search-form">
-                                        <form action="{{ route('tourpackage.search') }}">
-                                            <!-- holiday type -->
-                                            <div class="flight-type">
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" checked
-                                                        value="holiday1" name="holiday-type" id="holiday-type1">
-                                                    <label class="form-check-label" for="holiday-type1">
-                                                        Flight + Hotel + Car
-                                                    </label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
-                                                        value="holiday2" name="holiday-type" id="holiday-type2">
-                                                    <label class="form-check-label" for="holiday-type2">
-                                                        Flight + Hotel
-                                                    </label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
-                                                        value="holiday3" name="holiday-type" id="holiday-type3">
-                                                    <label class="form-check-label" for="holiday-type3">
-                                                        Flight + Car
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <!-- holiday type end -->
-                                            <div class="holiday-search-wrapper">
-                                                <div class="flight-search-item">
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <div class="form-group">
-                                                                <label>From</label>
-                                                                <div class="form-group-icon">
-                                                                    <input type="text" name="from-destination"
-                                                                        class="form-control swap-from"
-                                                                        value="New York">
-                                                                    <i class="fal fa-plane-departure"></i>
-                                                                </div>
-                                                                <p>JFK - John F. Kennedy International Airport
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3">
-                                                            <div class="form-group">
-                                                                <div class="search-form-swap"><i
-                                                                        class="far fa-repeat"></i>
-                                                                </div>
-                                                                <label>To</label>
-                                                                <div class="form-group-icon">
-                                                                    <input type="text" name="to-destination"
-                                                                        class="form-control swap-to"
-                                                                        value="Los Angeles">
-                                                                    <i class="fal fa-plane-arrival"></i>
-                                                                </div>
-                                                                <p>LAX - Los Angeles International Airport</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3">
-                                                            <div class="form-group">
-                                                                <div class="search-form-date">
-                                                                    <div class="search-form-journey">
-                                                                        <label>Check In</label>
-                                                                        <div class="form-group-icon">
-                                                                            <input type="text"
-                                                                                name="journey-date"
-                                                                                class="form-control date-picker journey-date">
-                                                                            <i class="fal fa-calendar-days"></i>
-                                                                        </div>
-                                                                        <p class="journey-day-name"></p>
-                                                                    </div>
-                                                                    <div class="search-form-return">
-                                                                        <label>Check Out</label>
-                                                                        <div class="form-group-icon">
-                                                                            <input type="text"
-                                                                                name="return-date"
-                                                                                class="form-control date-picker return-date">
-                                                                        </div>
-                                                                        <p class="return-day-name"></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3">
-                                                            <div class="form-group dropdown passenger-box">
-                                                                <div class="passenger-class" role="menu"
-                                                                    data-bs-toggle="dropdown"
-                                                                    aria-expanded="false">
-                                                                    <label>Rooms, Guests</label>
-                                                                    <div class="form-group-icon">
-                                                                        <div class="passenger-total">
-                                                                            <span
-                                                                                class="passenger-total-room">2</span>
-                                                                            Rooms,
-                                                                            <span
-                                                                                class="passenger-total-amount">2</span>
-                                                                            Guests
-                                                                        </div>
-                                                                        <i class="fal fa-user-tie-hair"></i>
-                                                                    </div>
-                                                                    <p class="passenger-class-name">Double Room
-                                                                    </p>
-                                                                </div>
-                                                                <div class="dropdown-menu dropdown-menu-end">
-                                                                    <div class="dropdown-item">
-                                                                        <div class="passenger-item">
-                                                                            <div class="passenger-info">
-                                                                                <h6>Adults</h6>
-                                                                                <p>12+ Years</p>
-                                                                            </div>
-                                                                            <div class="passenger-qty">
-                                                                                <button type="button"
-                                                                                    class="minus-btn"><i
-                                                                                        class="far fa-minus"></i></button>
-                                                                                <input type="text" name="adult"
-                                                                                    class="qty-amount passenger-adult"
-                                                                                    value="2" readonly>
-                                                                                <button type="button"
-                                                                                    class="plus-btn"><i
-                                                                                        class="far fa-plus"></i></button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="dropdown-item">
-                                                                        <div class="passenger-item">
-                                                                            <div class="passenger-info">
-                                                                                <h6>Children</h6>
-                                                                                <p>2-12 Years</p>
-                                                                            </div>
-                                                                            <div class="passenger-qty">
-                                                                                <button type="button"
-                                                                                    class="minus-btn"><i
-                                                                                        class="far fa-minus"></i></button>
-                                                                                <input type="text"
-                                                                                    name="children"
-                                                                                    class="qty-amount passenger-children"
-                                                                                    value="0" readonly>
-                                                                                <button type="button"
-                                                                                    class="plus-btn"><i
-                                                                                        class="far fa-plus"></i></button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="dropdown-item">
-                                                                        <div class="passenger-item">
-                                                                            <div class="passenger-info">
-                                                                                <h6>Infant</h6>
-                                                                                <p>Below 2 Years</p>
-                                                                            </div>
-                                                                            <div class="passenger-qty">
-                                                                                <button type="button"
-                                                                                    class="minus-btn"><i
-                                                                                        class="far fa-minus"></i></button>
-                                                                                <input type="text" name="infant"
-                                                                                    class="qty-amount passenger-infant"
-                                                                                    value="0" readonly>
-                                                                                <button type="button"
-                                                                                    class="plus-btn"><i
-                                                                                        class="far fa-plus"></i></button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="dropdown-item">
-                                                                        <div class="passenger-item">
-                                                                            <div class="passenger-info">
-                                                                                <h6>Rooms</h6>
-                                                                            </div>
-                                                                            <div class="passenger-qty">
-                                                                                <button type="button"
-                                                                                    class="minus-btn"><i
-                                                                                        class="far fa-minus"></i></button>
-                                                                                <input type="text" name="room"
-                                                                                    class="qty-amount passenger-room"
-                                                                                    value="2" readonly>
-                                                                                <button type="button"
-                                                                                    class="plus-btn"><i
-                                                                                        class="far fa-plus"></i></button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="dropdown-item">
-                                                                        <h6 class="mb-3 mt-2">Room Type</h6>
-                                                                        <div class="passenger-class-info">
-                                                                            <div class="form-check">
-                                                                                <input class="form-check-input"
-                                                                                    type="radio"
-                                                                                    value="Single Room"
-                                                                                    name="room-type"
-                                                                                    id="room-type7">
-                                                                                <label class="form-check-label"
-                                                                                    for="room-type7">
-                                                                                    Single Room
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="form-check">
-                                                                                <input class="form-check-input"
-                                                                                    checked type="radio"
-                                                                                    value="Double Room"
-                                                                                    name="room-type"
-                                                                                    id="room-type8">
-                                                                                <label class="form-check-label"
-                                                                                    for="room-type8">
-                                                                                    Double Room
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="form-check">
-                                                                                <input class="form-check-input"
-                                                                                    type="radio"
-                                                                                    value="Deluxe Room"
-                                                                                    name="room-type"
-                                                                                    id="room-type9">
-                                                                                <label class="form-check-label"
-                                                                                    for="room-type9">
-                                                                                    Deluxe Room
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="search-btn">
-                                                    <button type="submit" class="theme-btn"><span
-                                                            class="far fa-search"></span>Search Now</button>
-                                                </div>
-                                            </div>
-                                        </form>
+                                        @include('partials.catalog.holiday-package-search-form')
                                     </div>
                                 </div>
                             </div>
@@ -323,22 +96,22 @@
                                             <div class="flight-type">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" checked
-                                                        value="one_way" name="trip_type" id="flight-type1">
-                                                    <label class="form-check-label" for="flight-type1">
+                                                        value="one-way" name="flight-type" id="home-flight-type1">
+                                                    <label class="form-check-label" for="home-flight-type1">
                                                         One Way
                                                     </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio"
-                                                        value="round_trip" name="trip_type" id="flight-type2">
-                                                    <label class="form-check-label" for="flight-type2">
-                                                        Round Way
+                                                        value="round-way" name="flight-type" id="home-flight-type2">
+                                                    <label class="form-check-label" for="home-flight-type2">
+                                                        Round Trip
                                                     </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio"
-                                                        value="multi-city" name="flight-type" id="flight-type3">
-                                                    <label class="form-check-label" for="flight-type3">
+                                                        value="multi-city" name="flight-type" id="home-flight-type3">
+                                                    <label class="form-check-label" for="home-flight-type3">
                                                         Multi City
                                                     </label>
                                                 </div>
@@ -352,35 +125,29 @@
                                                     <div class="flight-search-item">
                                                         <div class="row">
                                                             <div class="col-lg-3">
-                                                                <div class="form-group">
-                                                                    <label>From</label>
-                                                                    <div class="form-group-icon">
-                                                                        <input type="text"
-                                                                            name="from-destination"
-                                                                            class="form-control swap-from"
-                                                                            value="New York">
-                                                                        <i class="fal fa-plane-departure"></i>
-                                                                    </div>
-                                                                    <p>JFK - John F. Kennedy International
-                                                                        Airport
-                                                                    </p>
-                                                                </div>
+                                                                <x-destination-autocomplete
+                                                                    name="from-destination"
+                                                                    context="flight_from"
+                                                                    format="airport"
+                                                                    :value="old('from-destination', old('from_destination'))"
+                                                                    label="From"
+                                                                    icon="fal fa-plane-departure"
+                                                                    input-class="form-control swap-from"
+                                                                    placeholder="City or airport"
+                                                                />
                                                             </div>
                                                             <div class="col-lg-3">
-                                                                <div class="form-group">
-                                                                    <div class="search-form-swap"><i
-                                                                            class="far fa-repeat"></i>
-                                                                    </div>
-                                                                    <label>To</label>
-                                                                    <div class="form-group-icon">
-                                                                        <input type="text" name="to-destination"
-                                                                            class="form-control swap-to"
-                                                                            value="Los Angeles">
-                                                                        <i class="fal fa-plane-arrival"></i>
-                                                                    </div>
-                                                                    <p>LAX - Los Angeles International Airport
-                                                                    </p>
-                                                                </div>
+                                                                <x-destination-autocomplete
+                                                                    name="to-destination"
+                                                                    context="flight_to"
+                                                                    format="airport"
+                                                                    :value="old('to-destination', old('to_destination'))"
+                                                                    label="To"
+                                                                    icon="fal fa-plane-arrival"
+                                                                    input-class="form-control swap-to"
+                                                                    placeholder="City or airport"
+                                                                    :swap="true"
+                                                                />
                                                             </div>
                                                             <div class="col-lg-3">
                                                                 <div class="form-group">
@@ -390,7 +157,8 @@
                                                                             <div class="form-group-icon">
                                                                                 <input type="text"
                                                                                     name="journey-date"
-                                                                                    class="form-control date-picker journey-date">
+                                                                                    class="form-control date-picker journey-date"
+                                                                                    value="{{ old('journey-date', old('journey_date')) }}">
                                                                                 <i
                                                                                     class="fal fa-calendar-days"></i>
                                                                             </div>
@@ -399,9 +167,11 @@
                                                                         <div class="search-form-return">
                                                                             <label>Return Date</label>
                                                                             <div class="form-group-icon">
-                                                                                <input type="date"
-                                                                                    name="return_date"
-                                                                                    class="form-control return-date">
+                                                                                <input type="text"
+                                                                                    name="return-date"
+                                                                                    class="form-control date-picker return-date"
+                                                                                    value="{{ old('return-date', old('return_date')) }}">
+                                                                                <i class="fal fa-calendar-days"></i>
                                                                             </div>
                                                                             <p class="return-day-name"></p>
                                                                         </div>
@@ -520,8 +290,8 @@
                                                                                     <input
                                                                                         class="form-check-input"
                                                                                         type="radio"
-                                                                                        value="First Class"
-                                                                                        name="cabin-class"
+                                                                                        value="first"
+                                                                                        name="cabin_class"
                                                                                         id="cabin-class3">
                                                                                     <label
                                                                                         class="form-check-label"
@@ -543,35 +313,29 @@
                                                         class="flight-search-item flight-multicity-item have-to-clone">
                                                         <div class="row">
                                                             <div class="col-lg-3">
-                                                                <div class="form-group">
-                                                                    <label>From</label>
-                                                                    <div class="form-group-icon">
-                                                                        <input type="text"
-                                                                            name="from-destination"
-                                                                            class="form-control swap-from"
-                                                                            value="New York">
-                                                                        <i class="fal fa-plane-departure"></i>
-                                                                    </div>
-                                                                    <p>JFK - John F. Kennedy International
-                                                                        Airport
-                                                                    </p>
-                                                                </div>
+                                                                <x-destination-autocomplete
+                                                                    name="from-destination"
+                                                                    context="flight_from"
+                                                                    format="airport"
+                                                                    label="From"
+                                                                    icon="fal fa-plane-departure"
+                                                                    input-class="form-control swap-from"
+                                                                    placeholder="City or airport"
+                                                                    :disabled="true"
+                                                                />
                                                             </div>
                                                             <div class="col-lg-3">
-                                                                <div class="form-group">
-                                                                    <div class="search-form-swap"><i
-                                                                            class="far fa-repeat"></i>
-                                                                    </div>
-                                                                    <label>To</label>
-                                                                    <div class="form-group-icon">
-                                                                        <input type="text" name="to-destination"
-                                                                            class="form-control swap-to"
-                                                                            value="Los Angeles">
-                                                                        <i class="fal fa-plane-arrival"></i>
-                                                                    </div>
-                                                                    <p>LAX - Los Angeles International Airport
-                                                                    </p>
-                                                                </div>
+                                                                <x-destination-autocomplete
+                                                                    name="to-destination"
+                                                                    context="flight_to"
+                                                                    format="airport"
+                                                                    label="To"
+                                                                    icon="fal fa-plane-arrival"
+                                                                    input-class="form-control swap-to"
+                                                                    placeholder="City or airport"
+                                                                    :swap="true"
+                                                                    :disabled="true"
+                                                                />
                                                             </div>
                                                             <div class="col-lg-3">
                                                                 <div class="form-group">
@@ -581,7 +345,8 @@
                                                                             <div class="form-group-icon">
                                                                                 <input type="text"
                                                                                     name="journey-date"
-                                                                                    class="form-control date-picker journey-date">
+                                                                                    class="form-control date-picker journey-date"
+                                                                                    disabled>
                                                                                 <i
                                                                                     class="fal fa-calendar-days"></i>
                                                                             </div>
@@ -618,20 +383,17 @@
                                 aria-labelledby="pills-tab-5" tabindex="0">
                                 <div class="car-search">
                                     <div class="search-form">
-                                        <form action="{{ route('rentalcar.search') }}">
+                                        <form method="GET" action="{{ route('rentalcar') }}">
                                             <div class="car-search-wrapper">
                                                 <div class="row">
                                                     <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label>Picking Up</label>
-                                                            <div class="form-group-icon">
-                                                                <input type="text" name="picking-up"
-                                                                    class="form-control"
-                                                                    value="New York, United States">
-                                                                <i class="fal fa-location-dot"></i>
-                                                            </div>
-                                                            <p>City, Airport Or Address</p>
-                                                        </div>
+                                                        <x-destination-autocomplete
+                                                            name="destination"
+                                                            context="car_pickup"
+                                                            label="Picking Up"
+                                                            icon="fal fa-location-dot"
+                                                            placeholder="City, airport or address"
+                                                        />
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
@@ -661,16 +423,14 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        <div class="form-group mt-lg-4">
-                                                            <label>Drop Off</label>
-                                                            <div class="form-group-icon">
-                                                                <input type="text" name="picking-up"
-                                                                    class="form-control"
-                                                                    value="New York, United States">
-                                                                <i class="fal fa-location-dot"></i>
-                                                            </div>
-                                                            <p>City, Airport Or Address</p>
-                                                        </div>
+                                                        <x-destination-autocomplete
+                                                            class="mt-lg-4"
+                                                            name="dropoff"
+                                                            context="car_dropoff"
+                                                            label="Drop Off"
+                                                            icon="fal fa-location-dot"
+                                                            placeholder="Drop-off location"
+                                                        />
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group mt-lg-4">
@@ -678,11 +438,11 @@
                                                                 <div class="search-form-journey">
                                                                     <label>Drop Off date</label>
                                                                     <div class="form-group-icon">
-                                                                        <input type="text" name="pickup-date"
-                                                                            class="form-control date-picker journey-date">
+                                                                        <input type="text" name="return-date"
+                                                                            class="form-control date-picker return-date">
                                                                         <i class="fal fa-calendar-days"></i>
                                                                     </div>
-                                                                    <p class="journey-day-name"></p>
+                                                                    <p class="return-day-name"></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -691,7 +451,7 @@
                                                         <div class="form-group mt-lg-4">
                                                             <label>Drop Off Time</label>
                                                             <div class="form-group-icon">
-                                                                <input type="text" name="pick-up-time"
+                                                                <input type="text" name="drop-off-time"
                                                                     class="form-control time-picker"
                                                                     value="11:00 PM">
                                                                 <i class="fal fa-clock"></i>
@@ -715,24 +475,21 @@
                                 aria-labelledby="pills-tab-6" tabindex="0">
                                 <div class="cruise-search">
                                     <div class="search-form">
-                                        <form action="{{ route('cruise.search') }}">
+                                        <form method="GET" action="{{ route('cruise') }}">
                                             <div class="cruise-search-wrapper">
                                                 <div class="row">
                                                     <div class="col-lg-3">
-                                                        <div class="form-group">
-                                                            <label>Destination</label>
-                                                            <div class="form-group-icon">
-                                                                <input type="text" name="destination"
-                                                                    class="form-control"
-                                                                    placeholder="Region or port">
-                                                                <i class="fal fa-earth-americas"></i>
-                                                            </div>
-                                                            <p>Where Are You Going?</p>
-                                                        </div>
+                                                        <x-destination-autocomplete
+                                                            name="destination"
+                                                            context="cruise"
+                                                            label="Destination"
+                                                            icon="fal fa-earth-americas"
+                                                            placeholder="Region or port"
+                                                        />
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="form-group">
-                                                            <x-cruise-search-dates />
+                                                            <x-cruise-search-month />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3">
@@ -869,20 +626,17 @@
                                 aria-labelledby="pills-tab-7" tabindex="0">
                                 <div class="tour-search">
                                     <div class="search-form">
-                                        <form action="{{ route('travelinsurance.search') }}">
+                                        <form method="GET" action="{{ route('travelinsurance') }}">
                                             <div class="tour-search-wrapper">
                                                 <div class="row">
                                                     <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label>Destination</label>
-                                                            <div class="form-group-icon">
-                                                                <input type="text" name="destination"
-                                                                    class="form-control"
-                                                                    value="New York, United States">
-                                                                <i class="fal fa-earth-americas"></i>
-                                                            </div>
-                                                            <p>Where Are You Going?</p>
-                                                        </div>
+                                                        <x-destination-autocomplete
+                                                            name="destination"
+                                                            context="insurance"
+                                                            label="Destination"
+                                                            icon="fal fa-earth-americas"
+                                                            placeholder="Country or region"
+                                                        />
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
@@ -926,21 +680,18 @@
                                 aria-labelledby="pills-tab-2" tabindex="0">
                                 <div class="hotel-search">
                                     <div class="search-form">
-                                        <form action="{{ route('hotel.search.submit') }}" method="POST">
+                                        <form method="POST" action="{{ route('hotel.search.submit') }}">
                                             @csrf
                                             <div class="hotel-search-wrapper">
                                                 <div class="row">
                                                     <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label>Destination</label>
-                                                            <div class="form-group-icon">
-                                                                <input type="text" name="destination"
-                                                                    class="form-control"
-                                                                    value="Reserva Ecologica">
-                                                                <i class="fal fa-earth-americas"></i>
-                                                            </div>
-                                                            <p>Comuna 1, Argentina</p>
-                                                        </div>
+                                                        <x-destination-autocomplete
+                                                            name="destination"
+                                                            context="hotel"
+                                                            label="Destination"
+                                                            icon="fal fa-earth-americas"
+                                                            placeholder="City, hotel or area"
+                                                        />
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group">

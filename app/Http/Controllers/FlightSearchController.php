@@ -22,8 +22,16 @@ class FlightSearchController extends Controller
 
     public function store(FlightSearchRequest $request): RedirectResponse
     {
+        if ($request->isBrowseOnly()) {
+            session()->forget('last_flight_search_id');
+
+            return redirect()->route('flight', $this->preserveFilterQuery($request));
+        }
+
         try {
             $search = $this->flightSearchOrchestrator->createSearch($request->validated());
+
+            session(['last_flight_search_id' => $search->id]);
 
             return redirect()->route('flight', array_merge(
                 ['flight_search' => $search->id],
@@ -38,6 +46,12 @@ class FlightSearchController extends Controller
 
     public function update(FlightSearch $flightSearch, FlightSearchRequest $request): RedirectResponse
     {
+        if ($request->isBrowseOnly()) {
+            session()->forget('last_flight_search_id');
+
+            return redirect()->route('flight', $this->preserveFilterQuery($request));
+        }
+
         try {
             if ($flightSearch->usesAerticket()) {
                 $search = $this->flightSearchOrchestrator->createSearch($request->validated());
@@ -106,8 +120,9 @@ class FlightSearchController extends Controller
         $allResults = $flightSearch->results;
         $totalCount = $allResults->count();
         $facets = $this->flightSearchResultsService->computeFacets($allResults);
-        $results = $this->flightSearchResultsService->filterAndSort($allResults, $request);
-        $activeFilters = $this->flightSearchResultsService->activeFilters($request);
+        $filterRequest = $this->requestWithSearchPanelFilters($request, $flightSearch);
+        $results = $this->flightSearchResultsService->filterAndSort($allResults, $filterRequest);
+        $activeFilters = $this->flightSearchResultsService->activeFilters($filterRequest);
 
         $priceMin = $request->has('price_min')
             ? (int) $request->input('price_min')
@@ -135,17 +150,28 @@ class FlightSearchController extends Controller
         ]);
     }
 
+    protected function requestWithSearchPanelFilters(Request $request, FlightSearch $flightSearch): Request
+    {
+        $classFilters = array_filter((array) $request->input('flight_class', $request->input('flight-class', [])));
+
+        if ($classFilters !== [] || ! $flightSearch->cabin_class) {
+            return $request;
+        }
+
+        if (trim((string) $flightSearch->from_destination) === '' && trim((string) $flightSearch->to_destination) === '') {
+            return $request;
+        }
+
+        $merged = $request->duplicate();
+        $merged->merge(['flight_class' => [$flightSearch->cabin_class]]);
+
+        return $merged;
+    }
+
     protected function resolveDisplaySearch(Request $request): FlightSearch
     {
         if ($request->filled('flight_search')) {
             return FlightSearch::query()->findOrFail($request->integer('flight_search'));
-        }
-
-        if ($id = session('last_flight_search_id')) {
-            $search = FlightSearch::query()->find($id);
-            if ($search) {
-                return $search;
-            }
         }
 
         return $this->flightSearchService->getOrCreateBrowseSearch();

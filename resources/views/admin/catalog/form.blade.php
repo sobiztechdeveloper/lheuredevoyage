@@ -41,7 +41,34 @@
                 @if(in_array('destination', $extraFields ?? []))
                 <div class="col-md-6">
                     <label class="admin-field-label">Destination</label>
-                    <input type="text" name="destination" class="form-control" value="{{ old('destination', $item->destination) }}">
+                    <input type="text" name="destination" class="form-control" value="{{ old('destination', $item->destination) }}" placeholder="City or region">
+                </div>
+                @endif
+                @if(in_array('country', $extraFields ?? []))
+                <div class="col-md-6">
+                    <label class="admin-field-label">Country <span class="required">*</span></label>
+                    @php
+                        $countryOptions = app(\App\Services\TourPackageSearchService::class)->countryOptions();
+                    @endphp
+                    <select name="country" class="form-select @error('country') is-invalid @enderror" required>
+                        <option value="">Select country</option>
+                        @foreach(collect($countryOptions)->except('') as $value => $label)
+                            <option value="{{ $value }}" @selected(old('country', $item->country) === $value)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                    @error('country')<div class="admin-field-error">{{ $message }}</div>@enderror
+                </div>
+                @endif
+                @if(in_array('holiday_type', $extraFields ?? []))
+                <div class="col-md-6">
+                    <label class="admin-field-label">Holiday Type <span class="required">*</span></label>
+                    <select name="holiday_type" class="form-select @error('holiday_type') is-invalid @enderror" required>
+                        <option value="">Select holiday type</option>
+                        @foreach(config('tourpackage.holiday_types', []) as $value => $label)
+                            <option value="{{ $value }}" @selected(old('holiday_type', $item->holiday_type) === $value)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                    @error('holiday_type')<div class="admin-field-error">{{ $message }}</div>@enderror
                 </div>
                 @endif
                 @if(in_array('departure_port', $extraFields ?? []))
@@ -119,9 +146,38 @@
                 </div>
                 @endif
                 @if(in_array('duration', $extraFields ?? []))
-                <div class="col-md-6">
-                    <label class="admin-field-label">Duration</label>
-                    <input type="text" name="duration" class="form-control" value="{{ old('duration', $item->duration) }}" placeholder="7h 30m">
+                <div class="col-md-4">
+                    <label class="admin-field-label">Duration Label</label>
+                    <input type="text" name="duration" class="form-control" value="{{ old('duration', $item->duration) }}" placeholder="6 Days / 5 Nights">
+                </div>
+                @endif
+                @if(in_array('duration_days', $extraFields ?? []))
+                <div class="col-md-4">
+                    <label class="admin-field-label">Duration Days</label>
+                    <input type="number" name="duration_days" class="form-control" min="1" max="365" value="{{ old('duration_days', $item->duration_days) }}">
+                </div>
+                @endif
+                @if(in_array('duration_nights', $extraFields ?? []))
+                <div class="col-md-4">
+                    <label class="admin-field-label">Duration Nights</label>
+                    <input type="number" name="duration_nights" class="form-control" min="0" max="365" value="{{ old('duration_nights', $item->duration_nights) }}">
+                </div>
+                @endif
+                @if(in_array('included_services', $extraFields ?? []))
+                <div class="col-12">
+                    <label class="admin-field-label">Included Services</label>
+                    <div class="row g-2">
+                        @foreach(config('tourpackage.included_services', []) as $key => $label)
+                        <div class="col-md-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="included_services[]" value="{{ $key }}"
+                                    id="included-{{ $key }}"
+                                    @checked(in_array($key, old('included_services', $item->included_services ?? []), true))>
+                                <label class="form-check-label" for="included-{{ $key }}">{{ $label }}</label>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
                 </div>
                 @endif
                 @if(in_array('star_rating', $extraFields ?? []))

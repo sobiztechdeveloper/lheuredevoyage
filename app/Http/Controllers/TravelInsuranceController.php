@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Concerns\HandlesCatalog;
 use App\Models\InsuranceCmsBlock;
 use App\Models\TravelInsurance;
+use App\Services\CatalogListSearchService;
 use App\Services\CatalogMasterDataService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -14,6 +15,10 @@ use Illuminate\View\View;
 class TravelInsuranceController extends Controller
 {
     use HandlesCatalog;
+
+    public function __construct(
+        protected CatalogListSearchService $catalogListSearch,
+    ) {}
 
     protected function catalogModel(): string
     {
@@ -52,9 +57,9 @@ class TravelInsuranceController extends Controller
         return view($this->catalogListView(), $this->catalogListViewData($request, $items));
     }
 
-    public function search(Request $request): View
+    public function search(Request $request): RedirectResponse
     {
-        return $this->index($request);
+        return redirect()->route('travelinsurance', $request->query());
     }
 
     public function book(string $slug): RedirectResponse
@@ -109,7 +114,14 @@ class TravelInsuranceController extends Controller
             ->with(['benefits', 'insuranceTypes', 'coverageTypes']);
 
         if ($term = $request->input('destination') ?? $request->input('q')) {
-            $query->search($term);
+            $this->catalogListSearch->applyInsuranceDestinationFilter($query, (string) $term);
+        }
+
+        if ($tripDays = $this->catalogListSearch->tripDurationDays($request)) {
+            $query->where(function (Builder $q) use ($tripDays) {
+                $q->whereNull('duration_days')
+                    ->orWhere('duration_days', '>=', $tripDays);
+            });
         }
 
         $planTypes = array_filter((array) $request->input('plan_type', []));

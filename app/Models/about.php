@@ -28,4 +28,14 @@ class About extends Model
             config('page-banners.pages.about', config('page-banners.default'))
         );
     }
+
+    public function getImagePrimaryUrlAttribute(): string
+    {
+        return $this->mediaUrl($this->image_primary, 'assets/img/about/01.jpg');
+    }
+
+    public function getImageSecondaryUrlAttribute(): string
+    {
+        return $this->mediaUrl($this->image_secondary, 'assets/img/about/02.jpg');
+    }
 }

@@ -20,11 +20,17 @@ class HotelSearchController extends Controller
 
     public function store(HotelSearchRequest $request): RedirectResponse
     {
+        if ($request->isBrowseOnly()) {
+            session()->forget('last_hotel_search_id');
+
+            return redirect()->route('hotel', $this->preserveFilterQuery($request));
+        }
+
         $search = $this->hotelSearchService->createSearch($request->validated());
 
         session(['last_hotel_search_id' => $search->id]);
 
-        return redirect()->route('hotel.search', array_merge(
+        return redirect()->route('hotel', array_merge(
             ['hotel_search' => $search->id],
             $this->preserveFilterQuery($request),
         ));
@@ -32,11 +38,17 @@ class HotelSearchController extends Controller
 
     public function update(HotelSearch $hotelSearch, HotelSearchRequest $request): RedirectResponse
     {
+        if ($request->isBrowseOnly()) {
+            session()->forget('last_hotel_search_id');
+
+            return redirect()->route('hotel', $this->preserveFilterQuery($request));
+        }
+
         $search = $this->hotelSearchService->updateSearch($hotelSearch, $request->validated());
 
         session(['last_hotel_search_id' => $search->id]);
 
-        return redirect()->route('hotel.search', array_merge(
+        return redirect()->route('hotel', array_merge(
             ['hotel_search' => $search->id],
             $this->preserveFilterQuery($request),
         ));
@@ -51,7 +63,7 @@ class HotelSearchController extends Controller
                 $search = $this->hotelSearchService->createSearch($validator->validated());
                 session(['last_hotel_search_id' => $search->id]);
 
-                return redirect()->route('hotel.search', array_merge(
+                return redirect()->route('hotel', array_merge(
                     ['hotel_search' => $search->id],
                     $this->preserveFilterQuery($request),
                 ));
@@ -61,7 +73,7 @@ class HotelSearchController extends Controller
         $search = $this->resolveDisplaySearch($request);
         session(['last_hotel_search_id' => $search->id]);
 
-        return $this->buildResultsView($search, $request, 'hotel.search');
+        return $this->buildResultsView($search, $request, 'hotel');
     }
 
     public function results(HotelSearch $hotelSearch, Request $request): View
@@ -99,7 +111,7 @@ class HotelSearchController extends Controller
 
         $filterAction = $filterRoute === 'hotel.search.results'
             ? route('hotel.search.results', $hotelSearch)
-            : route('hotel.search');
+            : route('hotel');
 
         return view('pages.publicView.hotel.hotelList', [
             'search' => $hotelSearch,
@@ -120,13 +132,6 @@ class HotelSearchController extends Controller
     {
         if ($request->filled('hotel_search')) {
             return HotelSearch::query()->findOrFail($request->integer('hotel_search'));
-        }
-
-        if ($id = session('last_hotel_search_id')) {
-            $search = HotelSearch::query()->find($id);
-            if ($search) {
-                return $search;
-            }
         }
 
         return $this->hotelSearchService->getOrCreateBrowseSearch();

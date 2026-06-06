@@ -18,26 +18,65 @@ class FlightCatalogService
     {
         $from = trim((string) $search->from_destination);
         $to = trim((string) $search->to_destination);
+        $cabinClass = trim((string) $search->cabin_class);
 
         $query = Flight::query()->active()->orderBy('price');
+        $flights = collect();
 
         if ($from !== '' && $to !== '') {
-            $matched = (clone $query)->where(function ($q) use ($from) {
-                $q->where('departure_city', 'like', "%{$from}%")
-                    ->orWhere('location', 'like', "%{$from}%")
-                    ->orWhere('title', 'like', "%{$from}%");
+            $flights = (clone $query)->where(function ($q) use ($from) {
+                $this->applyCityMatch($q, $from, ['departure_city', 'location', 'title']);
             })->where(function ($q) use ($to) {
-                $q->where('arrival_city', 'like', "%{$to}%")
-                    ->orWhere('location', 'like', "%{$to}%")
-                    ->orWhere('title', 'like', "%{$to}%");
+                $this->applyCityMatch($q, $to, ['arrival_city', 'location', 'title']);
             })->get();
+        }
 
-            if ($matched->isNotEmpty()) {
-                return $matched;
+        if ($flights->isEmpty() && $from !== '') {
+            $flights = (clone $query)->where(function ($q) use ($from) {
+                $this->applyCityMatch($q, $from, ['departure_city', 'arrival_city', 'location', 'title']);
+            })->get();
+        }
+
+        if ($flights->isEmpty() && $to !== '') {
+            $flights = (clone $query)->where(function ($q) use ($to) {
+                $this->applyCityMatch($q, $to, ['arrival_city', 'departure_city', 'location', 'title']);
+            })->get();
+        }
+
+        if ($flights->isEmpty() && ($from !== '' || $to !== '')) {
+            return collect();
+        }
+
+        if ($flights->isEmpty()) {
+            $flights = $query->get();
+        }
+
+        if ($cabinClass !== '' && ($from !== '' || $to !== '')) {
+            $byCabin = $flights->filter(
+                fn (Flight $flight) => $flight->normalizedCabinClass() === $cabinClass,
+            )->values();
+
+            if ($byCabin->isNotEmpty()) {
+                return $byCabin;
             }
         }
 
-        return $query->get();
+        return $flights;
+    }
+
+    private function applyCityMatch($query, string $term, array $columns): void
+    {
+        $needles = app(CatalogListSearchService::class)->destinationNeedles($term);
+
+        $query->where(function ($outer) use ($needles, $columns) {
+            foreach ($needles as $needle) {
+                $outer->orWhere(function ($inner) use ($needle, $columns) {
+                    foreach ($columns as $column) {
+                        $inner->orWhere($column, 'like', '%'.$needle.'%');
+                    }
+                });
+            }
+        });
     }
 
     public function syncSearchResults(FlightSearch $search): FlightSearch
@@ -151,14 +190,14 @@ class FlightCatalogService
 
         return [
             'trip_type' => 'one_way',
-            'from_destination' => $flight?->departure_city ?? '',
-            'to_destination' => $flight?->arrival_city ?? '',
+            'from_destination' => '',
+            'to_destination' => '',
             'journey_date' => now()->addDays(14)->toDateString(),
             'return_date' => null,
             'adult' => 1,
             'children' => 0,
             'infant' => 0,
-            'cabin_class' => $flight?->normalizedCabinClass() ?? 'economy',
+            'cabin_class' => 'economy',
         ];
     }
 }

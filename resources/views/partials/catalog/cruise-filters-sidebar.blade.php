@@ -1,5 +1,5 @@
 @php
-    $filterAction = route('cruise.search');
+    $filterAction = route('cruise');
     $preserveKeys = app(\App\Services\CruiseSearchService::class)->preserveQueryKeys();
     $priceBounds = $priceBounds ?? ['min' => 0, 'max' => 5000];
     $activeMin = request('min_price', $activeMinPrice ?? $priceBounds['min']);

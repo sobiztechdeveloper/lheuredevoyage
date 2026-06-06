@@ -21,9 +21,8 @@ class ReportService
         $startOfMonth = $now->copy()->startOfMonth();
 
         return [
-            'users' => User::query()->where('is_admin', false)->count(),
+            'users' => User::query()->count(),
             'users_this_month' => User::query()
-                ->where('is_admin', false)
                 ->where('created_at', '>=', $startOfMonth)
                 ->count(),
             'bookings' => Booking::query()->count(),
@@ -68,7 +67,7 @@ class ReportService
      */
     public function customerReport(?Carbon $from, ?Carbon $to): array
     {
-        $userQuery = User::query()->where('is_admin', false);
+        $userQuery = User::query();
 
         $registrations = (clone $userQuery)
             ->when($from, fn ($q) => $q->where('created_at', '>=', $from))
@@ -79,7 +78,6 @@ class ReportService
             ->get();
 
         $topCustomers = User::query()
-            ->where('is_admin', false)
             ->withCount('bookings')
             ->having('bookings_count', '>', 0)
             ->orderByDesc('bookings_count')

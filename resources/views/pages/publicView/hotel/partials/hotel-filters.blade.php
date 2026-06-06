@@ -1,7 +1,7 @@
 @php
     $facets = $facets ?? [];
     $activeFilters = $activeFilters ?? [];
-    $filterAction = $filterAction ?? route('hotel.search');
+    $filterAction = $filterAction ?? route('hotel');
 @endphp
 <form id="hotel-results-filters" method="GET" action="{{ $filterAction }}">
     <input type="hidden" name="hotel_search" value="{{ $search->id }}">

@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Enums\DestinationType;
 use App\Models\Cruise;
 use App\Models\CruiseCabin;
+use App\Models\TravelDestination;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -16,6 +18,17 @@ class CruiseSearchService
      */
     public function regionOptions(): array
     {
+        $fromDb = TravelDestination::query()
+            ->active()
+            ->ofType(DestinationType::CruiseRegion->value)
+            ->ordered()
+            ->pluck('name', 'name')
+            ->all();
+
+        if ($fromDb !== []) {
+            return $fromDb;
+        }
+
         return config('cruise.regions', []);
     }
 
@@ -44,6 +57,12 @@ class CruiseSearchService
      */
     public function cruiseLineOptions(): array
     {
+        $fromMaster = app(CruiseLineService::class)->activeOptions();
+
+        if ($fromMaster !== []) {
+            return ['' => 'Any Line'] + $fromMaster;
+        }
+
         $lines = Cruise::query()
             ->active()
             ->whereNotNull('cruise_line')
@@ -74,24 +93,36 @@ class CruiseSearchService
             $query->where('cruise_line', $line);
         }
 
-        $regions = config('cruise.regions', []);
+        if ($month = $request->input('departure_month')) {
+            $this->applyDepartureMonthFilter($query, (string) $month);
+        }
+
+        $regions = $this->regionOptions();
         $regionKeys = array_filter((array) $request->input('region', []));
         if ($regionKeys !== []) {
             $query->whereIn('cruise_region', $regionKeys);
         } elseif ($destination) {
+            $needles = app(CatalogListSearchService::class)->destinationNeedles((string) $destination);
             $matchedRegion = collect($regions)->keys()->first(
-                fn ($key) => strcasecmp((string) $key, (string) $destination) === 0
-                    || strcasecmp((string) ($regions[$key] ?? ''), (string) $destination) === 0,
+                fn ($key) => collect($needles)->contains(
+                    fn ($needle) => strcasecmp((string) $key, (string) $needle) === 0
+                        || strcasecmp((string) ($regions[$key] ?? ''), (string) $needle) === 0,
+                ),
             );
+
             if ($matchedRegion) {
                 $query->where('cruise_region', $matchedRegion);
             } else {
-                $query->where(function (Builder $q) use ($destination) {
-                    $q->search($destination)
-                        ->orWhere('cruise_region', 'like', '%'.$destination.'%')
-                        ->orWhere('cruise_line', 'like', '%'.$destination.'%')
-                        ->orWhere('departure_port', 'like', '%'.$destination.'%')
-                        ->orWhere('arrival_port', 'like', '%'.$destination.'%');
+                $query->where(function (Builder $outer) use ($needles) {
+                    foreach ($needles as $needle) {
+                        $outer->orWhere(function (Builder $q) use ($needle) {
+                            $q->search($needle)
+                                ->orWhere('cruise_region', 'like', '%'.$needle.'%')
+                                ->orWhere('cruise_line', 'like', '%'.$needle.'%')
+                                ->orWhere('departure_port', 'like', '%'.$needle.'%')
+                                ->orWhere('arrival_port', 'like', '%'.$needle.'%');
+                        });
+                    }
                 });
             }
         }
@@ -133,9 +164,14 @@ class CruiseSearchService
             });
         }
 
-        $cabinTypes = array_filter((array) $request->input('cabin_type', []));
+        $cabinTypes = app(CatalogListSearchService::class)->cruiseCabinTypesFromRequest($request);
         if ($cabinTypes !== []) {
             $query->whereHas('cabins', fn (Builder $q) => $q->whereIn('cabin_type', $cabinTypes));
+        }
+
+        $travelers = app(CatalogListSearchService::class)->totalTravelers($request);
+        if ($travelers > 0) {
+            $query->whereHas('cabins', fn (Builder $q) => $q->where('max_occupancy', '>=', $travelers));
         }
 
         return $query;
@@ -199,7 +235,7 @@ class CruiseSearchService
     public function preserveQueryKeys(): array
     {
         return [
-            'destination', 'q', 'journey-date', 'return-date', 'cruise_line',
+            'destination', 'q', 'journey-date', 'return-date', 'departure_month', 'cruise_line', 'cruise-class',
             'adult', 'children', 'infant', 'sort', 'min_price', 'max_price',
             'featured_only', 'region', 'duration', 'cabin_type',
             'categories', 'facilities',
@@ -215,10 +251,7 @@ class CruiseSearchService
         $table = $query->getModel()->getTable();
 
         if (Schema::hasColumn($table, 'available_months')) {
-            $query->where(function (Builder $q) use ($month) {
-                $q->whereJsonContains('available_months', $month)
-                    ->orWhereNull('available_months');
-            });
+            $query->whereJsonContains('available_months', $month);
 
             return;
         }
@@ -269,6 +302,7 @@ class CruiseSearchService
             'min_price' => $request->input('min_price'),
             'max_price' => $request->input('max_price'),
             'cabin_type' => $request->input('cabin_type'),
+            'cruise-class' => $request->input('cruise-class', $request->input('cruise_class')),
             'featured_only' => $request->boolean('featured_only') ? '1' : null,
             'sort' => $request->input('sort'),
         ], fn ($v) => $v !== null && $v !== '' && $v !== []);

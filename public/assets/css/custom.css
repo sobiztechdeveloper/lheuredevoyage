@@ -148,6 +148,161 @@
     color: var(--theme-color);
 }
 
+.search-nav .nav-link:hover,
+.search-nav .nav-link:focus-visible {
+    background: var(--theme-color2);
+    color: var(--color-dark);
+}
+
+.search-nav .nav-link:hover i,
+.search-nav .nav-link:focus-visible i {
+    color: var(--color-dark);
+}
+
+/* Flight / holiday trip type — hover uses brand yellow */
+.flight-search .flight-type .form-check-inline,
+.holiday-search .flight-type .form-check-inline {
+    cursor: pointer;
+    border-radius: 50px;
+    padding: 4px 14px 4px 6px;
+    margin-right: 0.35rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.flight-search .flight-type .form-check-inline:hover,
+.flight-search .flight-type .form-check-inline:focus-within,
+.holiday-search .flight-type .form-check-inline:hover,
+.holiday-search .flight-type .form-check-inline:focus-within {
+    background: rgba(232, 175, 48, 0.18);
+}
+
+.flight-search .flight-type .form-check-inline:hover .form-check-label,
+.flight-search .flight-type .form-check-inline:focus-within .form-check-label,
+.holiday-search .flight-type .form-check-inline:hover .form-check-label,
+.holiday-search .flight-type .form-check-inline:focus-within .form-check-label {
+    color: var(--theme-color2);
+}
+
+.flight-search .flight-type .form-check-inline:hover .form-check-input,
+.flight-search .flight-type .form-check-inline:focus-within .form-check-input,
+.holiday-search .flight-type .form-check-inline:hover .form-check-input,
+.holiday-search .flight-type .form-check-inline:focus-within .form-check-input {
+    border-color: var(--theme-color2);
+}
+
+.flight-search .flight-type .form-check-input:checked,
+.holiday-search .flight-type .form-check-input:checked {
+    background-color: var(--theme-color2);
+    border-color: var(--theme-color2);
+}
+
+.flight-search .search-form .multicity-btn:hover,
+.flight-search .search-form .multicity-btn:focus-visible {
+    color: var(--theme-color2);
+}
+
+/* Main navbar — yellow hover */
+.navbar .nav-item:hover .nav-link,
+.navbar .nav-item .nav-link.active,
+.navbar.fixed-top .nav-item:hover .nav-link,
+.navbar.fixed-top .nav-item .nav-link.active {
+    color: var(--theme-color2) !important;
+}
+
+.home-3 .navbar:not(.fixed-top) .nav-item:hover .nav-link,
+.home-3 .navbar:not(.fixed-top) .nav-item .nav-link.active {
+    color: var(--theme-color2) !important;
+}
+
+.header-top-right .account a:hover,
+.top-contact-info ul li a:hover,
+.top-social a:hover {
+    color: var(--theme-color2) !important;
+}
+
+.top-social a:hover {
+    border-color: var(--theme-color2);
+}
+
+/* Footer navigation — yellow hover */
+.footer-list li a:hover {
+    color: var(--theme-color2) !important;
+}
+
+.footer-list li a:hover i {
+    color: var(--theme-color2) !important;
+}
+
+.footer-social a:hover {
+    color: var(--theme-color2) !important;
+    background: rgba(232, 175, 48, 0.15);
+}
+
+/* Sticky header + search spacing (no overlap on scroll) */
+.header {
+    position: relative;
+    z-index: 1040;
+}
+
+.navbar.fixed-top {
+    z-index: 1050;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+}
+
+@media (min-width: 992px) {
+    body.is-scrolled .header-top {
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        overflow: hidden;
+        opacity: 0;
+        border: none;
+        transition: max-height 0.25s ease, opacity 0.25s ease, padding 0.25s ease;
+    }
+}
+
+body.is-scrolled .navbar.fixed-top .nav-item .nav-link {
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+/* Homepage search — fixed header spacing; template tab pill overlap */
+.home-3 .hero-single {
+    padding-top: 220px;
+    padding-bottom: 4rem;
+}
+
+.home-3 .search-header {
+    position: relative;
+    z-index: 5;
+    margin-top: -12px;
+}
+
+body.is-scrolled .home-3 .search-area {
+    scroll-margin-top: 90px;
+}
+
+@media all and (max-width: 991px) {
+    .home-3 .hero-single {
+        padding-top: 150px;
+        padding-bottom: 3rem;
+    }
+
+    .navbar.fixed-top .navbar-collapse {
+        background: #fff;
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        margin-top: 0.5rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .navbar.fixed-top .nav-item .nav-link {
+        color: var(--color-dark) !important;
+        padding: 0.65rem 0 !important;
+    }
+}
+
 /* Admin panel buttons */
 .admin-main .btn-primary {
     background-color: var(--theme-color2);

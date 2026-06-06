@@ -8,7 +8,7 @@
 
         <div class="user-profile-card mb-3">
             <h4 class="user-profile-card-title">Booking {{ $booking->reference }}</h4>
-            <p><strong>Product:</strong> {{ class_basename($booking->bookable_type) }} — {{ $booking->bookable?->title }}</p>
+            <p><strong>Product:</strong> {{ $booking->bookableTypeLabel() }} — {{ $booking->bookable?->title }}</p>
             <p><strong>Amount:</strong> {{ $booking->currency }} {{ number_format($booking->total_amount, 2) }}</p>
             <p><strong>Status:</strong> <span class="badge badge-secondary">{{ ucfirst($booking->status) }}</span></p>
             <p><strong>Booked:</strong> {{ ($booking->booked_at ?? $booking->created_at)->format('M d, Y H:i') }}</p>
@@ -17,6 +17,17 @@
                 <a href="{{ route('my-bookings.invoice.pdf', $booking) }}" class="btn btn-outline-secondary btn-sm">Download PDF</a>
             </div>
         </div>
+
+        @if($details = $booking->displayBookingDetails())
+        <div class="user-profile-card mb-3">
+            <h5>Booking Details</h5>
+            <ul class="list-unstyled mb-0">
+                @foreach($details as $label => $value)
+                    <li class="mb-2"><strong>{{ $label }}:</strong> {{ $value }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
 
         <div class="user-profile-card mb-3">
             <h5>Status Timeline</h5>

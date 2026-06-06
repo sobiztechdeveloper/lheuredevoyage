@@ -29,7 +29,7 @@
                             <ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
                         </div>
                     @endif
-                    <x-booking-form :item="$item" :bookable-type="$bookableType" />
+                    <x-booking-form :item="$item" :bookable-type="$bookableType" :travelers="$travelers ?? ['adult' => 2, 'children' => 0, 'infant' => 0]" />
                 </div>
             </div>
             <div class="col-lg-4">
@@ -41,6 +41,11 @@
                         <p><i class="far fa-location-dot"></i> {{ $item->location ?? $item->destination }}</p>
                     @endif
                     <p><strong>{{ $item->formatted_price }}</strong> / {{ $item->price_unit }}</p>
+                    @if(!empty($travelers))
+                        <p class="mb-0"><i class="far fa-user"></i>
+                            @include('partials.catalog.holiday-traveler-summary', $travelers)
+                        </p>
+                    @endif
                 </div>
             </div>
         </div>

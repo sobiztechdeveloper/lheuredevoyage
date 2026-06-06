@@ -35,10 +35,12 @@
             <a href="{{ route('admin.packages.index') }}" class="nav-link-item {{ request()->routeIs('admin.packages.*') ? 'active' : '' }}"><i class="far fa-umbrella-beach"></i><span class="nav-label">Tour Packages</span></a>
         </div>
 
-        <button class="nav-section-title" type="button" data-bs-toggle="collapse" data-bs-target="#navMaster" data-nav-section aria-expanded="{{ request()->routeIs('admin.master-data.*') ? 'true' : 'false' }}">
+        <button class="nav-section-title" type="button" data-bs-toggle="collapse" data-bs-target="#navMaster" data-nav-section aria-expanded="{{ request()->routeIs('admin.master-data.*') || request()->routeIs('admin.destinations.*') || request()->routeIs('admin.cruise-lines.*') ? 'true' : 'false' }}">
             <span>Master Data</span><i class="far fa-chevron-down nav-chevron small"></i>
         </button>
-        <div class="collapse {{ request()->routeIs('admin.master-data.*') ? 'show' : '' }} nav-submenu" id="navMaster">
+        <div class="collapse {{ request()->routeIs('admin.master-data.*') || request()->routeIs('admin.destinations.*') || request()->routeIs('admin.cruise-lines.*') ? 'show' : '' }} nav-submenu" id="navMaster">
+            <a href="{{ route('admin.destinations.index') }}" class="nav-link-item {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }}"><i class="far fa-location-dot"></i><span class="nav-label">Destinations</span></a>
+            <a href="{{ route('admin.cruise-lines.index') }}" class="nav-link-item {{ request()->routeIs('admin.cruise-lines.*') ? 'active' : '' }}"><i class="far fa-ship"></i><span class="nav-label">Cruise Lines</span></a>
             <a href="{{ route('admin.master-data.hotel_facilities.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.hotel_facilities.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Hotel Facilities</span></a>
             <a href="{{ route('admin.master-data.hotel_sports.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.hotel_sports.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Hotel Sports</span></a>
             <a href="{{ route('admin.master-data.hotel_wellness.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.hotel_wellness.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Hotel Wellness</span></a>

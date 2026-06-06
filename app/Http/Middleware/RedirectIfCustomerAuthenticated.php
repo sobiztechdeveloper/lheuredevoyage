@@ -10,7 +10,7 @@ class RedirectIfCustomerAuthenticated
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()?->isAdmin()) {
+        if (auth('admin')->check()) {
             return redirect()->route('admin.dashboard');
         }
 

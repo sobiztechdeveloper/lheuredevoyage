@@ -12,7 +12,7 @@ class EnsureUserIsActive
     {
         $user = $request->user();
 
-        if ($user && ! $user->isAdmin() && ! $user->isActive()) {
+        if ($user && ! $user->isActive()) {
             auth()->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();

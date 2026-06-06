@@ -110,32 +110,29 @@
                                 <div class="flight-search-item">
                                     <div class="row">
                                         <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <label>From</label>
-                                                <div class="form-group-icon">
-                                                    <input type="text" name="from-destination"
-                                                        class="form-control swap-from" value="{{ $search->from_destination ?? '' }}" placeholder="City or airport">
-                                                    <i class="fal fa-plane-departure"></i>
-                                                </div>
-                                                @if(isset($search) && $search->from_destination)
-                                                <p>{{ $search->from_destination }} ({{ \App\Models\FlightSearchResult::destinationCodeFrom($search->from_destination) }})</p>
-                                                @endif
-                                            </div>
+                                            <x-destination-autocomplete
+                                                name="from-destination"
+                                                context="flight_from"
+                                                format="airport"
+                                                :value="$search->from_destination ?? ''"
+                                                label="From"
+                                                icon="fal fa-plane-departure"
+                                                input-class="form-control swap-from"
+                                                placeholder="City or airport"
+                                            />
                                         </div>
                                         <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <div class="search-form-swap"><i class="far fa-repeat"></i>
-                                                </div>
-                                                <label>To</label>
-                                                <div class="form-group-icon">
-                                                    <input type="text" name="to-destination"
-                                                        class="form-control swap-to" value="{{ $search->to_destination ?? '' }}" placeholder="City or airport">
-                                                    <i class="fal fa-plane-arrival"></i>
-                                                </div>
-                                                @if(isset($search) && $search->to_destination)
-                                                <p>{{ $search->to_destination }} ({{ \App\Models\FlightSearchResult::destinationCodeFrom($search->to_destination) }})</p>
-                                                @endif
-                                            </div>
+                                            <x-destination-autocomplete
+                                                name="to-destination"
+                                                context="flight_to"
+                                                format="airport"
+                                                :value="$search->to_destination ?? ''"
+                                                label="To"
+                                                icon="fal fa-plane-arrival"
+                                                input-class="form-control swap-to"
+                                                placeholder="City or airport"
+                                                :swap="true"
+                                            />
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
@@ -269,32 +266,31 @@
                                 <div class="flight-search-item flight-multicity-item have-to-clone">
                                     <div class="row">
                                         <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <label>From</label>
-                                                <div class="form-group-icon">
-                                                    <input type="text" name="from-destination"
-                                                        class="form-control swap-from" value="{{ $search->from_destination ?? '' }}" placeholder="City or airport">
-                                                    <i class="fal fa-plane-departure"></i>
-                                                </div>
-                                                @if(isset($search) && $search->from_destination)
-                                                <p>{{ $search->from_destination }} ({{ \App\Models\FlightSearchResult::destinationCodeFrom($search->from_destination) }})</p>
-                                                @endif
-                                            </div>
+                                            <x-destination-autocomplete
+                                                name="from-destination"
+                                                context="flight_from"
+                                                format="airport"
+                                                :value="$search->from_destination ?? ''"
+                                                label="From"
+                                                icon="fal fa-plane-departure"
+                                                input-class="form-control swap-from"
+                                                placeholder="City or airport"
+                                                :disabled="true"
+                                            />
                                         </div>
                                         <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <div class="search-form-swap"><i class="far fa-repeat"></i>
-                                                </div>
-                                                <label>To</label>
-                                                <div class="form-group-icon">
-                                                    <input type="text" name="to-destination"
-                                                        class="form-control swap-to" value="{{ $search->to_destination ?? '' }}" placeholder="City or airport">
-                                                    <i class="fal fa-plane-arrival"></i>
-                                                </div>
-                                                @if(isset($search) && $search->to_destination)
-                                                <p>{{ $search->to_destination }} ({{ \App\Models\FlightSearchResult::destinationCodeFrom($search->to_destination) }})</p>
-                                                @endif
-                                            </div>
+                                            <x-destination-autocomplete
+                                                name="to-destination"
+                                                context="flight_to"
+                                                format="airport"
+                                                :value="$search->to_destination ?? ''"
+                                                label="To"
+                                                icon="fal fa-plane-arrival"
+                                                input-class="form-control swap-to"
+                                                placeholder="City or airport"
+                                                :swap="true"
+                                                :disabled="true"
+                                            />
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
@@ -303,7 +299,7 @@
                                                         <label>Journey Date</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="journey-date"
-                                                                class="form-control date-picker journey-date" value="{{ isset($search) ? $search->journey_date->format('Y-m-d') : '' }}">
+                                                                class="form-control date-picker journey-date" value="{{ isset($search) ? $search->journey_date->format('Y-m-d') : '' }}" disabled>
                                                             <i class="fal fa-calendar-days"></i>
                                                         </div>
                                                         <p class="journey-day-name"></p>
@@ -392,7 +388,7 @@
                     @forelse(($results ?? []) as $result)
                         @include('pages.publicView.flight.partials.flight-result-item', ['result' => $result])
                     @empty
-                        <div class="col-lg-12">
+                    <div class="col-lg-12">
                             <p class="text-center py-4">
                                 @if(isset($search))
                                     No flights match your filters. Adjust filters or update your search.
@@ -400,9 +396,9 @@
                                     Search for flights using the form above.
                                 @endif
                             </p>
-                        </div>
+                                            </div>
                     @endforelse
-                </div>
+                    </div>
 
                     @if(isset($resultsCount) && $resultsCount > 0)
                     <div class="pagination-area">

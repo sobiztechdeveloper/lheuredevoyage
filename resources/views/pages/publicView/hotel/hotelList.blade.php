@@ -58,17 +58,14 @@
                         <div class="hotel-search-wrapper">
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label>Destination</label>
-                                        <div class="form-group-icon">
-                                            <input type="text" name="destination" class="form-control"
-                                                value="{{ $search->destination ?? '' }}" placeholder="City, hotel or area" required>
-                                            <i class="fal fa-earth-americas"></i>
-                                        </div>
-                                        @if(!empty($search?->destination))
-                                        <p>{{ $search->destination }}</p>
-                                        @endif
-                                    </div>
+                                    <x-destination-autocomplete
+                                        name="destination"
+                                        context="hotel"
+                                        :value="$search->destination ?? ''"
+                                        label="Destination"
+                                        icon="fal fa-earth-americas"
+                                        placeholder="City, hotel or area"
+                                    />
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
@@ -208,7 +205,7 @@
                         'filterGroups' => $filterGroups ?? [],
                         'facets' => $facets ?? [],
                         'activeFilters' => $activeFilters ?? [],
-                        'filterAction' => $filterAction ?? route('hotel.search'),
+                        'filterAction' => $filterAction ?? route('hotel'),
                         'sort' => $sort ?? 'default',
                         'priceMin' => $priceMin ?? null,
                         'priceMax' => $priceMax ?? null,

@@ -1,10 +1,15 @@
+@php
+    $filterAction = $filterAction ?? url()->current();
+    $filterParams = collect($filterGroups ?? [])->pluck('param')->all();
+    $excludeFromPreserve = array_merge($filterParams, ['page']);
+    $hasActiveFilters = collect($filterParams)->contains(fn ($param) => request()->has($param));
+    $searchQuery = collect(request()->query())->except($filterParams)->all();
+    $clearUrl = $searchQuery !== [] ? $filterAction.'?'.http_build_query($searchQuery) : $filterAction;
+@endphp
+
 @if(!empty($filterGroups))
-<form method="GET" action="{{ url()->current() }}" id="catalog-filters-form">
-    @foreach(['destination', 'q'] as $preserve)
-        @if(request()->filled($preserve))
-            <input type="hidden" name="{{ $preserve }}" value="{{ request($preserve) }}">
-        @endif
-    @endforeach
+<form method="GET" action="{{ $filterAction }}" id="catalog-filters-form">
+    <x-catalog-search-preserved-inputs :except="$excludeFromPreserve" />
     <div class="booking-sidebar">
         @foreach($filterGroups as $group)
             @if($group['options']->isNotEmpty())
@@ -27,8 +32,8 @@
             @endif
         @endforeach
         <button type="submit" class="theme-btn btn-sm w-100 mt-2">Apply Filters</button>
-        @if(collect($filterGroups)->pluck('param')->contains(fn ($p) => request()->has($p)))
-            <a href="{{ request()->url() }}" class="btn btn-link btn-sm w-100 mt-1">Clear filters</a>
+        @if($hasActiveFilters)
+            <a href="{{ $clearUrl }}" class="btn btn-link btn-sm w-100 mt-1">Clear filters</a>
         @endif
     </div>
 </form>

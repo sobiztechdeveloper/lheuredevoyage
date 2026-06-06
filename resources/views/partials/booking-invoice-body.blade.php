@@ -10,7 +10,10 @@
     <thead><tr><th>Item</th><th class="text-end">Amount</th></tr></thead>
     <tbody>
         <tr>
-            <td>{{ class_basename($booking->bookable_type) }} — {{ $booking->bookable?->title ?? $booking->bookable?->name }}</td>
+            <td>
+                {{ $booking->bookableTypeLabel() }} — {{ $booking->bookable?->title ?? $booking->bookable?->name }}
+                @if($booking->travelersLabel())<br><small>{{ $booking->travelersLabel() }}</small>@endif
+            </td>
             <td class="text-end">{{ $booking->currency }} {{ number_format($booking->total_amount, 2) }}</td>
         </tr>
     </tbody>

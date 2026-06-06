@@ -15,21 +15,19 @@
         <div class="search-wrapper">
             <div class="search-box tour-search">
                 <div class="search-form">
-                    <form method="GET" action="{{ route('travelinsurance.search') }}">
+                    <form method="GET" action="{{ route('travelinsurance') }}">
                         <x-catalog-search-preserved-inputs :except="['destination', 'q', 'page', 'journey-date', 'return-date', 'travelers', 'sort', 'plan_type', 'schengen', 'worldwide', 'featured_only', 'insurance_types', 'coverage_types']" />
                         <div class="tour-search-wrapper">
                             <div class="row align-items-end">
                                 <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label>Destination</label>
-                                        <div class="form-group-icon">
-                                            <input type="text" name="destination" class="form-control"
-                                                value="{{ $activeDestination ?? '' }}"
-                                                placeholder="Country or region (e.g. France, Schengen)">
-                                            <i class="fal fa-earth-americas"></i>
-                                        </div>
-                                        <p class="mb-0">Where are you travelling?</p>
-                                    </div>
+                                    <x-destination-autocomplete
+                                        name="destination"
+                                        context="insurance"
+                                        :value="$activeDestination ?? ''"
+                                        label="Destination"
+                                        icon="fal fa-earth-americas"
+                                        placeholder="Country or region"
+                                    />
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
@@ -87,7 +85,7 @@
             <div class="col-lg-8 col-xl-9">
                 <div class="booking-sort mb-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
                     <h5 class="mb-0">{{ $items->total() }} {{ Str::plural('Insurance Plan', $items->total()) }} Found</h5>
-                    <form method="GET" action="{{ route('travelinsurance.search') }}" class="booking-sort-box" style="min-width:200px;">
+                    <form method="GET" action="{{ route('travelinsurance') }}" class="booking-sort-box" style="min-width:220px;">
                         @foreach(request()->except(['sort', 'page']) as $key => $value)
                             @if(is_array($value))
                                 @foreach($value as $item)
