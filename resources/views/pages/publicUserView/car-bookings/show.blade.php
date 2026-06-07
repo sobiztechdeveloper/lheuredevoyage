@@ -14,8 +14,8 @@
         <div class="row g-3 mb-4">
             <div class="col-md-6"><small class="text-muted">Pickup</small><div>{{ $booking->pickup_location }}</div></div>
             <div class="col-md-6"><small class="text-muted">Drop-off</small><div>{{ $booking->dropoff_location ?: $booking->pickup_location }}</div></div>
-            <div class="col-md-6"><small class="text-muted">Pickup Date</small><div>{{ $booking->pickup_date->format('M d, Y') }}</div></div>
-            <div class="col-md-6"><small class="text-muted">Return Date</small><div>{{ $booking->return_date->format('M d, Y') }}</div></div>
+            <div class="col-md-6"><small class="text-muted">Pickup Date</small><div>{{ $booking->pickup_date->format(config('date.display')) }}</div></div>
+            <div class="col-md-6"><small class="text-muted">Return Date</small><div>{{ $booking->return_date->format(config('date.display')) }}</div></div>
         </div>
 
         @if($booking->voucher_path || $booking->invoice_path || $booking->rental_agreement_path)

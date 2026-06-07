@@ -41,7 +41,7 @@
         <div class="fbw-card">
             <h4 class="fbw-card-title">Your Selection</h4>
             <p class="mb-2"><strong>{{ $hotel->name }}</strong>@if($room) — {{ $room->name }}@endif</p>
-            <p class="text-muted mb-2">{{ $context['check_in']->format('M d, Y') }} → {{ $context['check_out']->format('M d, Y') }} ({{ $context['nights'] }} nights)</p>
+            <p class="text-muted mb-2">{{ $context['check_in']->format(config('date.display')) }} → {{ $context['check_out']->format(config('date.display')) }} ({{ $context['nights'] }} nights)</p>
             <p class="text-muted mb-3">{{ $context['rooms'] }} room(s) · {{ $occupancyLabel }}</p>
             <div class="fbw-notice mb-0">
                 This is a <strong>booking request only</strong>. Our team will confirm availability and final pricing. No payment required now.
@@ -179,8 +179,8 @@ window.hbwSummary = {
     hotel: @json($hotel->name),
     room: @json($room?->name ?? 'Room'),
     location: @json($hotel->location),
-    check_in: @json($context['check_in']->format('M d, Y')),
-    check_out: @json($context['check_out']->format('M d, Y')),
+    check_in: @json($context['check_in']->format(config('date.display'))),
+    check_out: @json($context['check_out']->format(config('date.display'))),
     estimated: @json(strtoupper($context['currency']).' '.number_format($context['estimated_amount'], 0))
 };
 </script>

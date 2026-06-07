@@ -57,8 +57,8 @@
                             <span class="badge bg-secondary">Inactive</span>
                         @endif
                     </td>
-                    <td class="small">{{ $page->published_at?->format('M d, Y') ?? '—' }}</td>
-                    <td class="small">{{ $page->updated_at->format('M d, Y H:i') }}</td>
+                    <td class="small">{{ $page->published_at?->format(config('date.display')) ?? '—' }}</td>
+                    <td class="small">{{ $page->updated_at->format(config('date.display_datetime')) }}</td>
                     <td class="text-end">
                         <a href="{{ $page->publicUrl() }}" class="btn btn-sm btn-admin-outline" target="_blank" rel="noopener">View</a>
                         <a href="{{ route('admin.legal-pages.edit', $page) }}" class="btn btn-sm btn-admin-primary">Edit</a>

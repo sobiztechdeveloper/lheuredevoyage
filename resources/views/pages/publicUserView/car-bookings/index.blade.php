@@ -21,7 +21,7 @@
                         <tr>
                             <td><strong>{{ $b->reference_number }}</strong></td>
                             <td>{{ $b->rentalCar?->name }}</td>
-                            <td>{{ $b->pickup_date->format('M d, Y') }}</td>
+                            <td>{{ $b->pickup_date->format(config('date.display')) }}</td>
                             <td><x-car-booking-status :status="$b->status" /></td>
                             <td><a href="{{ route('my-car-bookings.show', $b) }}">View Details</a></td>
                         </tr>

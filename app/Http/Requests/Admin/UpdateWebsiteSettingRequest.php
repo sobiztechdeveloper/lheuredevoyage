@@ -2,11 +2,20 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Support\PageBanner;
+
 class UpdateWebsiteSettingRequest extends AdminFormRequest
 {
 
     public function rules(): array
     {
+        $catalogBreadcrumbRules = collect(PageBanner::catalogAdminLabels())
+            ->keys()
+            ->mapWithKeys(fn (string $key) => [
+                "breadcrumb_{$key}" => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp,gif', 'max:4096'],
+            ])
+            ->all();
+
         return [
             'company_name' => ['nullable', 'string', 'max:255'],
             'company_email' => ['nullable', 'email', 'max:255'],
@@ -24,6 +33,7 @@ class UpdateWebsiteSettingRequest extends AdminFormRequest
             'youtube_url' => ['nullable', 'url', 'max:255'],
             'footer_text' => ['nullable', 'string', 'max:2000'],
             'copyright_text' => ['nullable', 'string', 'max:255'],
+            ...$catalogBreadcrumbRules,
         ];
     }
 }

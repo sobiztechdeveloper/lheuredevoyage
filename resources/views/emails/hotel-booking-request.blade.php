@@ -8,8 +8,8 @@
 Thank you for your request at **{{ $hotelName }}**.
 
 **Reference:** {{ $request->reference_number }}  
-**Check-in:** {{ $request->check_in_date->format('M d, Y') }}  
-**Check-out:** {{ $request->check_out_date->format('M d, Y') }}
+**Check-in:** {{ $request->check_in_date->format(config('date.display')) }}  
+**Check-out:** {{ $request->check_out_date->format(config('date.display')) }}
 
 Our travel consultant will contact you shortly to confirm availability and final pricing.
 

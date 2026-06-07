@@ -25,8 +25,8 @@
             <div class="row g-3">
                 <div class="col-md-6"><span class="text-muted small d-block">Reference</span><strong>{{ $bookingRequest->reference_number }}</strong></div>
                 <div class="col-md-6"><span class="text-muted small d-block">Status</span><x-car-booking-status :status="$bookingRequest->status" /></div>
-                <div class="col-md-6"><span class="text-muted small d-block">Pickup</span>{{ $bookingRequest->pickup_date->format('M d, Y') }} {{ $bookingRequest->pickup_time ?: '' }}</div>
-                <div class="col-md-6"><span class="text-muted small d-block">Return</span>{{ $bookingRequest->return_date->format('M d, Y') }} {{ $bookingRequest->return_time ?: '' }}</div>
+                <div class="col-md-6"><span class="text-muted small d-block">Pickup</span>{{ $bookingRequest->pickup_date->format(config('date.display')) }} {{ $bookingRequest->pickup_time ?: '' }}</div>
+                <div class="col-md-6"><span class="text-muted small d-block">Return</span>{{ $bookingRequest->return_date->format(config('date.display')) }} {{ $bookingRequest->return_time ?: '' }}</div>
                 <div class="col-md-6"><span class="text-muted small d-block">Drivers</span>{{ $bookingRequest->drivers->count() }}</div>
                 <div class="col-md-6"><span class="text-muted small d-block">Estimated</span>{{ strtoupper($bookingRequest->currency) }} {{ number_format((float) $bookingRequest->estimated_amount, 2) }}</div>
             </div>
@@ -61,7 +61,7 @@
                     @forelse($bookingRequest->drivers as $driver)
                         <tr>
                             <td>{{ $driver->fullName() }}</td>
-                            <td>{{ $driver->date_of_birth?->format('M d, Y') ?? '—' }}</td>
+                            <td>{{ $driver->date_of_birth?->format(config('date.display')) ?? '—' }}</td>
                             <td>{{ $driver->license_number ?: '—' }}</td>
                             <td>{{ $driver->passport_number ?: '—' }}</td>
                             <td>

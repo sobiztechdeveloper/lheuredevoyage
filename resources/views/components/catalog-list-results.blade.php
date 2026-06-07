@@ -1,4 +1,4 @@
-@props(['items', 'routePrefix', 'label' => 'Results', 'showHeader' => true, 'searchQuery' => []])
+@props(['items', 'routePrefix', 'label' => 'Results', 'showHeader' => true, 'searchQuery' => [], 'emptyType' => 'rentalcar'])
 
 @if($showHeader)
 <div class="booking-sort">
@@ -10,9 +10,7 @@
     @forelse($items as $item)
         <x-catalog-card :item="$item" :route-prefix="$routePrefix" :search-query="$searchQuery" />
     @empty
-        <div class="col-12">
-            <p class="text-center py-5">No results found. Try adjusting your search.</p>
-        </div>
+        <x-catalog-empty-state :type="$emptyType" :search-query="$searchQuery" />
     @endforelse
 </div>
 

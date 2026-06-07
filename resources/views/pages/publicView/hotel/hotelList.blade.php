@@ -8,27 +8,17 @@
 
 @section('content')
 
-<!-- breadcrumb -->
-<div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/05.jpg)">
-    <div class="container">
-        <h2 class="breadcrumb-title">
-            @if(isset($resultsCount))
-                {{ number_format($resultsCount) }}@if(isset($totalResultsCount) && $totalResultsCount !== $resultsCount) of {{ number_format($totalResultsCount) }}@endif Hotels Found
-            @else
-                Hotels
-            @endif
-        </h2>
-        <ul class="breadcrumb-menu">
-            <li><a href="{{ route('home') }}">Home</a></li>
-            <li class="active">Hotel Search</li>
-        </ul>
-    </div>
-</div>
-<!-- breadcrumb end -->
+@php
+    $hotelListTitle = isset($resultsCount)
+        ? number_format($resultsCount) . (isset($totalResultsCount) && $totalResultsCount !== $resultsCount ? ' of ' . number_format($totalResultsCount) : '') . ' Hotels Found'
+        : 'Hotels';
+@endphp
 
-<!-- search area -->
-<div class="search-area search-common">
-    <div class="container">
+<x-catalog-list-hero :title="$hotelListTitle" page="hotel">
+    <x-slot:breadcrumb>
+        <li class="active">Hotel Search</li>
+    </x-slot:breadcrumb>
+    <x-slot:search>
         <div class="search-wrapper">
             <div class="search-box hotel-search">
                 <div class="search-form">
@@ -75,7 +65,7 @@
                                                 <div class="form-group-icon">
                                                     <input type="text" name="journey-date"
                                                         class="form-control date-picker journey-date"
-                                                        value="{{ isset($search) ? $search->journey_date->format('Y-m-d') : '' }}" required>
+                                                        value="{{ isset($search) ? $search->journey_date->format(config('date.display')) : '' }}" required>
                                                     <i class="fal fa-calendar-days"></i>
                                                 </div>
                                                 <p class="journey-day-name"></p>
@@ -85,7 +75,7 @@
                                                 <div class="form-group-icon">
                                                     <input type="text" name="return-date"
                                                         class="form-control date-picker return-date"
-                                                        value="{{ isset($search) && $search->return_date ? $search->return_date->format('Y-m-d') : '' }}">
+                                                        value="{{ isset($search) && $search->return_date ? $search->return_date->format(config('date.display')) : '' }}">
                                                 </div>
                                                 <p class="return-day-name"></p>
                                             </div>
@@ -190,12 +180,11 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- search area end -->
+    </x-slot:search>
+</x-catalog-list-hero>
 
 <!-- hotel grid -->
-<div class="hotel-grid py-120">
+<div class="hotel-grid catalog-list-results">
     <div class="container">
         <div class="row">
             <div class="col-lg-4 col-xl-3 mb-4">
@@ -235,17 +224,16 @@
                     @forelse(($results ?? []) as $result)
                         @include('pages.publicView.hotel.partials.hotel-result-item', ['result' => $result, 'search' => $search ?? null])
                     @empty
-                        <div class="col-12">
-                            <p class="text-center py-5">
-                                @isset($search)
-                                    No hotels match your filters. Adjust filters or update your search.
-                                @else
-                                    Search for hotels using the form above.
-                                @endisset
-                            </p>
-                        </div>
+                        <x-catalog-empty-state
+                            type="hotel"
+                            :has-search="isset($search)"
+                            :search-query="$searchQuery ?? []"
+                        />
                     @endforelse
                 </div>
+
+                <x-catalog-quote-banner type="hotel" :search-query="$searchQuery ?? []" />
+
                 @if(isset($resultsCount) && $resultsCount > 0)
                 <div class="pagination-area mt-4">
                     <div class="pagination-showing">

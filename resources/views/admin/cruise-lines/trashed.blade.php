@@ -18,7 +18,7 @@
                 @forelse($items as $item)
                 <tr>
                     <td>{{ $item->name }}</td>
-                    <td class="small text-muted">{{ $item->deleted_at?->format('Y-m-d H:i') }}</td>
+                    <td class="small text-muted">{{ $item->deleted_at?->format(config('date.display_datetime')) }}</td>
                     <td class="text-end">
                         <form method="POST" action="{{ route('admin.cruise-lines.restore', $item->id) }}">
                             @csrf

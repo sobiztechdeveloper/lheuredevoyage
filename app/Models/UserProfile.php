@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\CmsImageUploader;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -18,10 +19,9 @@ class UserProfile extends Model
 
     public function getAvatarUrlAttribute(): string
     {
-        if ($this->avatar) {
-            return asset($this->avatar);
-        }
-
-        return asset('assets/img/account/user.jpg');
+        return app(CmsImageUploader::class)->url(
+            $this->avatar,
+            'assets/img/account/user.jpg'
+        );
     }
 }

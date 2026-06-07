@@ -6,11 +6,7 @@
 <div class="col-lg-3">
     <div class="user-profile-sidebar">
         <div class="user-profile-sidebar-top">
-            <div class="user-profile-img">
-                <img src="{{ $profile?->avatar_url ?? asset('assets/img/account/user.jpg') }}" alt="">
-                <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
-                <input type="file" class="profile-img-file">
-            </div>
+            <x-profile-avatar-upload :user="$user" upload-id="sidebar-profile-avatar" />
             <h4>{{ $user->name }}</h4>
             <p>{{ $user->email }}</p>
         </div>

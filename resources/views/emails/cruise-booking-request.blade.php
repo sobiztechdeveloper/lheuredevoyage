@@ -8,8 +8,8 @@
 Thank you for your request at **{{ $cruiseName }}**.
 
 **Reference:** {{ $request->reference_number }}  
-**Departure:** {{ $request->departure_date->format('M d, Y') }}  
-@if($request->return_date)**Return:** {{ $request->return_date->format('M d, Y') }}@endif
+**Departure:** {{ $request->departure_date->format(config('date.display')) }}  
+@if($request->return_date)**Return:** {{ $request->return_date->format(config('date.display')) }}@endif
 
 Our travel consultant will contact you shortly to confirm availability and final pricing.
 

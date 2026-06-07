@@ -25,8 +25,8 @@
             <div class="row g-3">
                 <div class="col-md-6"><span class="text-muted small d-block">Reference</span><strong>{{ $bookingRequest->reference_number }}</strong></div>
                 <div class="col-md-6"><span class="text-muted small d-block">Status</span><x-hotel-booking-status :status="$bookingRequest->status" /></div>
-                <div class="col-md-6"><span class="text-muted small d-block">Check-in</span>{{ $bookingRequest->check_in_date->format('M d, Y') }}</div>
-                <div class="col-md-6"><span class="text-muted small d-block">Check-out</span>{{ $bookingRequest->check_out_date->format('M d, Y') }}</div>
+                <div class="col-md-6"><span class="text-muted small d-block">Check-in</span>{{ $bookingRequest->check_in_date->format(config('date.display')) }}</div>
+                <div class="col-md-6"><span class="text-muted small d-block">Check-out</span>{{ $bookingRequest->check_out_date->format(config('date.display')) }}</div>
                 <div class="col-md-6"><span class="text-muted small d-block">Rooms / Guests</span>{{ $bookingRequest->rooms }} room(s) · {{ $bookingRequest->guestCount() }} guest(s)</div>
                 <div class="col-md-6"><span class="text-muted small d-block">Estimated</span>{{ strtoupper($bookingRequest->currency) }} {{ number_format($bookingRequest->estimated_amount, 2) }}</div>
             </div>
@@ -82,7 +82,7 @@
                 @foreach($bookingRequest->statusHistories as $history)
                 <li class="mb-3 pb-3 border-bottom">
                     <strong>{{ $history->newStatusLabel() }}</strong>
-                    <span class="text-muted small">· {{ $history->created_at->format('M d, Y H:i') }}</span>
+                    <span class="text-muted small">· {{ $history->created_at->format(config('date.display_datetime')) }}</span>
                     @if($history->changedBy)<br><span class="small text-muted">By {{ $history->changedBy->name }}</span>@endif
                     @if($history->notes)<br><span class="small">{{ $history->notes }}</span>@endif
                 </li>

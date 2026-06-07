@@ -13,7 +13,7 @@
         <tbody>
             @foreach($logs as $log)
             <tr>
-                <td>{{ $log->created_at->format('M d, Y H:i') }}</td>
+                <td>{{ $log->created_at->format(config('date.display_datetime')) }}</td>
                 <td>{{ $log->user?->name ?? '—' }}</td>
                 <td><code>{{ $log->action }}</code></td>
                 <td>{{ $log->subject_type ? class_basename($log->subject_type).' #'.$log->subject_id : '—' }}</td>

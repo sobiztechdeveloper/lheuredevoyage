@@ -71,7 +71,7 @@
                 </div>
 
                 @if($page->updated_at)
-                    <p class="text-muted small mt-4 mb-0">Last updated: {{ $page->updated_at->format('F j, Y') }}</p>
+                    <p class="text-muted small mt-4 mb-0">Last updated: {{ $page->updated_at->format(config('date.display')) }}</p>
                 @endif
             </div>
         </div>

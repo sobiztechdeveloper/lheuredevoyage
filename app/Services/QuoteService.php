@@ -120,7 +120,7 @@ class QuoteService
 
         $description = "Booking reference: {$request->booking_reference}\n"
             ."Route: {$request->routeLabel()}\n"
-            ."Departure: {$request->departure_date->format('M d, Y')}\n"
+            ."Departure: {$request->departure_date->format(config('date.display'))}\n"
             ."Passengers: {$request->passengerCount()}\n"
             .($passengerSummary ? "Travelers: {$passengerSummary}" : '');
 
@@ -157,8 +157,8 @@ class QuoteService
         $description = "Reference: {$request->reference_number}\n"
             ."Hotel: {$hotelName}\n"
             ."Room: {$roomName}\n"
-            ."Check-in: {$request->check_in_date->format('M d, Y')}\n"
-            ."Check-out: {$request->check_out_date->format('M d, Y')}\n"
+            ."Check-in: {$request->check_in_date->format(config('date.display'))}\n"
+            ."Check-out: {$request->check_out_date->format(config('date.display'))}\n"
             ."Guests: {$request->guestCount()}";
 
         $items = [[
@@ -191,8 +191,8 @@ class QuoteService
         $cruiseName = $request->selected_cruise['name'] ?? $request->cruise?->name ?? 'Cruise';
         $description = "Reference: {$request->reference_number}\n"
             ."Cruise: {$cruiseName}\n"
-            ."Departure: {$request->departure_date->format('M d, Y')}\n"
-            .($request->return_date ? "Return: {$request->return_date->format('M d, Y')}\n" : '')
+            ."Departure: {$request->departure_date->format(config('date.display'))}\n"
+            .($request->return_date ? "Return: {$request->return_date->format(config('date.display'))}\n" : '')
             ."Passengers: {$request->passengerCount()}";
 
         $items = [[
@@ -225,8 +225,8 @@ class QuoteService
         $carName = $request->selected_vehicle['name'] ?? $request->rentalCar?->name ?? 'Rental Car';
         $description = "Reference: {$request->reference_number}\n"
             ."Vehicle: {$carName}\n"
-            ."Pick-up: {$request->pickup_location} on {$request->pickup_date->format('M d, Y')}\n"
-            ."Return: ".($request->dropoff_location ?: $request->pickup_location)." on {$request->return_date->format('M d, Y')}\n"
+            ."Pick-up: {$request->pickup_location} on {$request->pickup_date->format(config('date.display'))}\n"
+            ."Return: ".($request->dropoff_location ?: $request->pickup_location)." on {$request->return_date->format(config('date.display'))}\n"
             ."Drivers: {$request->drivers()->count()}";
 
         $items = [[
@@ -260,7 +260,7 @@ class QuoteService
         $description = "Reference: {$request->reference_number}\n"
             ."Policy: {$policyName}\n"
             ."Destination: ".($request->destination ?: 'Not specified')."\n"
-            ."Travel: {$request->travel_start->format('M d, Y')} to {$request->travel_end->format('M d, Y')}\n"
+            ."Travel: {$request->travel_start->format(config('date.display'))} to {$request->travel_end->format(config('date.display'))}\n"
             ."Travelers: {$request->travelers()->count()}";
 
         $items = [[

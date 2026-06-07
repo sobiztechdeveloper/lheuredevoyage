@@ -86,10 +86,30 @@
                 @include('admin.partials.single-image-upload', [
                     'name' => 'default_breadcrumb_image',
                     'label' => 'Default Breadcrumb Background',
-                    'hint' => 'Used on inner pages when no page-specific banner is set. Recommended: 1920×350 px.',
+                    'hint' => 'Used on inner pages when no page-specific banner is set. Recommended: 1920×300 px.',
                     'currentUrl' => $settings->default_breadcrumb_image ? $settings->default_breadcrumb_image_url : null,
                     'class' => 'col-12',
                 ])
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-form-card">
+        <div class="admin-form-card-header">
+            <h2><i class="far fa-images"></i> Catalog Page Banners</h2>
+        </div>
+        <div class="admin-form-card-body">
+            <p class="text-muted small mb-3">Breadcrumb backgrounds for tour packages, flights, hotels, cruises, cars, and travel insurance list pages. Recommended: 1920×300 px. Falls back to the default breadcrumb image above when not set.</p>
+            <div class="row g-4">
+                @foreach(\App\Support\PageBanner::catalogAdminLabels() as $pageKey => $label)
+                    @include('admin.partials.single-image-upload', [
+                        'name' => 'breadcrumb_' . $pageKey,
+                        'label' => $label,
+                        'hint' => 'List page banner for ' . $label . '.',
+                        'currentUrl' => $settings->pageBreadcrumbImageUrl($pageKey),
+                        'class' => 'col-md-6',
+                    ])
+                @endforeach
             </div>
         </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CmsImageUploader;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,5 +38,21 @@ class UserProfileController extends Controller
         $user->profile()->updateOrCreate(['user_id' => $user->id], $profileData);
 
         return redirect()->route('my-profile')->with('success', 'Profile updated.');
+    }
+
+    public function updateAvatar(Request $request, CmsImageUploader $uploader): RedirectResponse
+    {
+        $request->validate([
+            'avatar' => ['required', 'image', 'mimes:jpeg,jpg,png,webp', 'max:2048'],
+        ]);
+
+        $user = Auth::user();
+        $profile = $user->profile()->firstOrCreate(['user_id' => $user->id]);
+
+        $profile->update([
+            'avatar' => $uploader->upload($request->file('avatar'), 'avatars', $profile->avatar),
+        ]);
+
+        return back()->with('success', 'Profile photo updated.');
     }
 }

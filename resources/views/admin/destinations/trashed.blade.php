@@ -36,7 +36,7 @@
                     <td>{{ $item->name }}</td>
                     <td>{{ $typeOptions[$item->type] ?? $item->type }}</td>
                     <td><code>{{ $item->code ?: '—' }}</code></td>
-                    <td class="small text-muted">{{ $item->deleted_at?->format('Y-m-d H:i') }}</td>
+                    <td class="small text-muted">{{ $item->deleted_at?->format(config('date.display_datetime')) }}</td>
                     <td class="text-end">
                         <form method="POST" action="{{ route('admin.destinations.restore', $item->id) }}">
                             @csrf

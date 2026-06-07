@@ -21,7 +21,7 @@
                     <td>{{ $contact->name }}</td>
                     <td>{{ $contact->email }}</td>
                     <td>{{ $contact->subject ?? '—' }}</td>
-                    <td>{{ $contact->created_at->format('M d, Y') }}</td>
+                    <td>{{ $contact->created_at->format(config('date.display')) }}</td>
                     <td>@if($contact->read_at)<span class="badge bg-success">Read</span>@else<span class="badge bg-warning">New</span>@endif</td>
                     <td class="text-end">
                         <a href="{{ route('admin.inquiries.show', $contact) }}" class="btn btn-sm btn-outline-primary">View</a>

@@ -8,7 +8,7 @@
 Thank you for your request for **{{ $policyName }}**.
 
 **Reference:** {{ $request->reference_number }}  
-**Travel period:** {{ $request->travel_start->format('M d, Y') }} - {{ $request->travel_end->format('M d, Y') }}  
+**Travel period:** {{ $request->travel_start->format(config('date.display')) }} - {{ $request->travel_end->format(config('date.display')) }}  
 **Destination:** {{ $request->destination ?: 'Not specified' }}
 
 Our travel consultant will contact you shortly to confirm coverage and final pricing.

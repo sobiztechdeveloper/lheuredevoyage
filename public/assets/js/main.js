@@ -420,9 +420,24 @@ Version         : 1.0
     });
 
 
-    // profile image btn
+    // profile image upload
     $(".profile-img-btn").click(function () {
-        $(".profile-img-file").click();
+        $(this).closest(".user-profile-img").find(".profile-img-file").trigger("click");
+    });
+
+    $(".profile-img-file").on("change", function () {
+        if (!this.files.length) {
+            return;
+        }
+
+        const $form = $(this).closest(".profile-avatar-form");
+        const $preview = $form.find(".profile-avatar-preview");
+
+        if ($preview.length) {
+            $preview.attr("src", URL.createObjectURL(this.files[0]));
+        }
+
+        $form.trigger("submit");
     });
 
 
@@ -442,9 +457,21 @@ Version         : 1.0
     }
 
 
-    // search date picker 
+    function formatDisplayDate(date) {
+        var day = String(date.getDate()).padStart(2, '0');
+        var month = String(date.getMonth() + 1).padStart(2, '0');
+        var year = date.getFullYear();
+
+        return day + '/' + month + '/' + year;
+    }
+
+    // search date picker
     if ($('.date-picker').length) {
-        $(".date-picker").datepicker();
+        $(".date-picker").datepicker({
+            dateFormat: 'dd/mm/yy',
+            changeMonth: true,
+            changeYear: true,
+        });
     }
 
 
@@ -530,11 +557,11 @@ Version         : 1.0
     journeyDate.setDate(today.getDate() + 1);
     returnDate.setDate(today.getDate() + 2);
 
-    $(".journey-date").val(journeyDate.toLocaleDateString());
-    $(".return-date").val(returnDate.toLocaleDateString());
+    $(".journey-date").val(formatDisplayDate(journeyDate));
+    $(".return-date").val(formatDisplayDate(returnDate));
 
-    $(".journey-day-name").html(journeyDate.toLocaleString('en-us', { weekday: 'long' }));
-    $(".return-day-name").html(returnDate.toLocaleString('en-us', { weekday: 'long' }));
+    $(".journey-day-name").html(journeyDate.toLocaleString('en-GB', { weekday: 'long' }));
+    $(".return-day-name").html(returnDate.toLocaleString('en-GB', { weekday: 'long' }));
 
     $(".journey-date").change(function () {
         var ojd = $(this).closest(".search-form-date").find(".journey-date").val();
@@ -689,7 +716,11 @@ Version         : 1.0
 
         var i = 0;
         $('.flight-multicity-item .date-picker').each(function () {
-            $(this).attr("id", 'date' + i).datepicker();
+            $(this).attr("id", 'date' + i).datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
+            });
             i++;
         });
 

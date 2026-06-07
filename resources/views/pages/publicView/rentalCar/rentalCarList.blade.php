@@ -8,15 +8,15 @@
 
 @section('content')
 
-<x-site-breadcrumb :title="$items->total().' '.Str::plural('Car', $items->total()).' Found'" page="rentalcar">
-    <li><a href="{{ route('rentalcar') }}">Cars</a></li>
-    <li class="active">Search Results</li>
-</x-site-breadcrumb>
-
-
-<!-- search area -->
-<div class="search-area search-common">
-    <div class="container">
+<x-catalog-list-hero
+    :title="$items->total().' '.Str::plural('Car', $items->total()).' Found'"
+    page="rentalcar"
+>
+    <x-slot:breadcrumb>
+        <li><a href="{{ route('rentalcar') }}">Cars</a></li>
+        <li class="active">Search Results</li>
+    </x-slot:breadcrumb>
+    <x-slot:search>
         <div class="search-wrapper">
             <!-- car search -->
             <div class="search-box car-search">
@@ -109,13 +109,12 @@
             </div>
             <!-- car search end -->
         </div>
-    </div>
-</div>
-<!-- search area end -->
+    </x-slot:search>
+</x-catalog-list-hero>
 
 
 <!-- car grid -->
-<div class="car-grid py-120">
+<div class="car-grid catalog-list-results">
     <div class="container">
         <div class="row">
             <div class="col-lg-4 col-xl-3 mb-4">
@@ -152,7 +151,10 @@
                     'label' => 'Cars',
                     'showHeader' => false,
                     'searchQuery' => $searchQuery ?? [],
+                    'emptyType' => 'rentalcar',
                 ])
+
+                <x-catalog-quote-banner type="rentalcar" :search-query="$searchQuery ?? []" />
             </div>
         </div>
     </div>

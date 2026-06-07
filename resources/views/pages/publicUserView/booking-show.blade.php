@@ -11,7 +11,7 @@
             <p><strong>Product:</strong> {{ $booking->bookableTypeLabel() }} — {{ $booking->bookable?->title }}</p>
             <p><strong>Amount:</strong> {{ $booking->currency }} {{ number_format($booking->total_amount, 2) }}</p>
             <p><strong>Status:</strong> <span class="badge badge-secondary">{{ ucfirst($booking->status) }}</span></p>
-            <p><strong>Booked:</strong> {{ ($booking->booked_at ?? $booking->created_at)->format('M d, Y H:i') }}</p>
+            <p><strong>Booked:</strong> {{ ($booking->booked_at ?? $booking->created_at)->format(config('date.display_datetime')) }}</p>
             <div class="mt-3">
                 <a href="{{ route('my-bookings.invoice', $booking) }}" class="theme-btn btn-sm">View Invoice</a>
                 <a href="{{ route('my-bookings.invoice.pdf', $booking) }}" class="btn btn-outline-secondary btn-sm">Download PDF</a>
@@ -35,7 +35,7 @@
                 @foreach($booking->histories as $history)
                     <li class="border-start border-3 border-primary ps-3 mb-3">
                         <strong>{{ ucfirst($history->status) }}</strong>
-                        <span class="text-muted small d-block">{{ $history->created_at->format('M d, Y H:i') }}</span>
+                        <span class="text-muted small d-block">{{ $history->created_at->format(config('date.display_datetime')) }}</span>
                         @if($history->notes)<span class="small">{{ $history->notes }}</span>@endif
                     </li>
                 @endforeach

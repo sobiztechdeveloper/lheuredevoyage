@@ -64,11 +64,11 @@ class HotelSearch extends Model
         ];
 
         if ($this->journey_date) {
-            $params['journey-date'] = $this->journey_date->format('n/j/Y');
+            $params['journey-date'] = $this->journey_date->format(config('date.display'));
         }
 
         if ($this->return_date) {
-            $params['return-date'] = $this->return_date->format('n/j/Y');
+            $params['return-date'] = $this->return_date->format(config('date.display'));
         }
 
         if ($this->room_type) {

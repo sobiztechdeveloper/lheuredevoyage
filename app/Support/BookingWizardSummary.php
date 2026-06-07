@@ -27,8 +27,8 @@ class BookingWizardSummary
             'headline' => $car->name ?: $car->title,
             'subtitle' => $car->location,
             'meta' => array_filter([
-                'Pickup' => $pickup instanceof Carbon ? $pickup->format('D, M d, Y') : $pickup,
-                'Return' => $return instanceof Carbon ? $return->format('D, M d, Y') : $return,
+                'Pickup' => $pickup instanceof Carbon ? $pickup->format(config('date.display_long')) : $pickup,
+                'Return' => $return instanceof Carbon ? $return->format(config('date.display_long')) : $return,
             ]),
             'fare' => strtoupper($context['currency'] ?? 'CHF').' '.number_format((float) ($context['estimated_amount'] ?? 0), 0),
             'footnote' => 'Final rate confirmed by our consultant. No payment required now.',
@@ -60,8 +60,8 @@ class BookingWizardSummary
             'Duration' => ($cruise->duration_nights ?? $cruise->duration_days)
                 ? ($cruise->duration_nights ?? $cruise->duration_days).' nights'
                 : null,
-            'Sailing from' => $departure instanceof Carbon ? $departure->format('D, M d, Y') : null,
-            'Sailing to' => $return instanceof Carbon ? $return->format('D, M d, Y') : null,
+            'Sailing from' => $departure instanceof Carbon ? $departure->format(config('date.display_long')) : null,
+            'Sailing to' => $return instanceof Carbon ? $return->format(config('date.display_long')) : null,
             'Guests' => isset($context['adults'])
                 ? ($context['adults'].' adult(s), '.($context['children'] ?? 0).' child(ren), '.($context['infants'] ?? 0).' infant(s)')
                 : null,
@@ -101,9 +101,9 @@ class BookingWizardSummary
             'meta' => array_filter([
                 'Room' => $room?->name,
                 'Check-in' => ($context['check_in'] ?? null) instanceof Carbon
-                    ? $context['check_in']->format('D, M d, Y') : null,
+                    ? $context['check_in']->format(config('date.display_long')) : null,
                 'Check-out' => ($context['check_out'] ?? null) instanceof Carbon
-                    ? $context['check_out']->format('D, M d, Y') : null,
+                    ? $context['check_out']->format(config('date.display_long')) : null,
                 'Nights' => isset($context['nights']) ? $context['nights'].' night(s)' : null,
                 'Rooms' => isset($context['rooms']) ? $context['rooms'].' room(s)' : null,
                 'Guests' => $occupancy,
@@ -166,9 +166,9 @@ class BookingWizardSummary
                 'Plan type' => method_exists($plan, 'planTypeLabel') ? $plan->planTypeLabel() : null,
                 'Destination' => $searchDefaults['destination_country'] ?? null,
                 'Departure' => ! empty($searchDefaults['travel_start'])
-                    ? Carbon::parse($searchDefaults['travel_start'])->format('D, M d, Y') : null,
+                    ? Carbon::parse($searchDefaults['travel_start'])->format(config('date.display_long')) : null,
                 'Return' => ! empty($searchDefaults['travel_end'])
-                    ? Carbon::parse($searchDefaults['travel_end'])->format('D, M d, Y') : null,
+                    ? Carbon::parse($searchDefaults['travel_end'])->format(config('date.display_long')) : null,
                 'Travelers' => isset($searchDefaults['travelers_count'])
                     ? $searchDefaults['travelers_count'].' traveler(s)' : null,
             ]),

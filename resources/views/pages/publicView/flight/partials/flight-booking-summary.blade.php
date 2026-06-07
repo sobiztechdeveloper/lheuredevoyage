@@ -25,7 +25,7 @@
         <dt>Departure</dt>
         <dd>
             @if($summary['departure_date'] instanceof \Illuminate\Support\Carbon)
-                {{ $summary['departure_date']->format('D, M d, Y') }}
+                {{ $summary['departure_date']->format(config('date.display_long')) }}
             @else
                 {{ $summary['departure_date'] }}
             @endif
@@ -37,7 +37,7 @@
             <dt>Return</dt>
             <dd>
                 @if($summary['return_date'] instanceof \Illuminate\Support\Carbon)
-                    {{ $summary['return_date']->format('D, M d, Y') }}
+                    {{ $summary['return_date']->format(config('date.display_long')) }}
                 @else
                     {{ $summary['return_date'] }}
                 @endif
@@ -45,7 +45,7 @@
         @endif
         @if($summary['arrival_time'] instanceof \Illuminate\Support\Carbon)
             <dt>Arrival</dt>
-            <dd>{{ $summary['arrival_time']->format('D, M d, Y · H:i') }}</dd>
+            <dd>{{ $summary['arrival_time']->format(config('date.display_long').' H:i') }}</dd>
         @endif
         <dt>Trip Type</dt>
         <dd>{{ $summary['trip_type'] }}</dd>

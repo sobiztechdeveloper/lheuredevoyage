@@ -8,14 +8,15 @@
 
 @section('content')
 
-<x-site-breadcrumb :title="$items->total().' '.Str::plural('Package', $items->total()).' Found'" page="tourpackage">
-    <li><a href="{{ route('tourpackage') }}">Tour Packages</a></li>
-    <li class="active">Search Results</li>
-</x-site-breadcrumb>
-
-<!-- search area -->
-<div class="search-area search-common">
-    <div class="container">
+<x-catalog-list-hero
+    :title="$items->total().' '.Str::plural('Package', $items->total()).' Found'"
+    page="tourpackage"
+>
+    <x-slot:breadcrumb>
+        <li><a href="{{ route('tourpackage') }}">Tour Packages</a></li>
+        <li class="active">Search Results</li>
+    </x-slot:breadcrumb>
+    <x-slot:search>
         <div class="search-wrapper">
             <div class="search-box tour-search">
                 <div class="search-form">
@@ -25,12 +26,11 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- search area end -->
+    </x-slot:search>
+</x-catalog-list-hero>
 
 <!-- tour grid -->
-<div class="tour-grid py-120">
+<div class="tour-grid catalog-list-results">
     <div class="container">
         <div class="row">
             <div class="col-lg-4 col-xl-3 mb-4">
@@ -73,11 +73,11 @@
                             :search-query="$searchQuery ?? []"
                         />
                     @empty
-                        <div class="col-12">
-                            <p class="text-center py-5">No packages found. Try adjusting your search or filters.</p>
-                        </div>
+                        <x-catalog-empty-state type="tourpackage" :search-query="$searchQuery ?? []" />
                     @endforelse
                 </div>
+
+                <x-catalog-quote-banner type="tourpackage" :search-query="$searchQuery ?? []" />
 
                 @if($items->hasPages())
                     <div class="pagination-area mt-4">

@@ -96,7 +96,7 @@
                                                     </div>
                                                     <div class="start-time-info">
                                                         <h6 class="start-time-text">{{ $result->departure_at->format('H:i') }}</h6>
-                                                        <p class="flight-full-date">{{ $result->departure_at->format('D, d M, Y') }}</p>
+                                                        <p class="flight-full-date">{{ $result->departure_at->format(config('date.display_long')) }}</p>
                                                         <span class="flight-destination">{{ $result->from_destination }} ({{ $fromCode }})</span>
                                                     </div>
                                                 </div>
@@ -113,7 +113,7 @@
                                                     </div>
                                                     <div class="start-time-info">
                                                         <h6 class="end-time-text">{{ $result->arrival_at->format('H:i') }}</h6>
-                                                        <p class="flight-full-date">{{ $result->arrival_at->format('D, d M, Y') }}</p>
+                                                        <p class="flight-full-date">{{ $result->arrival_at->format(config('date.display_long')) }}</p>
                                                         <span class="flight-destination">{{ $result->to_destination }} ({{ $toCode }})</span>
                                                     </div>
                                                 </div>

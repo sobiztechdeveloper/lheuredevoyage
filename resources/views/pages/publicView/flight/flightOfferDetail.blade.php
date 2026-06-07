@@ -22,7 +22,7 @@
                     <h3>{{ $offer->airline }} @if($offer->flight_number)— {{ $offer->flight_number }}@endif</h3>
                     <p class="mb-0">{{ $offer->from_destination }} → {{ $offer->to_destination }}</p>
                     <small class="text-muted">
-                        @if($offer->departure_at){{ $offer->departure_at->format('M d, Y H:i') }}@endif
+                        @if($offer->departure_at){{ $offer->departure_at->format(config('date.display_datetime')) }}@endif
                         @if($offer->arrival_at) — {{ $offer->arrival_at->format('H:i') }}@endif
                         | {{ $offer->duration }}
                         | {{ $offer->stops === 0 ? 'Non-stop' : $offer->stops.' stop(s)' }}

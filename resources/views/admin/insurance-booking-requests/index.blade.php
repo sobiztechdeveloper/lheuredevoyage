@@ -56,8 +56,8 @@
                     </td>
                     <td>{{ $req->destination_country ?: $req->destination ?: '—' }}</td>
                     <td class="small">{{ $req->contact_email }}</td>
-                    <td class="small">{{ $req->travel_start->format('M d, Y') }} – {{ $req->travel_end->format('M d, Y') }}</td>
-                    <td class="small">{{ $req->created_at->format('M d, Y') }}</td>
+                    <td class="small">{{ $req->travel_start->format(config('date.display')) }} – {{ $req->travel_end->format(config('date.display')) }}</td>
+                    <td class="small">{{ $req->created_at->format(config('date.display')) }}</td>
                     <td><x-insurance-booking-status :status="$req->status" /></td>
                     <td class="text-end">
                         <a href="{{ route('admin.insurance-requests.show', $req) }}" class="btn btn-sm btn-admin-primary">View</a>

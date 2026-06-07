@@ -3,7 +3,7 @@
 @if($company->company_email ?? null)<p class="mb-1">{{ $company->company_email }}</p>@endif
 <hr>
 <p class="mb-1"><strong>Reference:</strong> {{ $booking->reference }}</p>
-<p class="mb-1"><strong>Issued:</strong> {{ $issuedAt->format('M d, Y') }}</p>
+<p class="mb-1"><strong>Issued:</strong> {{ $issuedAt->format(config('date.display')) }}</p>
 <p class="mb-1"><strong>Status:</strong> {{ ucfirst($booking->status) }}</p>
 <p class="mb-1"><strong>Customer:</strong> {{ $booking->user?->name }} ({{ $booking->user?->email }})</p>
 <table class="table mt-3">

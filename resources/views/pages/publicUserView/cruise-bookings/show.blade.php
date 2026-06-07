@@ -12,8 +12,8 @@
         </div>
 
         <div class="row g-3 mb-4">
-            <div class="col-md-6"><small class="text-muted">Departure</small><div>{{ $booking->departure_date->format('M d, Y') }}</div></div>
-            <div class="col-md-6"><small class="text-muted">Return</small><div>{{ $booking->return_date?->format('M d, Y') ?? '—' }}</div></div>
+            <div class="col-md-6"><small class="text-muted">Departure</small><div>{{ $booking->departure_date->format(config('date.display')) }}</div></div>
+            <div class="col-md-6"><small class="text-muted">Return</small><div>{{ $booking->return_date?->format(config('date.display')) ?? '—' }}</div></div>
             <div class="col-md-6"><small class="text-muted">Cabin</small><div>{{ $booking->cabin_type ?: '—' }}</div></div>
             <div class="col-md-6"><small class="text-muted">Estimated</small><div>{{ strtoupper($booking->currency) }} {{ number_format($booking->estimated_amount, 2) }}</div></div>
         </div>
@@ -47,7 +47,7 @@
                 @foreach($booking->statusHistories as $history)
                     <li class="list-group-item px-0">
                         <strong>{{ ucfirst(str_replace('_', ' ', $history->new_status)) }}</strong>
-                        <span class="text-muted small">— {{ $history->created_at->format('M d, Y H:i') }}</span>
+                        <span class="text-muted small">— {{ $history->created_at->format(config('date.display_datetime')) }}</span>
                         @if($history->notes)<div class="small text-muted">{{ $history->notes }}</div>@endif
                     </li>
                 @endforeach

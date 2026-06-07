@@ -18,4 +18,13 @@ return [
         'tourpackage' => 'assets/img/breadcrumb/06.jpg',
         'legal' => 'assets/img/breadcrumb/01.jpg',
     ],
+
+    'catalog_admin_labels' => [
+        'tourpackage' => 'Tour Packages',
+        'flight' => 'Flights',
+        'hotel' => 'Hotels',
+        'cruise' => 'Cruises',
+        'rentalcar' => 'Cars',
+        'travelinsurance' => 'Travel Insurance',
+    ],
 ];

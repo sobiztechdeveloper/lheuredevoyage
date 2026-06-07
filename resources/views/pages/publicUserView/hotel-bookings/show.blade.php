@@ -10,8 +10,8 @@
                     <div class="row g-3 mb-4">
                         <div class="col-md-6"><strong>Hotel</strong><br>{{ $booking->hotel?->name }}</div>
                         <div class="col-md-6"><strong>Room</strong><br>{{ $booking->room?->name ?? '—' }}</div>
-                        <div class="col-md-6"><strong>Check-in</strong><br>{{ $booking->check_in_date->format('M d, Y') }}</div>
-                        <div class="col-md-6"><strong>Check-out</strong><br>{{ $booking->check_out_date->format('M d, Y') }}</div>
+                        <div class="col-md-6"><strong>Check-in</strong><br>{{ $booking->check_in_date->format(config('date.display')) }}</div>
+                        <div class="col-md-6"><strong>Check-out</strong><br>{{ $booking->check_out_date->format(config('date.display')) }}</div>
                     </div>
                     @if($booking->voucher_path || $booking->invoice_path || $booking->transfer_voucher_path)
                     <h5>Documents</h5>

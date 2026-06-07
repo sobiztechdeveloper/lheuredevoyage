@@ -15,8 +15,8 @@
                                 <tr>
                                     <td><code>{{ $b->reference_number }}</code></td>
                                     <td>{{ $b->hotel?->name }}</td>
-                                    <td>{{ $b->check_in_date->format('M d, Y') }}</td>
-                                    <td>{{ $b->check_out_date->format('M d, Y') }}</td>
+                                    <td>{{ $b->check_in_date->format(config('date.display')) }}</td>
+                                    <td>{{ $b->check_out_date->format(config('date.display')) }}</td>
                                     <td><x-hotel-booking-status :status="$b->status" /></td>
                                     <td><a href="{{ route('my-hotel-bookings.show', $b) }}" class="theme-btn btn-sm">View</a></td>
                                 </tr>

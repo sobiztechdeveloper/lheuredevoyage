@@ -25,7 +25,7 @@
                                 <td><b>{{ $history->booking?->reference }}</b></td>
                                 <td>{{ class_basename($history->booking?->bookable_type) }} — {{ $history->booking?->bookable?->title }}</td>
                                 <td><span class="badge badge-{{ $history->status === 'confirmed' ? 'success' : ($history->status === 'pending' ? 'warning' : 'danger') }}">{{ ucfirst($history->status) }}</span></td>
-                                <td>{{ $history->created_at->format('M d, Y H:i') }}</td>
+                                <td>{{ $history->created_at->format(config('date.display_datetime')) }}</td>
                                 <td>{{ $history->notes }}</td>
                             </tr>
                         @empty

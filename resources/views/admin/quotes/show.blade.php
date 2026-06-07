@@ -24,7 +24,7 @@
             <h5 class="fw-bold mb-3" style="color:var(--admin-primary)">Quote Information</h5>
             <div class="row g-3">
                 <div class="col-md-6"><span class="text-muted small d-block">Type</span>{{ $quote->typeLabel() }}</div>
-                <div class="col-md-6"><span class="text-muted small d-block">Valid until</span>{{ $quote->valid_until->format('M d, Y') }}</div>
+                <div class="col-md-6"><span class="text-muted small d-block">Valid until</span>{{ $quote->valid_until->format(config('date.display')) }}</div>
                 <div class="col-12"><span class="text-muted small d-block">Title</span>{{ $quote->title }}</div>
                 @if($quote->description)<div class="col-12"><span class="text-muted small d-block">Description</span><pre class="mb-0 small" style="white-space:pre-wrap;font-family:inherit">{{ $quote->description }}</pre></div>@endif
                 @if($quote->flightBookingRequest)
@@ -75,7 +75,7 @@
                 <li class="mb-3 pb-3 border-bottom">
                     <strong>{{ ucfirst(str_replace('_', ' ', $history->new_status)) }}</strong>
                     @if($history->old_status)<span class="text-muted small">from {{ $history->old_status }}</span>@endif
-                    <span class="d-block text-muted small">{{ $history->created_at->format('M d, Y H:i') }}</span>
+                    <span class="d-block text-muted small">{{ $history->created_at->format(config('date.display_datetime')) }}</span>
                     @if($history->changedBy)<span class="small">By {{ $history->changedBy->name }}</span>@endif
                     @if($history->notes)<span class="d-block small">{{ $history->notes }}</span>@endif
                 </li>
@@ -94,9 +94,9 @@
         </div>
         <div class="admin-panel-card">
             <h5 class="fw-bold mb-3" style="color:var(--admin-primary)">Audit</h5>
-            <p class="small mb-1">Created: {{ $quote->created_at->format('M d, Y H:i') }}</p>
+            <p class="small mb-1">Created: {{ $quote->created_at->format(config('date.display_datetime')) }}</p>
             @if($quote->creator)<p class="small mb-1">By: {{ $quote->creator->name }}</p>@endif
-            <p class="small mb-0">Updated: {{ $quote->updated_at->format('M d, Y H:i') }}</p>
+            <p class="small mb-0">Updated: {{ $quote->updated_at->format(config('date.display_datetime')) }}</p>
             @if($quote->updater)<p class="small mb-0">By: {{ $quote->updater->name }}</p>@endif
         </div>
     </div>

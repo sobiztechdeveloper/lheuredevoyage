@@ -6,7 +6,7 @@ Thank you for your flight booking request.
 
 **Reference:** {{ $request->booking_reference }}  
 **Route:** {{ $request->routeLabel() }}  
-**Travel date:** {{ $request->departure_date->format('M d, Y') }}
+**Travel date:** {{ $request->departure_date->format(config('date.display')) }}
 
 Our travel consultant will review availability and contact you shortly.
 @elseif($type === 'status_changed')
@@ -32,7 +32,7 @@ Please log in to your account or contact us for your documents.
 **{{ $request->booking_reference }}** — {{ $request->contact_name }} ({{ $request->email }})
 
 **Route:** {{ $request->routeLabel() }}  
-**Travel:** {{ $request->departure_date->format('M d, Y') }}  
+**Travel:** {{ $request->departure_date->format(config('date.display')) }}  
 **Passengers:** {{ $request->passengerCount() }}  
 **Status:** {{ $request->statusLabel() }}
 @endif

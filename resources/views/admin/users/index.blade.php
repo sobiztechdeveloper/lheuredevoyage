@@ -24,7 +24,7 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->bookings_count }}</td>
                 <td><span class="badge bg-{{ ($user->status ?? 'active') === 'active' ? 'success' : 'secondary' }}">{{ ucfirst($user->status ?? 'active') }}</span></td>
-                <td>{{ $user->created_at->format('M d, Y') }}</td>
+                <td>{{ $user->created_at->format(config('date.display')) }}</td>
                 <td class="text-end"><a href="{{ route('admin.users.show', $user) }}" class="btn btn-sm btn-outline-primary">View</a></td>
             </tr>
             @endforeach

@@ -8,32 +8,21 @@
 
 @section('content')
 
-<!-- breadcrumb -->
-<div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
-    <div class="container">
-        <h2 class="breadcrumb-title">
-            @if(isset($resultsCount))
-                {{ number_format($resultsCount) }}@if(isset($totalResultsCount) && $totalResultsCount !== $resultsCount) of {{ number_format($totalResultsCount) }}@endif Results Found
-            @else
-                0 Results Found
-            @endif
-        </h2>
-        <ul class="breadcrumb-menu">
-            <li><a href="{{ route('home') }}">Home</a></li>
-            <li class="active">Flight Search</li>
-        </ul>
-    </div>
-</div>
-<!-- breadcrumb end -->
+@php
+    $flightListTitle = isset($resultsCount)
+        ? number_format($resultsCount) . (isset($totalResultsCount) && $totalResultsCount !== $resultsCount ? ' of ' . number_format($totalResultsCount) : '') . ' Results Found'
+        : '0 Results Found';
+@endphp
 
-
-<!-- search area -->
-<div class="search-area flight-search">
-    <div class="container">
+<x-catalog-list-hero :title="$flightListTitle" page="flight" search-area-class="flight-search">
+    <x-slot:breadcrumb>
+        <li class="active">Flight Search</li>
+    </x-slot:breadcrumb>
+    <x-slot:search>
         <div class="search-wrapper">
-            <!-- flight search -->
             <div class="search-box">
-                <div class="search-form">
+                <div class="flight-search ft-group">
+                    <div class="search-form">
                     <form method="POST" action="{{ isset($search) ? route('flight.search.update', $search) : route('flight.search.submit') }}">
                         @csrf
                         @isset($search)
@@ -141,7 +130,7 @@
                                                         <label>Journey Date</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="journey-date"
-                                                                class="form-control date-picker journey-date" value="{{ isset($search) ? $search->journey_date->format('Y-m-d') : '' }}">
+                                                                class="form-control date-picker journey-date" value="{{ isset($search) ? $search->journey_date->format(config('date.display')) : '' }}">
                                                             <i class="fal fa-calendar-days"></i>
                                                         </div>
                                                         <p class="journey-day-name"></p>
@@ -150,7 +139,7 @@
                                                         <label>Return Date</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="return-date"
-                                                                class="form-control date-picker return-date" value="{{ isset($search) && $search->return_date ? $search->return_date->format('Y-m-d') : '' }}">
+                                                                class="form-control date-picker return-date" value="{{ isset($search) && $search->return_date ? $search->return_date->format(config('date.display')) : '' }}">
                                                         </div>
                                                         <p class="return-day-name"></p>
                                                     </div>
@@ -299,7 +288,7 @@
                                                         <label>Journey Date</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="journey-date"
-                                                                class="form-control date-picker journey-date" value="{{ isset($search) ? $search->journey_date->format('Y-m-d') : '' }}" disabled>
+                                                                class="form-control date-picker journey-date" value="{{ isset($search) ? $search->journey_date->format(config('date.display')) : '' }}" disabled>
                                                             <i class="fal fa-calendar-days"></i>
                                                         </div>
                                                         <p class="journey-day-name"></p>
@@ -326,13 +315,12 @@
                         </div>
                         <!-- flight search wrapper end -->
                     </form>
+                    </div>
                 </div>
             </div>
-            <!-- flight search end -->
         </div>
-    </div>
-</div>
-<!-- search area end -->
+    </x-slot:search>
+</x-catalog-list-hero>
 
 
 <!-- flight booking -->
@@ -350,7 +338,7 @@
         'sort' => 'price_asc',
     ];
 @endphp
-<div class="flight-booking flight-list pt-80 pb-120">
+<div class="flight-booking flight-list catalog-list-results">
     <div class="container">
         <div class="row">
             <!-- booking sidebar -->
@@ -388,17 +376,15 @@
                     @forelse(($results ?? []) as $result)
                         @include('pages.publicView.flight.partials.flight-result-item', ['result' => $result])
                     @empty
-                    <div class="col-lg-12">
-                            <p class="text-center py-4">
-                                @if(isset($search))
-                                    No flights match your filters. Adjust filters or update your search.
-                                @else
-                                    Search for flights using the form above.
-                                @endif
-                            </p>
-                                            </div>
+                        <x-catalog-empty-state
+                            type="flight"
+                            :has-search="isset($search)"
+                            :search-query="$searchQuery ?? []"
+                        />
                     @endforelse
                     </div>
+
+                    <x-catalog-quote-banner type="flight" :search-query="$searchQuery ?? []" />
 
                     @if(isset($resultsCount) && $resultsCount > 0)
                     <div class="pagination-area">

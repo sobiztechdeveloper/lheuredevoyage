@@ -18,9 +18,9 @@
         <div class="mb-4">
             <h4>{{ ucfirst(str_replace('_', ' ', $search->trip_type)) }}: {{ $search->from_destination }} → {{ $search->to_destination }}</h4>
             <p class="mb-0">
-                Depart: {{ $search->journey_date->format('M d, Y') }}
+                Depart: {{ $search->journey_date->format(config('date.display')) }}
                 @if($search->return_date)
-                    | Return: {{ $search->return_date->format('M d, Y') }}
+                    | Return: {{ $search->return_date->format(config('date.display')) }}
                 @endif
                 | {{ $search->adult }} Adult(s), {{ $search->children }} Child(ren), {{ $search->infant }} Infant(s)
                 | {{ ucfirst(str_replace('_', ' ', $search->cabin_class)) }}

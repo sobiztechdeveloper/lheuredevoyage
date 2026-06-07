@@ -25,7 +25,7 @@
                 <td>{{ $ticket->user?->name }}</td>
                 <td>{{ $ticket->subject }}</td>
                 <td>{{ ucfirst(str_replace('_', ' ', $ticket->status)) }}</td>
-                <td>{{ $ticket->updated_at->format('M d, Y') }}</td>
+                <td>{{ $ticket->updated_at->format(config('date.display')) }}</td>
                 <td class="text-end"><a href="{{ route('admin.support-tickets.show', $ticket) }}" class="btn btn-sm btn-outline-primary">View</a></td>
             </tr>
             @endforeach

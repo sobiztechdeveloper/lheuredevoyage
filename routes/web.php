@@ -182,5 +182,6 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::get('/my-wishlist', [UserWishlistController::class, 'index'])->name('my-wishlist');
     Route::get('/my-profile', [UserProfileController::class, 'index'])->name('my-profile');
     Route::post('/my-profile', [UserProfileController::class, 'update'])->name('my-profile.update');
+    Route::post('/my-profile/avatar', [UserProfileController::class, 'updateAvatar'])->name('my-profile.avatar');
 });
 

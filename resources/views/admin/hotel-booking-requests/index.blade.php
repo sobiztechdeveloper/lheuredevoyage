@@ -51,10 +51,10 @@
                         {{ $req->lead_guest_name }}<br>
                         <small class="text-muted">{{ $req->lead_guest_email }}</small>
                     </td>
-                    <td>{{ $req->check_in_date->format('M d, Y') }}</td>
-                    <td>{{ $req->check_out_date->format('M d, Y') }}</td>
+                    <td>{{ $req->check_in_date->format(config('date.display')) }}</td>
+                    <td>{{ $req->check_out_date->format(config('date.display')) }}</td>
                     <td><x-hotel-booking-status :status="$req->status" /></td>
-                    <td><small class="text-muted">{{ $req->created_at->format('M d, Y') }}</small></td>
+                    <td><small class="text-muted">{{ $req->created_at->format(config('date.display')) }}</small></td>
                     <td class="text-end">
                         <a href="{{ route('admin.hotel-requests.show', $req) }}" class="btn btn-sm btn-admin-primary">View</a>
                     </td>

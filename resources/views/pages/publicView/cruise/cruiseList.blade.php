@@ -8,13 +8,15 @@
     $travelerTotal = max(1, (int) request('adult', 2) + (int) request('children', 0) + (int) request('infant', 0));
 @endphp
 
-<x-site-breadcrumb :title="$items->total().' '.Str::plural('Cruise', $items->total()).' Found'" page="cruise">
-    <li><a href="{{ route('cruise') }}">Cruises</a></li>
-    <li class="active">Search Results</li>
-</x-site-breadcrumb>
-
-<div class="search-area search-common">
-    <div class="container">
+<x-catalog-list-hero
+    :title="$items->total().' '.Str::plural('Cruise', $items->total()).' Found'"
+    page="cruise"
+>
+    <x-slot:breadcrumb>
+        <li><a href="{{ route('cruise') }}">Cruises</a></li>
+        <li class="active">Search Results</li>
+    </x-slot:breadcrumb>
+    <x-slot:search>
         <div class="search-wrapper">
             <div class="search-box cruise-search">
                 <div class="search-form">
@@ -110,10 +112,10 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </x-slot:search>
+</x-catalog-list-hero>
 
-<div class="cruise-grid py-120">
+<div class="cruise-grid catalog-list-results">
     <div class="container">
         <div class="row">
             <div class="col-lg-4 col-xl-3 mb-4">
@@ -151,17 +153,7 @@
 
                 <x-cruise-list-results :items="$items" :search-query="$searchQuery ?? []" :show-header="false" />
 
-                <div class="text-center mt-4 p-4 rounded" style="background:linear-gradient(135deg,#162F65,#3361AC);color:#fff;">
-                    <h4 class="text-white mb-2">Need a personalised cruise quote?</h4>
-                    <p class="mb-3 opacity-75">Our consultants will prepare sailing options and cabin pricing with no obligation.</p>
-                    @php
-                        $wizardCtaUrl = route('cruise.quote.wizard');
-                        if (! empty($searchQuery ?? [])) {
-                            $wizardCtaUrl .= '?'.http_build_query($searchQuery);
-                        }
-                    @endphp
-                    <a href="{{ $wizardCtaUrl }}" class="theme-btn" style="background:#F8B501;border-color:#F8B501;color:#162F65;">Request Cruise Quote</a>
-                </div>
+                <x-catalog-quote-banner type="cruise" :search-query="$searchQuery ?? []" />
             </div>
         </div>
     </div>

@@ -36,7 +36,7 @@
             <div class="row g-3">
                 <div class="col-md-6"><span class="text-muted small d-block">Reference</span><strong>{{ $bookingRequest->booking_reference }}</strong></div>
                 <div class="col-md-6"><span class="text-muted small d-block">Status</span><x-flight-booking-status :status="$bookingRequest->status" /></div>
-                <div class="col-md-6"><span class="text-muted small d-block">Submitted</span>{{ $bookingRequest->created_at->format('M d, Y H:i') }}</div>
+                <div class="col-md-6"><span class="text-muted small d-block">Submitted</span>{{ $bookingRequest->created_at->format(config('date.display_datetime')) }}</div>
                 <div class="col-md-6"><span class="text-muted small d-block">Passengers</span>{{ $bookingRequest->passengerCount() }}</div>
                 @if($bookingRequest->user)
                     <div class="col-12"><span class="text-muted small d-block">Registered user</span>
@@ -55,8 +55,8 @@
                 @if(!empty($flight['airline']))
                     <div class="col-md-6"><span class="text-muted small d-block">Airline</span>{{ $flight['airline'] }} @if(!empty($flight['flight_number']))<span class="text-muted">· {{ $flight['flight_number'] }}</span>@endif</div>
                 @endif
-                <div class="col-md-6"><span class="text-muted small d-block">Departure</span>{{ $bookingRequest->departure_date->format('M d, Y') }}</div>
-                <div class="col-md-6"><span class="text-muted small d-block">Return</span>{{ $bookingRequest->return_date?->format('M d, Y') ?? '—' }}</div>
+                <div class="col-md-6"><span class="text-muted small d-block">Departure</span>{{ $bookingRequest->departure_date->format(config('date.display')) }}</div>
+                <div class="col-md-6"><span class="text-muted small d-block">Return</span>{{ $bookingRequest->return_date?->format(config('date.display')) ?? '—' }}</div>
                 <div class="col-md-6"><span class="text-muted small d-block">Cabin</span>{{ ucfirst(str_replace('_', ' ', $bookingRequest->cabin_class)) }}</div>
                 <div class="col-md-6"><span class="text-muted small d-block">Estimated fare</span>{{ strtoupper($bookingRequest->currency) }} {{ number_format($bookingRequest->estimated_price, 2) }}</div>
             </div>
@@ -89,9 +89,9 @@
                             </td>
                             <td>{{ ucfirst($passenger->passenger_type) }}</td>
                             <td>{{ ucfirst($passenger->gender ?? '—') }}</td>
-                            <td>{{ $passenger->date_of_birth->format('M d, Y') }}</td>
+                            <td>{{ $passenger->date_of_birth->format(config('date.display')) }}</td>
                             <td>{{ $passenger->passport_number }}</td>
-                            <td>{{ $passenger->passport_expiry->format('M d, Y') }}</td>
+                            <td>{{ $passenger->passport_expiry->format(config('date.display')) }}</td>
                             <td>{{ $passenger->nationality }}</td>
                             <td>{{ $passenger->passport_country ?? '—' }}</td>
                         </tr>
@@ -170,7 +170,7 @@
                 @forelse($bookingRequest->statusHistories as $history)
                 <li>
                     <strong>{{ ucfirst(str_replace('_', ' ', $history->status)) }}</strong>
-                    <span class="text-muted small d-block">{{ $history->created_at->format('M d, Y H:i') }}</span>
+                    <span class="text-muted small d-block">{{ $history->created_at->format(config('date.display_datetime')) }}</span>
                     @if($history->changedBy)<span class="small text-muted">By {{ $history->changedBy->name }}</span><br>@endif
                     @if($history->notes)<span class="small">{{ $history->notes }}</span>@endif
                 </li>

@@ -16,8 +16,8 @@
         </div>
 
         <div class="row g-3 mb-4">
-            <div class="col-md-4"><span class="text-muted small d-block">Quote date</span>{{ $quote->created_at->format('M d, Y') }}</div>
-            <div class="col-md-4"><span class="text-muted small d-block">Valid until</span><strong>{{ $quote->valid_until->format('M d, Y') }}</strong></div>
+            <div class="col-md-4"><span class="text-muted small d-block">Quote date</span>{{ $quote->created_at->format(config('date.display')) }}</div>
+            <div class="col-md-4"><span class="text-muted small d-block">Valid until</span><strong>{{ $quote->valid_until->format(config('date.display')) }}</strong></div>
             <div class="col-md-4"><span class="text-muted small d-block">Type</span>{{ $quote->typeLabel() }}</div>
         </div>
 
@@ -102,7 +102,7 @@
             @foreach($quote->statusHistories as $history)
             <li class="mb-2 pb-2 border-bottom">
                 <strong>{{ ucfirst(str_replace('_', ' ', $history->new_status)) }}</strong>
-                <span class="text-muted small d-block">{{ $history->created_at->format('M d, Y H:i') }}</span>
+                <span class="text-muted small d-block">{{ $history->created_at->format(config('date.display_datetime')) }}</span>
                 @if($history->notes)<span class="small">{{ $history->notes }}</span>@endif
             </li>
             @endforeach

@@ -23,7 +23,7 @@
                         <td><code class="small">{{ $booking->reference_number }}</code></td>
                         <td>{{ $booking->travelInsurance?->name ?? '—' }}</td>
                         <td>{{ $booking->destination_country ?: $booking->destination ?: '—' }}</td>
-                        <td class="small">{{ $booking->travel_start->format('M d') }} – {{ $booking->travel_end->format('M d, Y') }}</td>
+                        <td class="small">{{ $booking->travel_start->format(config('date.display')) }} – {{ $booking->travel_end->format(config('date.display')) }}</td>
                         <td><x-insurance-booking-status :status="$booking->status" /></td>
                         <td><a href="{{ route('my-insurance-requests.show', $booking) }}">Details</a></td>
                     </tr>

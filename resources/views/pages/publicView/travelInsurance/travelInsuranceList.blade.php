@@ -4,14 +4,15 @@
 
 @section('content')
 
-<x-site-breadcrumb :title="$items->total().' '.Str::plural('Plan', $items->total()).' Found'" page="travelinsurance">
-    <li><a href="{{ route('travelinsurance') }}">Travel Insurance</a></li>
-    <li class="active">Compare Plans</li>
-</x-site-breadcrumb>
-
-<!-- insurance search -->
-<div class="search-area search-common">
-    <div class="container">
+<x-catalog-list-hero
+    :title="$items->total().' '.Str::plural('Plan', $items->total()).' Found'"
+    page="travelinsurance"
+>
+    <x-slot:breadcrumb>
+        <li><a href="{{ route('travelinsurance') }}">Travel Insurance</a></li>
+        <li class="active">Compare Plans</li>
+    </x-slot:breadcrumb>
+    <x-slot:search>
         <div class="search-wrapper">
             <div class="search-box tour-search">
                 <div class="search-form">
@@ -68,12 +69,11 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- insurance search end -->
+    </x-slot:search>
+</x-catalog-list-hero>
 
 <!-- insurance plans grid -->
-<div class="tour-grid py-120">
+<div class="tour-grid catalog-list-results">
     <div class="container">
         <div class="row">
             <div class="col-lg-4 col-xl-3 mb-4">
@@ -106,17 +106,7 @@
 
                 <x-insurance-list-results :items="$items" :search-query="$searchQuery ?? []" :show-header="false" />
 
-                <div class="text-center mt-4 p-4 rounded" style="background:linear-gradient(135deg,#162F65,#3361AC);color:#fff;">
-                    <h4 class="text-white mb-2">Need help choosing a plan?</h4>
-                    <p class="mb-3 opacity-75">Our Swiss travel consultants will prepare a personalised insurance quote at no obligation.</p>
-                    @php
-                        $wizardCtaUrl = route('travelinsurance.quote.wizard');
-                        if (! empty($searchQuery)) {
-                            $wizardCtaUrl .= '?'.http_build_query($searchQuery);
-                        }
-                    @endphp
-                    <a href="{{ $wizardCtaUrl }}" class="theme-btn" style="background:#F8B501;border-color:#F8B501;color:#162F65;">Request Insurance Quote</a>
-                </div>
+                <x-catalog-quote-banner type="travelinsurance" :search-query="$searchQuery ?? []" />
             </div>
         </div>
     </div>

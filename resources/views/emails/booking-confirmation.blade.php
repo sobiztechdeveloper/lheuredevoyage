@@ -14,7 +14,7 @@ Thank you for booking with {{ config('app.name') }}. We have received your reque
 **Amount:** {{ $booking->currency }} {{ number_format($booking->total_amount, 2) }}  
 **Status:** {{ ucfirst($booking->status) }}  
 @if($booking->booked_at)
-**Date:** {{ $booking->booked_at->format('M d, Y H:i') }}
+**Date:** {{ $booking->booked_at->format(config('date.display_datetime')) }}
 @endif
 
 <x-mail::button :url="route('my-bookings-list')">

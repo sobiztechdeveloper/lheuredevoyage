@@ -5,13 +5,13 @@
 **Quote number:** {{ $quote->quote_number }}  
 **Title:** {{ $quote->title }}  
 **Total:** {{ strtoupper($quote->currency) }} {{ number_format($quote->total_amount, 2) }}  
-**Valid until:** {{ $quote->valid_until->format('M d, Y') }}
+**Valid until:** {{ $quote->valid_until->format(config('date.display')) }}
 
 Please review the quote and accept or reject it before the validity date.
 @elseif($type === 'expired')
 # Quote expired
 
-Quote **{{ $quote->quote_number }}** is no longer valid (expired {{ $quote->valid_until->format('M d, Y') }}).
+Quote **{{ $quote->quote_number }}** is no longer valid (expired {{ $quote->valid_until->format(config('date.display')) }}).
 
 Contact our travel consultants if you need a new quotation.
 @elseif($type === 'accepted')

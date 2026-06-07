@@ -10,7 +10,7 @@
         <p class="mb-1"><strong>Email:</strong> {{ $user->email }}</p>
         <p class="mb-1"><strong>Bookings:</strong> {{ $user->bookings_count }}</p>
         <p class="mb-1"><strong>Support tickets:</strong> {{ $user->support_tickets_count }}</p>
-        <p class="mb-0"><strong>Registered:</strong> {{ $user->created_at->format('M d, Y') }}</p>
+        <p class="mb-0"><strong>Registered:</strong> {{ $user->created_at->format(config('date.display')) }}</p>
     </div>
 </div>
 <form method="POST" action="{{ route('admin.users.update', $user) }}" class="card mb-4">

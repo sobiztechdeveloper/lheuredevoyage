@@ -14,7 +14,7 @@
         <div class="row g-3 mb-4">
             <div class="col-md-6"><small class="text-muted">Destination</small><div>{{ $booking->destination_country ?: $booking->destination ?: '—' }}</div></div>
             <div class="col-md-6"><small class="text-muted">Purpose</small><div>{{ $booking->purposeLabel() }}</div></div>
-            <div class="col-md-6"><small class="text-muted">Travel dates</small><div>{{ $booking->travel_start->format('M d, Y') }} – {{ $booking->travel_end->format('M d, Y') }}</div></div>
+            <div class="col-md-6"><small class="text-muted">Travel dates</small><div>{{ $booking->travel_start->format(config('date.display')) }} – {{ $booking->travel_end->format(config('date.display')) }}</div></div>
             <div class="col-md-6"><small class="text-muted">Estimated premium</small><div>{{ strtoupper($booking->currency) }} {{ number_format((float) $booking->estimated_amount, 2) }}</div></div>
         </div>
 
@@ -26,7 +26,7 @@
                     <a href="{{ route('my-quotes.show', $quote) }}">{{ $quote->quote_number }}</a>
                     — {{ ucfirst($quote->status) }}
                     @if($quote->status === 'sent' && $quote->expires_at)
-                        <span class="text-muted small">(expires {{ $quote->expires_at->format('M d, Y') }})</span>
+                        <span class="text-muted small">(expires {{ $quote->expires_at->format(config('date.display')) }})</span>
                     @endif
                 </li>
             @endforeach
@@ -54,12 +54,12 @@
         <ul class="list-unstyled mb-4">
             @forelse($booking->statusHistories as $history)
                 <li class="mb-2 small">
-                    <span class="text-muted">{{ $history->created_at->format('M d, Y H:i') }}</span>
+                    <span class="text-muted">{{ $history->created_at->format(config('date.display_datetime')) }}</span>
                     — <x-insurance-booking-status :status="$history->status" />
                     @if($history->note)<span class="text-muted">({{ $history->note }})</span>@endif
                 </li>
             @empty
-                <li class="text-muted">Submitted {{ $booking->created_at->format('M d, Y') }}</li>
+                <li class="text-muted">Submitted {{ $booking->created_at->format(config('date.display')) }}</li>
             @endforelse
         </ul>
 

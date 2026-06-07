@@ -62,9 +62,9 @@
                     </td>
                     <td>{{ $quote->typeLabel() }}</td>
                     <td class="fw-semibold">{{ strtoupper($quote->currency) }} {{ number_format($quote->total_amount, 2) }}</td>
-                    <td>{{ $quote->valid_until->format('M d, Y') }}</td>
+                    <td>{{ $quote->valid_until->format(config('date.display')) }}</td>
                     <td><x-quote-status :status="$quote->status" /></td>
-                    <td><small class="text-muted">{{ $quote->created_at->format('M d, Y') }}</small></td>
+                    <td><small class="text-muted">{{ $quote->created_at->format(config('date.display')) }}</small></td>
                     <td class="text-end">
                         <a href="{{ route('admin.quotes.show', $quote) }}" class="btn btn-sm btn-admin-primary">View</a>
                     </td>

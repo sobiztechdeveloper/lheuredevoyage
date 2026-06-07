@@ -57,6 +57,13 @@ class User extends Authenticatable
         return ($this->status ?? 'active') === 'active';
     }
 
+    public function avatarUrl(): string
+    {
+        $this->loadMissing('profile');
+
+        return $this->profile?->avatar_url ?? asset('assets/img/account/user.jpg');
+    }
+
     public function wishlists(): HasMany
     {
         return $this->hasMany(UserWishlist::class);

@@ -13,7 +13,7 @@
         <p class="mb-1"><strong>Customer:</strong> {{ $booking->user?->name }} ({{ $booking->user?->email }})</p>
         <p class="mb-1"><strong>Product:</strong> {{ $booking->bookableTypeLabel() }} — {{ $booking->bookable?->title }}</p>
         <p class="mb-1"><strong>Amount:</strong> {{ $booking->currency }} {{ number_format($booking->total_amount, 2) }}</p>
-        <p class="mb-1"><strong>Booked:</strong> {{ ($booking->booked_at ?? $booking->created_at)->format('M d, Y H:i') }}</p>
+        <p class="mb-1"><strong>Booked:</strong> {{ ($booking->booked_at ?? $booking->created_at)->format(config('date.display_datetime')) }}</p>
         <p class="mb-0">
             <a href="{{ route('admin.bookings.invoice', $booking) }}" class="btn btn-outline-primary btn-sm">Invoice</a>
             <a href="{{ route('admin.bookings.invoice.pdf', $booking) }}" class="btn btn-outline-secondary btn-sm">PDF</a>

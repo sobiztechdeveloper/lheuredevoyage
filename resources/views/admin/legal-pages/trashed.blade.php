@@ -16,7 +16,7 @@
             <tr>
                 <td>{{ $page->title }}</td>
                 <td><code>{{ $page->slug }}</code></td>
-                <td>{{ $page->deleted_at->format('M d, Y H:i') }}</td>
+                <td>{{ $page->deleted_at->format(config('date.display_datetime')) }}</td>
                 <td class="text-end">
                     <form action="{{ route('admin.legal-pages.restore', $page->id) }}" method="POST" class="d-inline">
                         @csrf

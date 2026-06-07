@@ -6,7 +6,7 @@
             return $value;
         }
 
-        return \Carbon\Carbon::parse($value)->format('n/j/Y');
+        return \Carbon\Carbon::parse($value)->format(config('date.display'));
     };
     $journeyValue = $formatForPicker($journeyValue);
     $returnValue = $formatForPicker($returnValue);

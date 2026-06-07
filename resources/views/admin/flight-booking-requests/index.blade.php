@@ -55,10 +55,10 @@
                         @if($req->phone)<br><small class="text-muted">{{ $req->phone }}</small>@endif
                     </td>
                     <td>{{ $req->routeLabel() }}</td>
-                    <td>{{ $req->departure_date->format('M d, Y') }}</td>
+                    <td>{{ $req->departure_date->format(config('date.display')) }}</td>
                     <td>{{ $req->passengers_count ?: $req->passengerCount() }}</td>
                     <td><x-flight-booking-status :status="$req->status" /></td>
-                    <td><small class="text-muted">{{ $req->created_at->format('M d, Y') }}</small></td>
+                    <td><small class="text-muted">{{ $req->created_at->format(config('date.display')) }}</small></td>
                     <td class="text-end">
                         <a href="{{ route('admin.flight-requests.show', $req) }}" class="btn btn-sm btn-admin-primary">View</a>
                     </td>

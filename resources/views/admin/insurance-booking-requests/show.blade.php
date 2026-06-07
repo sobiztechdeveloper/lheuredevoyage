@@ -30,8 +30,8 @@
                 <div class="col-md-6"><span class="text-muted small d-block">Status</span><x-insurance-booking-status :status="$bookingRequest->status" /></div>
                 <div class="col-md-6"><span class="text-muted small d-block">Destination</span>{{ $bookingRequest->destination_country ?: $bookingRequest->destination ?: '—' }}</div>
                 <div class="col-md-6"><span class="text-muted small d-block">Purpose</span>{{ $bookingRequest->purposeLabel() }}</div>
-                <div class="col-md-6"><span class="text-muted small d-block">Travel dates</span>{{ $bookingRequest->travel_start->format('M d, Y') }} – {{ $bookingRequest->travel_end->format('M d, Y') }}</div>
-                <div class="col-md-6"><span class="text-muted small d-block">Submitted</span>{{ $bookingRequest->created_at->format('M d, Y H:i') }}</div>
+                <div class="col-md-6"><span class="text-muted small d-block">Travel dates</span>{{ $bookingRequest->travel_start->format(config('date.display')) }} – {{ $bookingRequest->travel_end->format(config('date.display')) }}</div>
+                <div class="col-md-6"><span class="text-muted small d-block">Submitted</span>{{ $bookingRequest->created_at->format(config('date.display_datetime')) }}</div>
                 <div class="col-md-6"><span class="text-muted small d-block">Estimated premium</span>{{ strtoupper($bookingRequest->currency) }} {{ number_format((float) $bookingRequest->estimated_amount, 2) }}</div>
             </div>
         </div>
@@ -58,8 +58,8 @@
             <h5 class="fw-bold mb-3" style="color:var(--admin-primary)">Primary traveler & contact</h5>
             @php $primary = $bookingRequest->primaryTraveler(); @endphp
             @if($primary)
-            <p class="mb-1"><strong>{{ $primary->fullName() }}</strong> · DOB {{ $primary->date_of_birth?->format('M d, Y') ?? '—' }} · {{ $primary->nationality ?: '—' }}</p>
-            <p class="mb-1 small">Passport: {{ $primary->passport_number ?: '—' }} @if($primary->passport_expiry)(exp. {{ $primary->passport_expiry->format('M Y') }})@endif</p>
+            <p class="mb-1"><strong>{{ $primary->fullName() }}</strong> · DOB {{ $primary->date_of_birth?->format(config('date.display')) ?? '—' }} · {{ $primary->nationality ?: '—' }}</p>
+            <p class="mb-1 small">Passport: {{ $primary->passport_number ?: '—' }} @if($primary->passport_expiry)(exp. {{ $primary->passport_expiry->format(config('date.display_month_year')) }})@endif</p>
             @endif
             <p class="mb-1"><strong>Email:</strong> {{ $bookingRequest->contact_email }}</p>
             <p class="mb-1"><strong>Phone:</strong> {{ $bookingRequest->contact_phone }}</p>
@@ -76,7 +76,7 @@
                     @foreach($bookingRequest->additionalTravelers() as $traveler)
                         <tr>
                             <td>{{ $traveler->fullName() }}</td>
-                            <td>{{ $traveler->date_of_birth?->format('M d, Y') ?? '—' }}</td>
+                            <td>{{ $traveler->date_of_birth?->format(config('date.display')) ?? '—' }}</td>
                             <td>{{ $traveler->nationality ?: '—' }}</td>
                             <td>{{ $traveler->relationship ?: '—' }}</td>
                             <td>{{ $traveler->passport_number ?: '—' }}</td>
@@ -120,7 +120,7 @@
             <h5 class="fw-bold mb-3" style="color:var(--admin-primary)">Status timeline</h5>
             @forelse($bookingRequest->statusHistories as $history)
                 <div class="d-flex gap-2 mb-2 small">
-                    <span class="text-muted" style="min-width:120px">{{ $history->created_at->format('M d, H:i') }}</span>
+                    <span class="text-muted" style="min-width:120px">{{ $history->created_at->format(config('date.display_datetime')) }}</span>
                     <span><x-insurance-booking-status :status="$history->status" /></span>
                     @if($history->note)<span class="text-muted">— {{ $history->note }}</span>@endif
                     @if($history->changedBy)<span class="text-muted">({{ $history->changedBy->name }})</span>@endif

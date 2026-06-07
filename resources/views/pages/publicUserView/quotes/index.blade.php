@@ -24,7 +24,7 @@
                         <td>{{ $quote->typeLabel() }}</td>
                         <td>{{ strtoupper($quote->currency) }} {{ number_format($quote->total_amount, 2) }}</td>
                         <td><span class="badge bg-primary">{{ $quote->statusLabel() }}</span></td>
-                        <td>{{ $quote->valid_until->format('M d, Y') }}</td>
+                        <td>{{ $quote->valid_until->format(config('date.display')) }}</td>
                         <td><a href="{{ route('my-quotes.show', $quote) }}">View</a></td>
                     </tr>
                     @empty

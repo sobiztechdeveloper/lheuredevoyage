@@ -20,7 +20,7 @@
                             <td><b>{{ $ticket->reference }}</b></td>
                             <td>{{ $ticket->subject }}</td>
                             <td><span class="badge badge-secondary">{{ ucfirst(str_replace('_', ' ', $ticket->status)) }}</span></td>
-                            <td>{{ $ticket->updated_at->format('M d, Y') }}</td>
+                            <td>{{ $ticket->updated_at->format(config('date.display')) }}</td>
                             <td><a href="{{ route('support-tickets.show', $ticket) }}">View</a></td>
                         </tr>
                         @empty

@@ -10,10 +10,14 @@ class WebsiteSetting extends Model
 {
     use HasCmsMedia;
 
+    protected $casts = [
+        'page_breadcrumb_images' => 'array',
+    ];
+
     protected $fillable = [
         'company_name', 'company_email', 'company_phone', 'company_address',
         'vat_number', 'registration_number', 'business_hours',
-        'logo', 'favicon', 'default_breadcrumb_image',
+        'logo', 'favicon', 'default_breadcrumb_image', 'page_breadcrumb_images',
         'facebook_url', 'instagram_url', 'linkedin_url', 'youtube_url',
         'footer_text', 'copyright_text',
     ];
@@ -65,5 +69,15 @@ class WebsiteSetting extends Model
     public function hasCustomLogo(): bool
     {
         return filled($this->logo);
+    }
+
+    public function pageBreadcrumbImageUrl(string $pageKey): ?string
+    {
+        $images = $this->page_breadcrumb_images ?? [];
+        if (empty($images[$pageKey])) {
+            return null;
+        }
+
+        return $this->mediaUrl($images[$pageKey]);
     }
 }

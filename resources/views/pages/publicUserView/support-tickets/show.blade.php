@@ -14,7 +14,7 @@
             @foreach($ticket->replies as $reply)
                 <div class="border rounded p-3 mb-2 {{ $reply->is_staff ? 'bg-light' : '' }}">
                     <strong>{{ $reply->is_staff ? 'Support Team' : 'You' }}</strong>
-                    <span class="text-muted small float-end">{{ $reply->created_at->format('M d, Y H:i') }}</span>
+                    <span class="text-muted small float-end">{{ $reply->created_at->format(config('date.display_datetime')) }}</span>
                     <p class="mb-0 mt-2">{{ $reply->message }}</p>
                 </div>
             @endforeach

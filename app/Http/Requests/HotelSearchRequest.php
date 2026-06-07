@@ -32,8 +32,12 @@ class HotelSearchRequest extends FormRequest
         }
 
         $merge['destination'] = trim((string) ($this->input('destination', '')));
-        $merge['journey_date'] = $merge['journey_date'] ?? $this->input('journey_date', $this->input('journey-date')) ?: now()->addDays(7)->toDateString();
-        $merge['return_date'] = $merge['return_date'] ?? $this->input('return_date', $this->input('return-date'));
+        $merge['journey_date'] = normalize_user_date(
+            $merge['journey_date'] ?? $this->input('journey_date', $this->input('journey-date'))
+        ) ?: now()->addDays(7)->toDateString();
+        $merge['return_date'] = normalize_user_date(
+            $merge['return_date'] ?? $this->input('return_date', $this->input('return-date'))
+        );
         $merge['adult'] = (int) ($this->input('adult', 2) ?: 2);
         $merge['children'] = (int) ($this->input('children', 0) ?: 0);
         $merge['infant'] = (int) ($this->input('infant', 0) ?: 0);

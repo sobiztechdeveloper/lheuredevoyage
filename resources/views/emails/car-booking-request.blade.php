@@ -8,8 +8,8 @@
 Thank you for your request for **{{ $carName }}**.
 
 **Reference:** {{ $request->reference_number }}  
-**Pick-up:** {{ $request->pickup_date->format('M d, Y') }} at {{ $request->pickup_location }}  
-**Return:** {{ $request->return_date->format('M d, Y') }} at {{ $request->dropoff_location ?: $request->pickup_location }}
+**Pick-up:** {{ $request->pickup_date->format(config('date.display')) }} at {{ $request->pickup_location }}  
+**Return:** {{ $request->return_date->format(config('date.display')) }} at {{ $request->dropoff_location ?: $request->pickup_location }}
 
 Our travel consultant will contact you shortly to confirm availability and final pricing.
 

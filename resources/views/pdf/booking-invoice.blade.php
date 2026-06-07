@@ -19,7 +19,7 @@
     @if($company->company_email)<p>{{ $company->company_email }}</p>@endif
 
     <p>Reference: <strong>{{ $booking->reference }}</strong><br>
-    Date: {{ $issuedAt->format('M d, Y') }}<br>
+    Date: {{ $issuedAt->format(config('date.display')) }}<br>
     Status: {{ ucfirst($booking->status) }}</p>
 
     <p><strong>Bill to</strong><br>

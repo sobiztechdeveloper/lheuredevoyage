@@ -17,7 +17,7 @@
                 @forelse($items as $item)
                 <tr>
                     <td>{{ $item->name }}</td>
-                    <td>{{ $item->deleted_at->format('M d, Y H:i') }}</td>
+                    <td>{{ $item->deleted_at->format(config('date.display_datetime')) }}</td>
                     <td class="text-end">
                         <form method="POST" action="{{ route('admin.master-data.'.$type.'.restore', $item->id) }}">
                             @csrf

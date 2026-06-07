@@ -24,7 +24,7 @@
                                     <td>
                                         <p><strong>{{ $notification->title }}</strong> — {{ $notification->body }}</p>
                                     </td>
-                                    <td>{{ $notification->created_at->format('M d, Y') }}</td>
+                                    <td>{{ $notification->created_at->format(config('date.display')) }}</td>
                                     <td>
                                         @if($notification->read_at)
                                             <span class="badge badge-success">Read</span>

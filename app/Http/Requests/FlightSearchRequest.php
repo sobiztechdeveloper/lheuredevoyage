@@ -59,8 +59,12 @@ class FlightSearchRequest extends FormRequest
         $merge['trip_type'] = $merge['trip_type'] ?? $this->input('trip_type', 'one_way');
         $merge['from_destination'] = trim((string) ($merge['from_destination'] ?? $this->input('from_destination', $this->input('from-destination', ''))));
         $merge['to_destination'] = trim((string) ($merge['to_destination'] ?? $this->input('to_destination', $this->input('to-destination', ''))));
-        $merge['journey_date'] = $merge['journey_date'] ?? $this->input('journey_date', $this->input('journey-date')) ?: now()->addDays(14)->toDateString();
-        $merge['return_date'] = $merge['return_date'] ?? $this->input('return_date', $this->input('return-date'));
+        $merge['journey_date'] = normalize_user_date(
+            $merge['journey_date'] ?? $this->input('journey_date', $this->input('journey-date'))
+        ) ?: now()->addDays(14)->toDateString();
+        $merge['return_date'] = normalize_user_date(
+            $merge['return_date'] ?? $this->input('return_date', $this->input('return-date'))
+        );
         $merge['adult'] = (int) ($merge['adult'] ?? $this->input('adult', 1) ?: 1);
         $merge['children'] = (int) ($merge['children'] ?? $this->input('children', 0) ?: 0);
         $merge['infant'] = (int) ($merge['infant'] ?? $this->input('infant', 0) ?: 0);

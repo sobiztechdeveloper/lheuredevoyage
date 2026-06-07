@@ -23,10 +23,10 @@
                         <tr>
                             <td><strong>{{ $booking->booking_reference }}</strong></td>
                             <td>{{ $booking->routeLabel() }}</td>
-                            <td>{{ $booking->departure_date->format('M d, Y') }}</td>
+                            <td>{{ $booking->departure_date->format(config('date.display')) }}</td>
                             <td>{{ $booking->passengers_count }}</td>
                             <td><span class="badge bg-primary">{{ $booking->statusLabel() }}</span></td>
-                            <td>{{ $booking->created_at->format('M d, Y') }}</td>
+                            <td>{{ $booking->created_at->format(config('date.display')) }}</td>
                             <td><a href="{{ route('my-flight-bookings.show', $booking) }}">View Details</a></td>
                         </tr>
                     @empty

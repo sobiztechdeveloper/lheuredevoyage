@@ -21,7 +21,7 @@
                         <tr>
                             <td><strong>{{ $b->reference_number }}</strong></td>
                             <td>{{ $b->cruise?->name }}</td>
-                            <td>{{ $b->departure_date->format('M d, Y') }}</td>
+                            <td>{{ $b->departure_date->format(config('date.display')) }}</td>
                             <td><x-cruise-booking-status :status="$b->status" /></td>
                             <td><a href="{{ route('my-cruise-bookings.show', $b) }}">View Details</a></td>
                         </tr>

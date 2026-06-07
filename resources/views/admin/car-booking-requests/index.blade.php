@@ -50,8 +50,8 @@
                         {{ $req->contact_email }}<br>
                         <small class="text-muted">{{ $req->contact_phone }}</small>
                     </td>
-                    <td>{{ $req->pickup_date->format('M d, Y') }}<br><small class="text-muted">{{ $req->pickup_location }}</small></td>
-                    <td>{{ $req->return_date->format('M d, Y') }}</td>
+                    <td>{{ $req->pickup_date->format(config('date.display')) }}<br><small class="text-muted">{{ $req->pickup_location }}</small></td>
+                    <td>{{ $req->return_date->format(config('date.display')) }}</td>
                     <td><x-car-booking-status :status="$req->status" /></td>
                     <td class="text-end">
                         <a href="{{ route('admin.car-requests.show', $req) }}" class="btn btn-sm btn-admin-primary">View</a>

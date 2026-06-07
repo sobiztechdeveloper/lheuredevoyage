@@ -37,7 +37,7 @@
                 <td>{{ $b->bookable?->title }}</td>
                 <td>{{ $b->currency }} {{ number_format($b->total_amount, 2) }}</td>
                 <td>{{ ucfirst($b->status) }}</td>
-                <td>{{ $b->created_at->format('M d, Y') }}</td>
+                <td>{{ $b->created_at->format(config('date.display')) }}</td>
             </tr>
             @endforeach
         </tbody>

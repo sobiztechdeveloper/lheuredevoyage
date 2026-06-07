@@ -8,10 +8,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RedirectIfCustomerAuthenticated
 {
+    /**
+     * Redirect already-signed-in customers away from login/register.
+     * Admin sessions are independent and must not affect the user login page.
+     */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth('admin')->check()) {
-            return redirect()->route('admin.dashboard');
+        if (auth('web')->check()) {
+            return redirect()->route('my-dashboard');
         }
 
         return $next($request);

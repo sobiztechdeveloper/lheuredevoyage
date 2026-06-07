@@ -43,7 +43,7 @@
                         @php $statusClass = match($booking->status) { 'confirmed','completed' => 'badge-status-active', 'pending' => 'badge-status-pending', default => 'badge-status-inactive' }; @endphp
                         <span class="badge-status {{ $statusClass }}">{{ ucfirst($booking->status) }}</span>
                     </td>
-                    <td>{{ ($booking->booked_at ?? $booking->created_at)->format('M d, Y') }}</td>
+                    <td>{{ ($booking->booked_at ?? $booking->created_at)->format(config('date.display')) }}</td>
                     <td class="text-end">
                         <a href="{{ route('admin.bookings.show', $booking) }}" class="btn btn-sm btn-admin-primary">View</a>
                     </td>

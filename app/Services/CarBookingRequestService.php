@@ -154,7 +154,7 @@ class CarBookingRequestService
 
         $value = trim((string) $value);
 
-        foreach (['n/j/Y', 'm/d/Y', 'd/m/Y', 'Y-m-d', 'Y/m/d'] as $format) {
+        foreach (['d/m/Y', 'd-m-Y', 'n/j/Y', 'm/d/Y', 'Y-m-d', 'Y/m/d'] as $format) {
             try {
                 $parsed = Carbon::createFromFormat($format, $value);
                 if ($parsed !== false) {

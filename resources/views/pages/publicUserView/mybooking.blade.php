@@ -30,7 +30,7 @@
                             <td>{{ $booking->bookableTypeLabel() }}<br><small>{{ $booking->bookable?->title }}</small>
                                 @if($booking->travelersLabel())<br><small class="text-muted">{{ $booking->travelersLabel() }}</small>@endif
                             </td>
-                            <td>{{ ($booking->booked_at ?? $booking->created_at)->format('M d, Y') }}</td>
+                            <td>{{ ($booking->booked_at ?? $booking->created_at)->format(config('date.display')) }}</td>
                             <td>${{ number_format($booking->total_amount, 2) }}</td>
                             <td><span class="badge badge-{{ $booking->status === 'confirmed' ? 'success' : ($booking->status === 'pending' ? 'warning' : 'danger') }}">{{ ucfirst($booking->status) }}</span></td>
                             <td><a href="{{ route('my-bookings.show', $booking) }}">Details</a></td>

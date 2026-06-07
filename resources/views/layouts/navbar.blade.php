@@ -2,11 +2,11 @@
     <nav class="navbar navbar-expand-lg ">
         <div class="container">
             @php
-                $navSettings = $siteSettings ?? null;
-                $navLogo = $navSettings?->logo_url ?? asset('assets/img/logo/logo.png');
-                $navLogoScrolled = ($navSettings && $navSettings->hasCustomLogo())
-                    ? $navLogo
-                    : asset('assets/img/logo/logo-dark.png');
+            $navSettings = $siteSettings ?? null;
+            $navLogo = $navSettings?->logo_url ?? asset('assets/img/logo/logo.png');
+            $navLogoScrolled = ($navSettings && $navSettings->hasCustomLogo())
+            ? $navLogo
+            : asset('assets/img/logo/logo-dark.png');
             @endphp
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
                 <div class="logo-wrapper">
@@ -33,18 +33,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('tourpackage') }}">
+                            <i class="fas fa-binoculars me-1"></i> Holiday Packages
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('flight') }}">
                             <i class="fas fa-plane me-1"></i> Flights
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('hotel') }}">
-                            <i class="fas fa-hotel me-1"></i> Hotels
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('cruise') }}">
-                            <i class="fas fa-ship me-1"></i> Cruises
                         </a>
                     </li>
                     <li class="nav-item">
@@ -53,24 +48,26 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('cruise') }}">
+                            <i class="fas fa-ship me-1"></i> Cruises
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('travelinsurance') }}">
-                            <i class="fas fa-shield-alt me-1"></i> Insurance
+                            <i class="fas fa-shield-alt me-1"></i> Travel Insurance
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('tourpackage') }}">
-                            <i class="fas fa-binoculars me-1"></i> Packages
+                        <a class="nav-link" href="{{ route('hotel') }}">
+                            <i class="fas fa-hotel me-1"></i> Hotels
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('contact') }}">
-                            <i class="fas fa-phone me-1"></i> Contact
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('about') }}">
-                            <i class="fas fa-info-circle me-1"></i> About Us
-                        </a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Other</a>
+                        <ul class="dropdown-menu fade-down">
+                            <li><a class="dropdown-item" href="{{ route('contact') }}">Contact</a></li>
+                            <li><a class="dropdown-item" href="{{ route('about') }}">About Us</a></li>
+                        </ul>
                     </li>
                 </ul>
 
@@ -79,7 +76,7 @@
                     <div class="header-account">
                         <div class="dropdown">
                             <div data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('assets/img/account/user.jpg') }}" alt="">
+                                <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}">
                             </div>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="{{ route('my-dashboard') }}"><i class="far fa-gauge-high"></i> Dashboard</a></li>

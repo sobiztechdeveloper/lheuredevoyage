@@ -35,8 +35,8 @@
     <h2>Quotation</h2>
     <p>
         <strong>Quote number:</strong> {{ $quote->quote_number }}<br>
-        <strong>Date:</strong> {{ $issuedAt->format('M d, Y') }}<br>
-        <strong>Valid until:</strong> <span class="accent">{{ $quote->valid_until->format('M d, Y') }}</span><br>
+        <strong>Date:</strong> {{ $issuedAt->format(config('date.display')) }}<br>
+        <strong>Valid until:</strong> <span class="accent">{{ $quote->valid_until->format(config('date.display')) }}</span><br>
         <strong>Status:</strong> {{ $quote->statusLabel() }}
     </p>
 

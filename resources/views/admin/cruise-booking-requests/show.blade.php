@@ -25,8 +25,8 @@
             <div class="row g-3">
                 <div class="col-md-6"><span class="text-muted small d-block">Reference</span><strong>{{ $bookingRequest->reference_number }}</strong></div>
                 <div class="col-md-6"><span class="text-muted small d-block">Status</span><x-cruise-booking-status :status="$bookingRequest->status" /></div>
-                <div class="col-md-6"><span class="text-muted small d-block">Departure</span>{{ $bookingRequest->departure_date->format('M d, Y') }}</div>
-                <div class="col-md-6"><span class="text-muted small d-block">Return</span>{{ $bookingRequest->return_date?->format('M d, Y') ?? '—' }}</div>
+                <div class="col-md-6"><span class="text-muted small d-block">Departure</span>{{ $bookingRequest->departure_date->format(config('date.display')) }}</div>
+                <div class="col-md-6"><span class="text-muted small d-block">Return</span>{{ $bookingRequest->return_date?->format(config('date.display')) ?? '—' }}</div>
                 <div class="col-md-6"><span class="text-muted small d-block">Passengers</span>{{ $bookingRequest->passengerCount() }}</div>
                 <div class="col-md-6"><span class="text-muted small d-block">Estimated</span>{{ strtoupper($bookingRequest->currency) }} {{ number_format((float) $bookingRequest->estimated_amount, 2) }}</div>
             </div>
@@ -61,7 +61,7 @@
                         <tr>
                             <td>{{ $passenger->fullName() }}</td>
                             <td>{{ ucfirst($passenger->passenger_type) }}</td>
-                            <td>{{ $passenger->date_of_birth?->format('M d, Y') ?? '—' }}</td>
+                            <td>{{ $passenger->date_of_birth?->format(config('date.display')) ?? '—' }}</td>
                             <td>{{ $passenger->passport_number ?: '—' }}</td>
                             <td>@if($passenger->passport_file)<a href="{{ route('admin.booking-files.cruise.passport', [$bookingRequest, $passenger]) }}" target="_blank">Passport File</a>@else — @endif</td>
                         </tr>

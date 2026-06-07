@@ -284,14 +284,6 @@ class CruiseBookingRequestService
 
     private function parseDate(mixed $value): ?Carbon
     {
-        if (! $value) {
-            return null;
-        }
-
-        try {
-            return Carbon::parse($value)->startOfDay();
-        } catch (\Throwable) {
-            return null;
-        }
+        return parse_user_date($value);
     }
 }
