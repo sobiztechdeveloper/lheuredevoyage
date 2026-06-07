@@ -17,12 +17,11 @@ class CmsSeeder extends Seeder
             'company_name' => "L'Heure De Voyage",
             'company_email' => 'info@lheuredevoyage.com',
             'company_phone' => '+41 44 000 00 00',
-            'company_address' => 'Bahnhofstrasse 1, 8001 Zürich, Switzerland',
+            'company_address' => "Bahnhofstrasse 1\n8001 Zürich\nSwitzerland",
             'vat_number' => 'CHE-000.000.000 MWST',
             'registration_number' => 'CH-000.0.000.000-0',
             'business_hours' => 'Monday – Friday, 09:00 – 18:00 (CET)',
             'footer_text' => 'Your trusted partner for flights, hotels, cruises, cars, insurance and holiday packages worldwide.',
-            'copyright_text' => "L'Heure De Voyage. All Rights Reserved.",
             'facebook_url' => 'https://facebook.com',
             'instagram_url' => 'https://instagram.com',
             'linkedin_url' => 'https://linkedin.com',
@@ -30,7 +29,7 @@ class CmsSeeder extends Seeder
         ]);
 
         ContactDetail::query()->updateOrCreate(['id' => 1], [
-            'address' => 'Bahnhofstrasse 1, 8001 Zürich, Switzerland',
+            'address' => "Bahnhofstrasse 1\n8001 Zürich\nSwitzerland",
             'phone' => '+41 44 000 00 00',
             'email' => 'info@lheuredevoyage.com',
             'whatsapp_number' => '+41 44 000 00 00',

@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Services\FlightSearchParamsService;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
 class FlightSearchRequest extends FormRequest
@@ -22,6 +25,14 @@ class FlightSearchRequest extends FormRequest
 
         if ($this->has('to-destination') && ! $this->has('to_destination')) {
             $merge['to_destination'] = $this->input('to-destination');
+        }
+
+        if ($this->has('from_departure_id')) {
+            $merge['from_departure_id'] = trim((string) $this->input('from_departure_id'));
+        }
+
+        if ($this->has('to_arrival_id')) {
+            $merge['to_arrival_id'] = trim((string) $this->input('to_arrival_id'));
         }
 
         if ($this->has('journey-date') && ! $this->has('journey_date')) {
@@ -70,6 +81,15 @@ class FlightSearchRequest extends FormRequest
         $merge['infant'] = (int) ($merge['infant'] ?? $this->input('infant', 0) ?: 0);
         $merge['cabin_class'] = $merge['cabin_class'] ?? $this->input('cabin_class', $this->input('cabin-class', 'economy')) ?: 'economy';
 
+        if (($merge['trip_type'] ?? '') === 'round_trip'
+            && empty($merge['return_date'])
+            && ! empty($merge['journey_date'])) {
+            $journey = parse_user_date($merge['journey_date']);
+            $merge['return_date'] = $journey
+                ? $journey->copy()->addDays(7)->format(config('date.input', 'Y-m-d'))
+                : now()->addDays(21)->toDateString();
+        }
+
         $this->merge($merge);
     }
 
@@ -79,8 +99,15 @@ class FlightSearchRequest extends FormRequest
             'trip_type' => ['nullable', Rule::in(['one_way', 'round_trip'])],
             'from_destination' => ['nullable', 'string', 'max:255'],
             'to_destination' => ['nullable', 'string', 'max:255'],
+            'from_departure_id' => ['nullable', 'string', 'max:255'],
+            'to_arrival_id' => ['nullable', 'string', 'max:255'],
             'journey_date' => ['nullable', 'date'],
-            'return_date' => ['nullable', 'date', 'after_or_equal:journey_date'],
+            'return_date' => [
+                Rule::requiredIf(fn () => $this->input('trip_type') === 'round_trip'),
+                'nullable',
+                'date',
+                'after_or_equal:journey_date',
+            ],
             'adult' => ['nullable', 'integer', 'min:1', 'max:9'],
             'children' => ['nullable', 'integer', 'min:0', 'max:9'],
             'infant' => ['nullable', 'integer', 'min:0', 'max:9'],
@@ -92,5 +119,17 @@ class FlightSearchRequest extends FormRequest
     {
         return trim((string) $this->input('from_destination', '')) === ''
             && trim((string) $this->input('to_destination', '')) === '';
+    }
+
+    protected function failedValidation(Validator $validator): void
+    {
+        $params = app(FlightSearchParamsService::class)->queryParamsFromRequest($this);
+
+        throw new HttpResponseException(
+            redirect()
+                ->route('flight', $params)
+                ->withInput()
+                ->withErrors($validator->errors())
+        );
     }
 }

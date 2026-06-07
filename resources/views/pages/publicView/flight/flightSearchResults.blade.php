@@ -46,7 +46,7 @@
                                 </small>
                             </div>
                             <div class="text-end">
-                                <h4 class="mb-0">${{ number_format($result->price, 0) }}</h4>
+                                <h4 class="mb-0">{{ $result->formattedDisplayPrice() }}</h4>
                                 <span class="text-muted">{{ strtoupper($result->currency) }}</span>
                                 @if(($usesAerticket ?? false) && $result->external_offer_id)
                                     <div class="mt-2">

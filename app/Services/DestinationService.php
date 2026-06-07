@@ -12,6 +12,7 @@ class DestinationService
 {
     public function __construct(
         protected ActivityLogService $activityLog,
+        protected FlightService $flightService,
     ) {}
 
     /**
@@ -98,8 +99,12 @@ class DestinationService
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function apiSearchResults(string $query, array $types, string $format = 'default'): array
+    public function apiSearchResults(string $query, array $types, string $format = 'default', ?string $context = null): array
     {
+        if ($this->shouldUseSerpapiFlightAutocomplete($context)) {
+            return $this->flightService->searchAirports($query);
+        }
+
         return $this->searchForApi($query, $types, $format)
             ->map(function (TravelDestination $destination) use ($format) {
                 $payload = $destination->toSearchArray();
@@ -114,6 +119,15 @@ class DestinationService
             })
             ->values()
             ->all();
+    }
+
+    protected function shouldUseSerpapiFlightAutocomplete(?string $context): bool
+    {
+        if (! $this->flightService->isConfigured()) {
+            return false;
+        }
+
+        return in_array($context, ['flight_from', 'flight_to'], true);
     }
 
     /**

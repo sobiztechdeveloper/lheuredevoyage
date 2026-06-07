@@ -2,6 +2,11 @@
     $collapseId = 'flight-booking-collapse'.$result->id;
     $fromCode = $result->destinationCode($result->from_destination);
     $toCode = $result->destinationCode($result->to_destination);
+    $bookUrl = $result->bookingDeepLink() ?? route('flight.booking.create', $result);
+    $layoverDetails = $result->layoverDetails();
+    $amenities = $result->amenities();
+    $carbonLabel = $result->carbonEmissionsLabel();
+    $airlineLogo = $result->airlineLogoUrl();
 @endphp
 <!-- flight booking item -->
 <div class="col-lg-12">
@@ -10,9 +15,9 @@
             <div class="flight-booking-info">
                 <div class="flight-booking-content">
                     <div class="flight-booking-airline">
-                        <div class="flight-airline-img{{ $result->catalogFlight?->image_url ? '' : ' flight-airline-initial' }}" aria-hidden="true">
-                            @if($result->catalogFlight?->image_url)
-                                <img src="{{ $result->catalogFlight->image_url }}" alt="{{ $result->airline }}">
+                        <div class="flight-airline-img{{ $airlineLogo ? '' : ' flight-airline-initial' }}" aria-hidden="true">
+                            @if($airlineLogo)
+                                <img src="{{ $airlineLogo }}" alt="{{ $result->airline }}">
                             @else
                                 <span>{{ $result->airlineInitials() }}</span>
                             @endif
@@ -50,14 +55,14 @@
             </div>
             <div class="flight-booking-price">
                 <div class="price-info">
-                    <span class="price-amount">${{ number_format($result->price, 0) }}</span>
+                    <span class="price-amount">{{ $result->formattedDisplayPrice() }}</span>
                 </div>
-                <a href="{{ route('flight.booking.create', $result) }}" class="theme-btn">Book Now<i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ $bookUrl }}" class="theme-btn"@if($result->bookingDeepLink()) target="_blank" rel="noopener noreferrer"@endif>Book Now<i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <div class="flight-booking-detail">
             <div class="flight-booking-detail-header">
-                <p>{{ $result->refundableLabel() }}</p>
+                <p>{{ $result->refundableLabel() }}@if($carbonLabel) · {{ $carbonLabel }}@endif</p>
                 <a href="#{{ $collapseId }}" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="{{ $collapseId }}">Flight
                     Details <i class="far fa-angle-down"></i></a>
@@ -76,16 +81,16 @@
                                     <div class="tab-pane fade show active" role="tabpanel">
                                         <div class="flight-booking-detail-info">
                                             <div class="flight-booking-airline">
-                                                <div class="flight-airline-img{{ $result->catalogFlight?->image_url ? '' : ' flight-airline-initial' }}" aria-hidden="true">
-                                                    @if($result->catalogFlight?->image_url)
-                                                        <img src="{{ $result->catalogFlight->image_url }}" alt="{{ $result->airline }}">
+                                                <div class="flight-airline-img{{ $airlineLogo ? '' : ' flight-airline-initial' }}" aria-hidden="true">
+                                                    @if($airlineLogo)
+                                                        <img src="{{ $airlineLogo }}" alt="{{ $result->airline }}">
                                                     @else
                                                         <span>{{ $result->airlineInitials() }}</span>
                                                     @endif
                                                 </div>
                                                 <div class="flight-airline-info flex-grow-1">
                                                     <h5 class="flight-airline-name">{{ $result->airline }}</h5>
-                                                    <span class="flight-airline-model">{{ $result->flight_number }}</span>
+                                                    <span class="flight-airline-model">{{ $result->segmentFlightNumbers() }}@if($result->aircraftLabel()) · {{ $result->aircraftLabel() }}@endif</span>
                                                 </div>
                                                 <p class="flight-airline-class">( {{ $result->cabinClassLabel() }} )</p>
                                             </div>
@@ -118,6 +123,14 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @if($layoverDetails !== [])
+                                            <p class="flight-full-date mb-0">
+                                                Layovers:
+                                                @foreach($layoverDetails as $layover)
+                                                    {{ $layover['name'] }}@if($layover['code'] !== '') ({{ $layover['code'] }})@endif — {{ $layover['duration'] }}@if(! $loop->last); @endif
+                                                @endforeach
+                                            </p>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -133,16 +146,19 @@
                                             <th>Baggage</th>
                                         </tr>
                                         <tr>
-                                            <td>{{ $result->flight_number }}</td>
+                                            <td>{{ $result->segmentFlightNumbers() }}</td>
                                             <td>{{ $result->cabinClassLabel() }}</td>
                                             <td>{{ $result->baggage_kg }} kg</td>
                                         </tr>
                                     </table>
+                                    @if($amenities !== [])
+                                    <p class="flight-full-date mb-0">{{ implode(' · ', $amenities) }}</p>
+                                    @endif
                                 </div>
                                 <div class="flight-booking-detail-price">
                                     <h6 class="flight-booking-detail-price-title">Total</h6>
                                     <div class="flight-detail-price-amount">
-                                        ${{ number_format($result->price, 0) }}
+                                        {{ $result->formattedDisplayPrice() }}
                                         @if($result->currency && $result->currency !== 'USD')
                                             <small class="d-block text-muted">{{ $result->currency }}</small>
                                         @endif

@@ -202,9 +202,9 @@ class TravelInsurance extends Model
     public function displayPremium(): string
     {
         $amount = (float) ($this->base_premium ?? $this->price ?? 0);
-        $currency = $this->premium_currency ?? 'CHF';
+        $currency = strtoupper((string) ($this->premium_currency ?? currency_service()->catalogSource()));
 
-        return $currency.' '.number_format($amount, 2);
+        return format_money($amount, $currency, 2);
     }
 
     public function getFormattedPriceAttribute(): string

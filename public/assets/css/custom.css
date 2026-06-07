@@ -88,6 +88,61 @@
     justify-content: flex-end;
 }
 
+/* Footer — yellow accent on dark background (navy theme-color is unreadable here) */
+.footer-area .footer-list li a i,
+.footer-area .footer-list li a:hover {
+    color: var(--theme-color2);
+}
+
+.footer-area .copyright .copyright-text a {
+    color: var(--theme-color2);
+    font-weight: 600;
+}
+
+.footer-area .copyright .copyright-text a:hover {
+    color: var(--brand-gold-light);
+}
+
+.footer-area .footer-call-icon i,
+.footer-area .footer-call-info a {
+    color: var(--theme-color2) !important;
+}
+
+.footer-area .footer-call-info a:hover {
+    color: var(--brand-gold-light) !important;
+}
+
+.footer-area .footer-contact li i {
+    background: var(--theme-color2);
+    color: var(--brand-footer);
+}
+
+.footer-area .footer-contact .footer-address-item {
+    align-items: flex-start;
+}
+
+.footer-area .footer-contact .footer-address-item i {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.footer-area .footer-contact .footer-address-text {
+    color: var(--footer-text-color);
+    font-style: normal;
+    line-height: 1.6;
+}
+
+.footer-area .footer-social li a i {
+    color: var(--theme-color2);
+    background: rgba(232, 175, 48, 0.12);
+    border: 1px solid rgba(232, 175, 48, 0.35);
+}
+
+.footer-area .footer-social li a i:hover {
+    background: var(--theme-color2);
+    color: var(--brand-footer);
+}
+
 /* About / Contact — space above FAQ block */
 .inner-page-faq {
     margin-top: 4rem;

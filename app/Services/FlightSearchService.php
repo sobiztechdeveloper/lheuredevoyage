@@ -79,7 +79,7 @@ class FlightSearchService
 
     public function refreshSearchResultsIfStale(FlightSearch $search): FlightSearch
     {
-        if ($search->usesAerticket()) {
+        if ($search->usesAerticket() || $search->usesSerpapi()) {
             return $search->load(['results.catalogFlight']);
         }
 

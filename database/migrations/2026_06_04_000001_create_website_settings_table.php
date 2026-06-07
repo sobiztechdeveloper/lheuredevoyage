@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('linkedin_url')->nullable();
             $table->string('youtube_url')->nullable();
             $table->text('footer_text')->nullable();
-            $table->string('copyright_text')->nullable();
             $table->timestamps();
         });
     }

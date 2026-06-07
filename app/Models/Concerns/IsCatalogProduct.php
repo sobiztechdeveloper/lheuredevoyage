@@ -131,7 +131,7 @@ trait IsCatalogProduct
     {
         $amount = $this->price_per_day ?? $this->price;
 
-        return '$'.number_format((float) $amount, 0);
+        return format_money((float) $amount, currency_service()->catalogSource());
     }
 
     public function getPriceUnitAttribute(?string $value): string

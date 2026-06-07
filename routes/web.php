@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BookingRequestFileController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CookieConsentController;
 use App\Http\Controllers\LegalPageController;
 use App\Http\Controllers\CruiseBookingRequestController;
@@ -43,8 +44,12 @@ use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/currency', [CurrencyController::class, 'switch'])->name('currency.switch');
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 Route::get('/robots.txt', RobotsController::class)->name('robots');
+
+Route::get('/flight/autocomplete', [\App\Http\Controllers\Api\FlightController::class, 'autocomplete'])->name('flight.autocomplete');
+Route::get('/flight/search', [\App\Http\Controllers\Api\FlightController::class, 'search'])->name('flight.serpapi.search');
 
 Route::get('/flights', [FlightController::class, 'index'])->name('flight');
 Route::get('/flights/search', [FlightController::class, 'search'])->name('flight.search');

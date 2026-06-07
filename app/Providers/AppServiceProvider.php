@@ -22,10 +22,12 @@ use App\Models\RentalCar;
 use App\Models\TourPackage;
 use App\Models\TravelInsurance;
 use App\Models\TravelDestination;
+use App\Models\Airline;
 use App\Models\CruiseLine;
 use App\Models\WebsiteSetting;
 use App\Policies\BookingPolicy;
 use App\Policies\CatalogItemPolicy;
+use App\Policies\AirlinePolicy;
 use App\Policies\CruiseLinePolicy;
 use App\Policies\MasterDataPolicy;
 use App\Policies\TravelDestinationPolicy;
@@ -42,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->singleton(\App\Services\CurrencyService::class);
     }
 
     public function boot(): void
@@ -59,6 +61,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(SupportTicket::class, SupportTicketPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
         Gate::policy(TravelDestination::class, TravelDestinationPolicy::class);
+        Gate::policy(Airline::class, AirlinePolicy::class);
         Gate::policy(CruiseLine::class, CruiseLinePolicy::class);
 
         foreach (MasterDataRegistry::types() as $config) {
@@ -95,12 +98,14 @@ class AppServiceProvider extends ServiceProvider
             'layouts.footer',
             'layouts.header',
             'layouts.navbar',
+            'layouts.scripts',
             'components.seo-meta',
             'partials.cms.contact-info',
             'pages.publicView.contact',
         ], function ($view) {
             $view->with('siteSettings', WebsiteSetting::cached());
             $view->with('siteContact', ContactDetail::cached());
+            $view->with('displayCurrency', display_currency());
         });
 
         $legalComposer = function ($view) {

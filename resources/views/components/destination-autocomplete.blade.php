@@ -12,6 +12,7 @@
     'inputClass' => 'form-control',
     'swap' => false,
     'disabled' => false,
+    'serpapiId' => null,
 ])
 
 @php
@@ -57,6 +58,14 @@
         <p>{{ $hint }}</p>
     @else
         <p class="destination-field-meta" aria-hidden="true">&nbsp;</p>
+    @endif
+    @if($serpapiId && in_array($context, ['flight_from', 'flight_to'], true))
+        <input
+            type="hidden"
+            name="{{ $context === 'flight_from' ? 'from_departure_id' : 'to_arrival_id' }}"
+            value="{{ $serpapiId }}"
+            data-serpapi-id="1"
+        >
     @endif
 </div>
 

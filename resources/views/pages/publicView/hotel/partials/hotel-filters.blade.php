@@ -33,7 +33,7 @@
 
         @if(($facets['price_max'] ?? 0) > ($facets['price_min'] ?? 0))
         <div class="booking-item">
-            <h4 class="booking-title">Hotel Price</h4>
+            <h4 class="booking-title">Hotel Price ({{ display_currency() }})</h4>
             <div class="hotel-price">
                 <div class="price-range-slider">
                     <div class="price-range-info">

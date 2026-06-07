@@ -14,3 +14,4 @@
 <script src="{{ asset('assets/js/jquery.timepicker.min.js') }}"></script>
 <script src="{{ asset('assets/js/wow.min.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}?v=5"></script>
+<script src="{{ asset('assets/js/currency-switch.js') }}?v={{ file_exists(public_path('assets/js/currency-switch.js')) ? filemtime(public_path('assets/js/currency-switch.js')) : time() }}"></script>

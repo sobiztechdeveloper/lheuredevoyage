@@ -121,7 +121,7 @@ class Cruise extends Model
 
         $amount = (float) ($cabinMin ?? $this->price ?? 0);
 
-        return 'CHF '.number_format($amount, 2);
+        return format_money($amount, currency_service()->catalogSource(), 2);
     }
 
     public function brochureUrl(): ?string

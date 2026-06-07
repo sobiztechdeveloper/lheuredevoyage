@@ -30,8 +30,8 @@
                     </small>
                 </div>
                 <div class="text-end">
-                    <h3 class="mb-0">${{ number_format($offer->price, 0) }}</h3>
-                    <span class="text-muted">{{ strtoupper($offer->currency) }}</span>
+                    <h3 class="mb-0">{{ $offer->formattedDisplayPrice() }}</h3>
+                    <span class="text-muted">{{ display_currency() }}</span>
                 </div>
             </div>
         </div>

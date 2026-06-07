@@ -32,6 +32,6 @@ class CruiseCabin extends Model
 
     public function formattedPrice(): string
     {
-        return 'CHF '.number_format((float) $this->starting_price, 2);
+        return format_money((float) $this->starting_price, currency_service()->catalogSource(), 2);
     }
 }

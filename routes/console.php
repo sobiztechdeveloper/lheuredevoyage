@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('quotes:expire')->daily();
+Schedule::command('flights:prune')->dailyAt('02:00');

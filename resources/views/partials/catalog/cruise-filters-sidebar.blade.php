@@ -91,7 +91,7 @@
         @endif
 
         <div class="booking-item">
-            <h4 class="booking-title">Price (CHF)</h4>
+            <h4 class="booking-title">Price ({{ display_currency() }})</h4>
             <div class="row g-2">
                 <div class="col-6">
                     <label class="form-label small">Min</label>

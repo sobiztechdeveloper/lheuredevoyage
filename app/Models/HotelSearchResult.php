@@ -52,7 +52,7 @@ class HotelSearchResult extends Model
 
     public function getFormattedPriceAttribute(): string
     {
-        return '$'.number_format((float) $this->price, 0);
+        return format_money((float) $this->price, currency_service()->catalogSource());
     }
 
     public function starCount(): int

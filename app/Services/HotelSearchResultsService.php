@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\HotelSearchResult;
-use App\Services\MasterDataRegistry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -32,15 +31,20 @@ class HotelSearchResultsService
 
         $filtered = $this->applyMasterDataFilters($filtered, $request);
 
+        $currency = app(CurrencyService::class);
+        $storageCurrency = $currency->catalogSource();
+
         if ($request->has('price_min')) {
+            $min = $currency->fromDisplay((float) $request->input('price_min'), $storageCurrency);
             $filtered = $filtered->filter(
-                fn (HotelSearchResult $result) => (float) $result->price >= (float) $request->input('price_min')
+                fn (HotelSearchResult $result) => (float) $result->price >= $min
             );
         }
 
         if ($request->has('price_max')) {
+            $max = $currency->fromDisplay((float) $request->input('price_max'), $storageCurrency);
             $filtered = $filtered->filter(
-                fn (HotelSearchResult $result) => (float) $result->price <= (float) $request->input('price_max')
+                fn (HotelSearchResult $result) => (float) $result->price <= $max
             );
         }
 
@@ -91,8 +95,15 @@ class HotelSearchResultsService
      */
     public function computeFacets(Collection $results): array
     {
+        $currency = app(CurrencyService::class);
+        $storageCurrency = $currency->catalogSource();
         $priceMin = $results->isEmpty() ? 0 : (float) $results->min('price');
         $priceMax = $results->isEmpty() ? 1000 : (float) $results->max('price');
+        $displayMin = (int) floor($currency->toDisplay($priceMin, $storageCurrency));
+        $displayMax = (int) ceil($currency->toDisplay(
+            $priceMax > $priceMin ? $priceMax : max($priceMin + 100, 1000),
+            $storageCurrency
+        ));
 
         $starFacets = [];
         foreach ([5, 4, 3, 2, 1] as $star) {
@@ -107,8 +118,8 @@ class HotelSearchResultsService
         }
 
         return [
-            'price_min' => (int) floor($priceMin),
-            'price_max' => (int) ceil($priceMax > $priceMin ? $priceMax : max($priceMin + 100, 1000)),
+            'price_min' => $displayMin,
+            'price_max' => $displayMax > $displayMin ? $displayMax : max($displayMin + 100, 1000),
             'stars' => $starFacets,
         ];
     }

@@ -12,6 +12,30 @@
         return sortEl.value || 'price_asc';
     }
 
+    function collectPanelParams(form, params) {
+        [
+            'flight_search',
+            'from-destination',
+            'to-destination',
+            'journey-date',
+            'return-date',
+            'flight-type',
+            'adult',
+            'children',
+            'infant',
+            'cabin_class',
+            'from_departure_id',
+            'to_arrival_id'
+        ].forEach(function (name) {
+            var input = form.querySelector('[name="' + name + '"]:checked')
+                || form.querySelector('[name="' + name + '"]');
+
+            if (input) {
+                params.set(name, input.value || '');
+            }
+        });
+    }
+
     function collectFilterParams() {
         var form = document.getElementById('flight-results-filters');
         var params = new URLSearchParams();
@@ -20,10 +44,7 @@
             return params;
         }
 
-        var searchId = form.querySelector('input[name="flight_search"]');
-        if (searchId && searchId.value) {
-            params.set('flight_search', searchId.value);
-        }
+        collectPanelParams(form, params);
 
         form.querySelectorAll('input[type="checkbox"].flight-list-filter:checked').forEach(function (checkbox) {
             params.append(checkbox.name, checkbox.value);
@@ -68,14 +89,13 @@
             return;
         }
 
-        var searchId = form.querySelector('input[name="flight_search"]');
         var baseUrl = (form.getAttribute('action') || window.location.pathname).split('?')[0];
+        var params = new URLSearchParams();
 
-        if (searchId && searchId.value) {
-            window.location.href = baseUrl + '?flight_search=' + encodeURIComponent(searchId.value);
-        } else {
-            window.location.href = baseUrl;
-        }
+        collectPanelParams(form, params);
+
+        var query = params.toString();
+        window.location.href = query ? baseUrl + '?' + query : baseUrl;
     }
 
     function initPriceSlider() {
@@ -92,6 +112,7 @@
             return;
         }
 
+        var currencyPrefix = priceRange.dataset.currencyPrefix || '$';
         var min = parseInt(priceRange.dataset.min || '0', 10);
         var max = parseInt(priceRange.dataset.max || '1000', 10);
         if (max <= min) {
@@ -111,13 +132,13 @@
             max: max,
             values: [currentMin, currentMax],
             slide: function (event, ui) {
-                jQuery('#priceRange1').val('$' + ui.values[0] + ' - $' + ui.values[1]);
+                jQuery('#priceRange1').val(currencyPrefix + ui.values[0] + ' - ' + currencyPrefix + ui.values[1]);
                 minInput.value = ui.values[0];
                 maxInput.value = ui.values[1];
             },
         });
 
-        jQuery('#priceRange1').val('$' + currentMin + ' - $' + currentMax);
+        jQuery('#priceRange1').val(currencyPrefix + currentMin + ' - ' + currencyPrefix + currentMax);
         minInput.value = currentMin;
         maxInput.value = currentMax;
 
@@ -170,6 +191,14 @@
                 clearFlightFilters();
             });
         }
+
+        document.querySelectorAll('.flight-list-cabin').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                if (this.checked) {
+                    applyFlightFilters();
+                }
+            });
+        });
 
         initPriceSlider();
         initSortDropdown();

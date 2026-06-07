@@ -56,6 +56,6 @@
     </dl>
     <div class="fbw-fare">
         <span>Estimated Fare</span>
-        <span class="amount">{{ strtoupper($summary['currency']) }} {{ number_format($summary['estimated_fare'], 0) }}</span>
+        <span class="amount">{{ format_money($summary['estimated_fare'], $summary['currency'] ?? currency_service()->serpapiSource()) }}</span>
     </div>
 </div>

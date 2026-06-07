@@ -85,7 +85,7 @@
                                 @if($room->features)<p class="small mb-0">{{ implode(' · ', $room->features) }}</p>@endif
                             </div>
                             <div class="col-md-3 text-md-end">
-                                <h5 class="mb-2" style="color:#E8AF30;">${{ number_format($room->price, 0) }}<small class="text-muted">/night</small></h5>
+                                <h5 class="mb-2" style="color:#E8AF30;">{{ format_money($room->price, currency_service()->catalogSource()) }}<small class="text-muted">/night</small></h5>
                                 <a href="{{ route('hotel.booking.create', ['hotel' => $hotel, 'room_id' => $room->id] + $bookingQuery) }}" class="theme-btn btn-sm">Request Booking</a>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
             <div class="col-lg-4">
                 <div class="p-4 rounded shadow-sm sticky-top" style="top:100px;background:#f8fafd;border:1px solid #e2e8f0;">
                     <h5 style="color:#162F65;">Book This Hotel</h5>
-                    <p class="small text-muted">From <strong style="color:#E8AF30;">${{ number_format($hotel->price, 0) }}</strong> per night</p>
+                    <p class="small text-muted">From <strong style="color:#E8AF30;">{{ $hotel->formatted_price }}</strong> per night</p>
                     <a href="{{ route('hotel.booking.create', ['hotel' => $hotel] + $bookingQuery) }}" class="theme-btn w-100 text-center">Request Booking</a>
                 </div>
             </div>

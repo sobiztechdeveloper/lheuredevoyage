@@ -33,4 +33,11 @@ class AerticketFlightOffer extends Model
     {
         return $this->belongsTo(FlightSearch::class);
     }
+
+    public function formattedDisplayPrice(int $decimals = 0): string
+    {
+        $source = strtoupper((string) ($this->currency ?: currency_service()->serpapiSource()));
+
+        return format_money((float) $this->price, $source, $decimals);
+    }
 }

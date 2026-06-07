@@ -43,6 +43,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('hotel') }}">
+                            <i class="fas fa-hotel me-1"></i> Hotels
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('rentalcar') }}">
                             <i class="fas fa-car me-1"></i> Cars
                         </a>
@@ -55,11 +60,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('travelinsurance') }}">
                             <i class="fas fa-shield-alt me-1"></i> Travel Insurance
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('hotel') }}">
-                            <i class="fas fa-hotel me-1"></i> Hotels
                         </a>
                     </li>
                     <li class="nav-item dropdown">

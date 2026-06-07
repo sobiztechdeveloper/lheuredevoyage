@@ -33,9 +33,9 @@
                            </select>
                        </div>
                        <div class="currency">
-                           <select name="currency" class="select">
-                               <option value="1">USD</option>
-                               <option value="2">EUR</option>
+                           <select name="currency" id="header-currency" class="select" data-switch-url="{{ route('currency.switch') }}" aria-label="Display currency">
+                               <option value="CHF" @selected(display_currency() === 'CHF')>CHF</option>
+                               <option value="USD" @selected(display_currency() === 'USD')>USD</option>
                            </select>
                        </div>
                        @guest

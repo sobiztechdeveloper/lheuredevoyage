@@ -37,9 +37,33 @@
         var context = ($input.data('context') || '').toString();
         var format = ($input.data('format') || 'default').toString();
         var minChars = 2;
+        var delayMs = (context === 'flight_from' || context === 'flight_to') ? 500 : 200;
         var xhr = null;
         var cachedSuggestions = null;
-        var $meta = $input.closest('.destination-autocomplete-wrap').find('.destination-field-meta');
+        var $wrap = $input.closest('.destination-autocomplete-wrap');
+        var $meta = $wrap.find('.destination-field-meta');
+        var hiddenFieldName = context === 'flight_from'
+            ? 'from_departure_id'
+            : (context === 'flight_to' ? 'to_arrival_id' : null);
+
+        function ensureHiddenField() {
+            if (!hiddenFieldName) {
+                return $();
+            }
+
+            var $hidden = $wrap.find('input[type="hidden"][data-serpapi-id]');
+
+            if (!$hidden.length) {
+                $hidden = $('<input>', {
+                    type: 'hidden',
+                    name: hiddenFieldName,
+                    'data-serpapi-id': '1'
+                });
+                $wrap.append($hidden);
+            }
+
+            return $hidden;
+        }
 
         function fetchDestinations(term, callback) {
             if (xhr) {
@@ -93,7 +117,7 @@
 
         $input.autocomplete({
             minLength: 0,
-            delay: 200,
+            delay: delayMs,
             appendTo: $input.closest('.destination-autocomplete-wrap'),
             classes: {
                 'ui-autocomplete': 'destination-autocomplete-menu'
@@ -126,6 +150,14 @@
             select: function (event, ui) {
                 $input.val(ui.item.value);
                 updateMeta(ui.item.meta && ui.item.meta.country ? ui.item.meta.country : '');
+
+                if (hiddenFieldName) {
+                    var serpapiId = ui.item.meta && (ui.item.meta.serpapi_id || ui.item.meta.code)
+                        ? (ui.item.meta.serpapi_id || ui.item.meta.code)
+                        : '';
+                    ensureHiddenField().val(serpapiId);
+                }
+
                 $input.trigger('change');
 
                 return false;
@@ -150,6 +182,9 @@
 
             if (val.length < minChars) {
                 updateMeta('\u00a0');
+                if (hiddenFieldName) {
+                    ensureHiddenField().val('');
+                }
             }
         });
 

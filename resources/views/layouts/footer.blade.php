@@ -28,7 +28,10 @@
                             </li>
                             @endif
                             @if($settings->company_address)
-                            <li><i class="far fa-map-marker-alt"></i>{{ $settings->company_address }}</li>
+                            <li class="footer-address-item">
+                                <i class="far fa-map-marker-alt"></i>
+                                <address class="footer-address-text mb-0">{!! nl2br(e($settings->company_address)) !!}</address>
+                            </li>
                             @endif
                             @if($settings->company_email)
                             <li><a href="mailto:{{ $settings->company_email }}"><i class="far fa-envelopes"></i>{{ $settings->company_email }}</a></li>
@@ -108,7 +111,6 @@
                     <p class="copyright-text">
                         &copy; <span id="date"></span>
                         <a href="{{ route('home') }}">{{ $settings->company_name }}</a>
-                        {{ $settings->copyright_text ?? 'All Rights Reserved.' }}
                     </p>
                 </div>
                 @if(($legalFooterBarPages ?? collect())->isNotEmpty())

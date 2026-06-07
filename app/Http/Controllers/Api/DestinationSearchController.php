@@ -26,7 +26,12 @@ class DestinationSearchController extends Controller
         $format = $request->input('format', 'default');
 
         return response()->json(
-            $this->destinationService->apiSearchResults($query, $types, $format)
+            $this->destinationService->apiSearchResults(
+                $query,
+                $types,
+                $format,
+                $request->filled('context') ? (string) $request->input('context') : null,
+            )
         );
     }
 }

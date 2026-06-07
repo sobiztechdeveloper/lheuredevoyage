@@ -160,6 +160,25 @@ body.admin-body {
     font-size: 0.85rem;
 }
 
+.nav-subgroup-title {
+    padding: 0.55rem 1rem 0.2rem 2rem;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.32);
+}
+
+.nav-subgroup + .nav-subgroup .nav-subgroup-title {
+    margin-top: 0.4rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.admin-wrapper.sidebar-collapsed .nav-subgroup-title {
+    display: none;
+}
+
 .admin-sidebar-footer {
     padding: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.12);

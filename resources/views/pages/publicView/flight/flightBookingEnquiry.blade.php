@@ -25,7 +25,7 @@
                     <p class="mb-4">
                         {{ $result->airline }} — {{ $result->flight_number }}<br>
                         {{ $result->from_destination }} → {{ $result->to_destination }}<br>
-                        {{ $result->departure_at->format(config('date.display_datetime')) }} — ${{ number_format($result->price, 0) }}
+                        {{ $result->departure_at->format(config('date.display_datetime')) }} — {{ $result->formattedDisplayPrice() }}
                     </p>
                     <div class="booking-form">
                         <form action="{{ route('flight.booking.store', $result) }}" method="POST">

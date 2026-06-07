@@ -32,7 +32,6 @@ class UpdateWebsiteSettingRequest extends AdminFormRequest
             'linkedin_url' => ['nullable', 'url', 'max:255'],
             'youtube_url' => ['nullable', 'url', 'max:255'],
             'footer_text' => ['nullable', 'string', 'max:2000'],
-            'copyright_text' => ['nullable', 'string', 'max:255'],
             ...$catalogBreadcrumbRules,
         ];
     }

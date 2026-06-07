@@ -523,6 +523,28 @@ Version         : 1.0
             $scope.find('.search-form-return').show();
             $scope.find('.have-to-clone').hide();
             $scope.find('.another-item').remove();
+            $scope.find('.search-form-return .return-date').each(function () {
+                var $returnDate = $(this);
+                if (($returnDate.val() || '').trim() !== '') {
+                    return;
+                }
+
+                var journeyVal = ($returnDate.closest('.search-form-date').find('.journey-date').val() || '').trim();
+                var returnDate = new Date();
+
+                if (journeyVal) {
+                    var parts = journeyVal.split('/');
+                    if (parts.length === 3) {
+                        returnDate = new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+                    }
+                } else {
+                    returnDate.setDate(returnDate.getDate() + 2);
+                }
+
+                returnDate.setDate(returnDate.getDate() + 7);
+                $returnDate.val(formatDisplayDate(returnDate));
+                $returnDate.closest('.search-form-date').find('.return-day-name').html(returnDate.toLocaleString('en-GB', { weekday: 'long' }));
+            });
         } else if (ft === 'multi-city') {
             $scope.find('.search-form-return').hide();
             $scope.find('.have-to-clone').show();
@@ -545,7 +567,23 @@ Version         : 1.0
     });
 
     $(document).on('submit', '.flight-search form', function () {
-        syncFlightFormInputs(flightSearchScope($(this)));
+        var $scope = flightSearchScope($(this));
+        syncFlightFormInputs($scope);
+
+        var ft = ($scope.find('.flight-type input[name="flight-type"]:checked').val() || '').toString();
+        var isMultiCity = ft === 'multi-city';
+
+        $scope.find('.flight-search-item').each(function () {
+            var $leg = $(this);
+            var isMainLeg = !$leg.is('.flight-multicity-item') && !$leg.is('.another-item');
+            var isActiveLeg = isMultiCity
+                ? ($leg.is('.flight-multicity-item') || $leg.is('.another-item')) && $leg.is(':visible')
+                : isMainLeg;
+
+            if (!isActiveLeg) {
+                $leg.find(':input[name]').removeAttr('name');
+            }
+        });
     });
 
 
@@ -557,11 +595,51 @@ Version         : 1.0
     journeyDate.setDate(today.getDate() + 1);
     returnDate.setDate(today.getDate() + 2);
 
-    $(".journey-date").val(formatDisplayDate(journeyDate));
-    $(".return-date").val(formatDisplayDate(returnDate));
+    $(".journey-date").each(function () {
+        var $input = $(this);
 
-    $(".journey-day-name").html(journeyDate.toLocaleString('en-GB', { weekday: 'long' }));
-    $(".return-day-name").html(returnDate.toLocaleString('en-GB', { weekday: 'long' }));
+        if (!(($input.val() || '').trim())) {
+            $input.val(formatDisplayDate(journeyDate));
+        }
+
+        var journeyVal = ($input.val() || '').trim();
+        if (journeyVal) {
+            $input.closest('.search-form-date').find('.journey-day-name').html(
+                formatDayName(journeyVal) || journeyDate.toLocaleString('en-GB', { weekday: 'long' })
+            );
+        }
+    });
+
+    $(".return-date").each(function () {
+        var $input = $(this);
+
+        if (!(($input.val() || '').trim())) {
+            $input.val(formatDisplayDate(returnDate));
+        }
+
+        var returnVal = ($input.val() || '').trim();
+        if (returnVal) {
+            $input.closest('.search-form-date').find('.return-day-name').html(
+                formatDayName(returnVal) || returnDate.toLocaleString('en-GB', { weekday: 'long' })
+            );
+        }
+    });
+
+    function formatDayName(dateValue) {
+        var parts = (dateValue || '').split('/');
+
+        if (parts.length !== 3) {
+            return '';
+        }
+
+        var parsed = new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+
+        if (isNaN(parsed.getTime())) {
+            return '';
+        }
+
+        return parsed.toLocaleString('en-GB', { weekday: 'long' });
+    }
 
     $(".journey-date").change(function () {
         var ojd = $(this).closest(".search-form-date").find(".journey-date").val();

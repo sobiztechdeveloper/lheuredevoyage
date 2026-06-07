@@ -14,7 +14,7 @@
     <div class="hero-single" style="background: url({{ $primaryHero?->image_url ?? asset('assets/img/hero/hero-2x.jpg') }})">
         <div class="container">
             @if($primaryHero)
-                @include('partials.cms.hero-content', ['hero' => $primaryHero])
+            @include('partials.cms.hero-content', ['hero' => $primaryHero])
             @endif
             <!-- search area -->
             <div class="search-area">
@@ -39,6 +39,13 @@
                                             aria-controls="pills-1" aria-selected="true"><i
                                                 class="far fa-plane-departure"></i>Flights</button>
                                     </li>
+                                    <!-- Hotels -->
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-tab-2" data-bs-toggle="pill"
+                                            data-bs-target="#pills-2" type="button" role="tab"
+                                            aria-controls="pills-2" aria-selected="false"><i
+                                                class="far fa-hotel"></i>Hotels</button>
+                                    </li>
                                     <!-- Cars -->
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="pills-tab-5" data-bs-toggle="pill"
@@ -58,14 +65,7 @@
                                         <button class="nav-link" id="pills-tab-7" data-bs-toggle="pill"
                                             data-bs-target="#pills-7" type="button" role="tab"
                                             aria-controls="pills-7" aria-selected="false"><i
-                                                class="far fa-earth-americas"></i>Travel Insurances</button>
-                                    </li>
-                                    <!-- Hotels -->
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="pills-tab-2" data-bs-toggle="pill"
-                                            data-bs-target="#pills-2" type="button" role="tab"
-                                            aria-controls="pills-2" aria-selected="false"><i
-                                                class="far fa-hotel"></i>Hotels</button>
+                                                class="far fa-earth-americas"></i>Insurances</button>
                                     </li>
                                 </ul>
                             </div>
@@ -133,8 +133,7 @@
                                                                     label="From"
                                                                     icon="fal fa-plane-departure"
                                                                     input-class="form-control swap-from"
-                                                                    placeholder="City or airport"
-                                                                />
+                                                                    placeholder="City or airport" />
                                                             </div>
                                                             <div class="col-lg-3">
                                                                 <x-destination-autocomplete
@@ -146,8 +145,7 @@
                                                                     icon="fal fa-plane-arrival"
                                                                     input-class="form-control swap-to"
                                                                     placeholder="City or airport"
-                                                                    :swap="true"
-                                                                />
+                                                                    :swap="true" />
                                                             </div>
                                                             <div class="col-lg-3">
                                                                 <div class="form-group">
@@ -321,8 +319,7 @@
                                                                     icon="fal fa-plane-departure"
                                                                     input-class="form-control swap-from"
                                                                     placeholder="City or airport"
-                                                                    :disabled="true"
-                                                                />
+                                                                    :disabled="true" />
                                                             </div>
                                                             <div class="col-lg-3">
                                                                 <x-destination-autocomplete
@@ -334,8 +331,7 @@
                                                                     input-class="form-control swap-to"
                                                                     placeholder="City or airport"
                                                                     :swap="true"
-                                                                    :disabled="true"
-                                                                />
+                                                                    :disabled="true" />
                                                             </div>
                                                             <div class="col-lg-3">
                                                                 <div class="form-group">
@@ -392,8 +388,7 @@
                                                             context="car_pickup"
                                                             label="Picking Up"
                                                             icon="fal fa-location-dot"
-                                                            placeholder="City, airport or address"
-                                                        />
+                                                            placeholder="City, airport or address" />
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
@@ -429,8 +424,7 @@
                                                             context="car_dropoff"
                                                             label="Drop Off"
                                                             icon="fal fa-location-dot"
-                                                            placeholder="Drop-off location"
-                                                        />
+                                                            placeholder="Drop-off location" />
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group mt-lg-4">
@@ -484,8 +478,7 @@
                                                             context="cruise"
                                                             label="Destination"
                                                             icon="fal fa-earth-americas"
-                                                            placeholder="Region or port"
-                                                        />
+                                                            placeholder="Region or port" />
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="form-group">
@@ -635,8 +628,7 @@
                                                             context="insurance"
                                                             label="Destination"
                                                             icon="fal fa-earth-americas"
-                                                            placeholder="Country or region"
-                                                        />
+                                                            placeholder="Country or region" />
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
@@ -690,8 +682,7 @@
                                                             context="hotel"
                                                             label="Destination"
                                                             icon="fal fa-earth-americas"
-                                                            placeholder="City, hotel or area"
-                                                        />
+                                                            placeholder="City, hotel or area" />
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group">

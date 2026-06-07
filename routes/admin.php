@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\BookingCancellationAdminController;
 use App\Http\Controllers\Admin\BookingAdminController;
 use App\Http\Controllers\Admin\Auth\AdminAuthenticatedSessionController;
+use App\Http\Controllers\Admin\AirlineAdminController;
 use App\Http\Controllers\Admin\CruiseLineAdminController;
 use App\Http\Controllers\Admin\ContactAdminController;
 use App\Http\Controllers\Admin\DestinationAdminController;
@@ -157,6 +158,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('destinations/{id}/restore', [DestinationAdminController::class, 'restore'])->name('destinations.restore');
         Route::patch('destinations/{destination}/toggle-status', [DestinationAdminController::class, 'toggleStatus'])->name('destinations.toggle-status');
         Route::resource('destinations', DestinationAdminController::class)->except(['show']);
+
+        Route::get('airlines/trashed', [AirlineAdminController::class, 'trashed'])->name('airlines.trashed');
+        Route::post('airlines/{id}/restore', [AirlineAdminController::class, 'restore'])->name('airlines.restore');
+        Route::patch('airlines/{airline}/toggle-status', [AirlineAdminController::class, 'toggleStatus'])->name('airlines.toggle-status');
+        Route::resource('airlines', AirlineAdminController::class)->except(['show'])->parameters(['airlines' => 'airline']);
 
         Route::get('cruise-lines/trashed', [CruiseLineAdminController::class, 'trashed'])->name('cruise-lines.trashed');
         Route::post('cruise-lines/{id}/restore', [CruiseLineAdminController::class, 'restore'])->name('cruise-lines.restore');

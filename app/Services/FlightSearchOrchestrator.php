@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\Aerticket\AerticketApiException;
+use App\Exceptions\SerpApi\SerpApiException;
 use App\Models\AerticketFlightOffer;
 use App\Models\FlightSearch;
 use App\Services\Aerticket\AerticketConfig;
@@ -13,8 +14,10 @@ class FlightSearchOrchestrator
 {
     public function __construct(
         protected AerticketConfig $aerticketConfig,
+        protected FlightService $flightService,
         protected FlightSearchService $mockSearch,
         protected AerticketFlightSearchService $aerticketSearch,
+        protected SerpFlightSearchService $serpFlightSearch,
         protected AerticketFareRuleService $fareRules,
     ) {}
 
@@ -27,7 +30,44 @@ class FlightSearchOrchestrator
             return $this->createAerticketSearch($data);
         }
 
+        if ($this->flightService->isConfigured()) {
+            return $this->createSerpapiSearch($data);
+        }
+
         return $this->mockSearch->createSearch($data);
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    private function createSerpapiSearch(array $data): FlightSearch
+    {
+        $search = FlightSearch::query()->create([
+            'user_id' => auth()->id(),
+            'provider' => 'serpapi',
+            'status' => 'pending',
+            'trip_type' => $data['trip_type'],
+            'from_destination' => $data['from_destination'],
+            'to_destination' => $data['to_destination'],
+            'journey_date' => $data['journey_date'],
+            'return_date' => $data['return_date'] ?? null,
+            'adult' => $data['adult'],
+            'children' => $data['children'] ?? 0,
+            'infant' => $data['infant'] ?? 0,
+            'cabin_class' => $data['cabin_class'],
+            'search_payload' => $data,
+        ]);
+
+        try {
+            return $this->serpFlightSearch->search($search, $data);
+        } catch (SerpApiException $e) {
+            $search->update(['status' => 'failed']);
+
+            throw $e;
+        }
     }
 
     /**

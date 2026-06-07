@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'serpapi' => [
+        'key' => env('SERPAPI_KEY'),
+        'currency' => env('SERPAPI_CURRENCY', 'USD'),
+        'hl' => env('SERPAPI_HL', 'en'),
+        'gl' => env('SERPAPI_GL', 'us'),
+        'timeout' => (int) env('SERPAPI_TIMEOUT', 60),
+    ],
+
 ];

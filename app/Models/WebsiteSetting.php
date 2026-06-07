@@ -19,7 +19,7 @@ class WebsiteSetting extends Model
         'vat_number', 'registration_number', 'business_hours',
         'logo', 'favicon', 'default_breadcrumb_image', 'page_breadcrumb_images',
         'facebook_url', 'instagram_url', 'linkedin_url', 'youtube_url',
-        'footer_text', 'copyright_text',
+        'footer_text',
     ];
 
     public static function cached(): self

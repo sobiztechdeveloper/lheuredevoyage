@@ -25,6 +25,10 @@ return Application::configure(basePath: dirname(__DIR__))
             return route('login');
         });
 
+        $middleware->web(append: [
+            \App\Http\Middleware\ApplyDisplayCurrency::class,
+        ]);
+
         $middleware->alias([
             'admin.guard' => \App\Http\Middleware\SetAdminAuthGuard::class,
             'customer.guest' => \App\Http\Middleware\RedirectIfCustomerAuthenticated::class,

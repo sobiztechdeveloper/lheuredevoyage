@@ -45,6 +45,11 @@ class FlightSearch extends Model
         return $this->provider === 'aerticket';
     }
 
+    public function usesSerpapi(): bool
+    {
+        return $this->provider === 'serpapi';
+    }
+
     /**
      * @return array<string, mixed>
      */

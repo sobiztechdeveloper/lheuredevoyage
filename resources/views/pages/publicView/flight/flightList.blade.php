@@ -9,6 +9,10 @@
 @section('content')
 
 @php
+    $panel = $panelSearch ?? [];
+    $panelTripType = $panel['flight_type'] ?? 'one-way';
+    $panelCabinClass = $panel['cabin_class'] ?? 'economy';
+    $panelPassengerTotal = max(1, (int) ($panel['adult'] ?? 2) + (int) ($panel['children'] ?? 0) + (int) ($panel['infant'] ?? 0));
     $flightListTitle = isset($resultsCount)
         ? number_format($resultsCount) . (isset($totalResultsCount) && $totalResultsCount !== $resultsCount ? ' of ' . number_format($totalResultsCount) : '') . ' Results Found'
         : '0 Results Found';
@@ -36,9 +40,29 @@
                                     <input type="hidden" name="flight_time[]" value="{{ $filterValue }}">
                                 @endforeach
                             @endif
+                            @if(!empty($activeFilters['flight_arrival_time']))
+                                @foreach($activeFilters['flight_arrival_time'] as $filterValue)
+                                    <input type="hidden" name="flight_arrival_time[]" value="{{ $filterValue }}">
+                                @endforeach
+                            @endif
+                            @if(!empty($activeFilters['flight_duration']))
+                                @foreach($activeFilters['flight_duration'] as $filterValue)
+                                    <input type="hidden" name="flight_duration[]" value="{{ $filterValue }}">
+                                @endforeach
+                            @endif
                             @if(!empty($activeFilters['flight_stop']))
                                 @foreach($activeFilters['flight_stop'] as $filterValue)
                                     <input type="hidden" name="flight_stop[]" value="{{ $filterValue }}">
+                                @endforeach
+                            @endif
+                            @if(!empty($activeFilters['flight_overnight']))
+                                @foreach($activeFilters['flight_overnight'] as $filterValue)
+                                    <input type="hidden" name="flight_overnight[]" value="{{ $filterValue }}">
+                                @endforeach
+                            @endif
+                            @if(!empty($activeFilters['flight_layover']))
+                                @foreach($activeFilters['flight_layover'] as $filterValue)
+                                    <input type="hidden" name="flight_layover[]" value="{{ $filterValue }}">
                                 @endforeach
                             @endif
                             @if(!empty($activeFilters['flight_airline']))
@@ -69,21 +93,21 @@
                         <!-- flight type -->
                         <div class="flight-type">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" @checked(!isset($search) || $search->trip_type === 'one_way') value="one-way"
+                                <input class="form-check-input" type="radio" @checked($panelTripType === 'one-way') value="one-way"
                                     name="flight-type" id="flight-type1">
                                 <label class="form-check-label" for="flight-type1">
                                     One Way
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" @checked(isset($search) && $search->trip_type === 'round_trip') value="round-way"
+                                <input class="form-check-input" type="radio" @checked($panelTripType === 'round-way') value="round-way"
                                     name="flight-type" id="flight-type2">
                                 <label class="form-check-label" for="flight-type2">
                                     Round Way
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="multi-city"
+                                <input class="form-check-input" type="radio" @checked($panelTripType === 'multi-city') value="multi-city"
                                     name="flight-type" id="flight-type3">
                                 <label class="form-check-label" for="flight-type3">
                                     Multi City
@@ -103,7 +127,8 @@
                                                 name="from-destination"
                                                 context="flight_from"
                                                 format="airport"
-                                                :value="$search->from_destination ?? ''"
+                                                :value="$panel['from_destination'] ?? ''"
+                                                :serpapi-id="$panel['from_departure_id'] ?? null"
                                                 label="From"
                                                 icon="fal fa-plane-departure"
                                                 input-class="form-control swap-from"
@@ -115,7 +140,8 @@
                                                 name="to-destination"
                                                 context="flight_to"
                                                 format="airport"
-                                                :value="$search->to_destination ?? ''"
+                                                :value="$panel['to_destination'] ?? ''"
+                                                :serpapi-id="$panel['to_arrival_id'] ?? null"
                                                 label="To"
                                                 icon="fal fa-plane-arrival"
                                                 input-class="form-control swap-to"
@@ -130,7 +156,7 @@
                                                         <label>Journey Date</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="journey-date"
-                                                                class="form-control date-picker journey-date" value="{{ isset($search) ? $search->journey_date->format(config('date.display')) : '' }}">
+                                                                class="form-control date-picker journey-date" value="{{ $panel['journey_date'] ?? '' }}">
                                                             <i class="fal fa-calendar-days"></i>
                                                         </div>
                                                         <p class="journey-day-name"></p>
@@ -139,7 +165,7 @@
                                                         <label>Return Date</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="return-date"
-                                                                class="form-control date-picker return-date" value="{{ isset($search) && $search->return_date ? $search->return_date->format(config('date.display')) : '' }}">
+                                                                class="form-control date-picker return-date" value="{{ $panel['return_date'] ?? '' }}">
                                                         </div>
                                                         <p class="return-day-name"></p>
                                                     </div>
@@ -153,12 +179,12 @@
                                                     <label>Passenger, Class</label>
                                                     <div class="form-group-icon">
                                                         <div class="passenger-total"><span
-                                                                class="passenger-total-amount">{{ $search->adult ?? 2 }}</span>
+                                                                class="passenger-total-amount">{{ $panelPassengerTotal }}</span>
                                                             Passenger
                                                         </div>
                                                         <i class="fal fa-user-tie-hair"></i>
                                                     </div>
-                                                    <p class="passenger-class-name">{{ isset($search) ? (\App\Services\FlightSearchResultsService::CABIN_LABELS[$search->cabin_class] ?? ucfirst($search->cabin_class)) : 'Economy' }}</p>
+                                                    <p class="passenger-class-name">{{ \App\Services\FlightSearchResultsService::CABIN_LABELS[$panelCabinClass] ?? ucfirst($panelCabinClass) }}</p>
                                                 </div>
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <div class="dropdown-item">
@@ -171,7 +197,7 @@
                                                                 <button type="button" class="minus-btn"><i
                                                                         class="far fa-minus"></i></button>
                                                                 <input type="text" name="adult"
-                                                                    class="qty-amount passenger-adult" value="{{ $search->adult ?? 2 }}"
+                                                                    class="qty-amount passenger-adult" value="{{ $panel['adult'] ?? 2 }}"
                                                                     readonly>
                                                                 <button type="button" class="plus-btn"><i
                                                                         class="far fa-plus"></i></button>
@@ -189,7 +215,7 @@
                                                                         class="far fa-minus"></i></button>
                                                                 <input type="text" name="children"
                                                                     class="qty-amount passenger-children"
-                                                                    value="{{ $search->children ?? 0 }}" readonly>
+                                                                    value="{{ $panel['children'] ?? 0 }}" readonly>
                                                                 <button type="button" class="plus-btn"><i
                                                                         class="far fa-plus"></i></button>
                                                             </div>
@@ -206,7 +232,7 @@
                                                                         class="far fa-minus"></i></button>
                                                                 <input type="text" name="infant"
                                                                     class="qty-amount passenger-infant"
-                                                                    value="{{ $search->infant ?? 0 }}" readonly>
+                                                                    value="{{ $panel['infant'] ?? 0 }}" readonly>
                                                                 <button type="button" class="plus-btn"><i
                                                                         class="far fa-plus"></i></button>
                                                             </div>
@@ -217,8 +243,8 @@
                                                         <div class="passenger-class-info">
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio"
-                                                                    value="Economy" name="cabin-class"
-                                                                    id="cabin-class1" @checked(!isset($search) || $search->cabin_class === 'economy')>
+                                                                    value="economy" name="cabin_class"
+                                                                    id="cabin-class1" @checked($panelCabinClass === 'economy')>
                                                                 <label class="form-check-label"
                                                                     for="cabin-class1">
                                                                     Economy
@@ -226,8 +252,8 @@
                                                             </div>
                                                             <div class="form-check">
                                                                 <input class="form-check-input"
-                                                                    type="radio" value="Business"
-                                                                    name="cabin-class" id="cabin-class2" @checked(isset($search) && $search->cabin_class === 'business')>
+                                                                    type="radio" value="business"
+                                                                    name="cabin_class" id="cabin-class2" @checked($panelCabinClass === 'business')>
                                                                 <label class="form-check-label"
                                                                     for="cabin-class2">
                                                                     Business
@@ -235,8 +261,8 @@
                                                             </div>
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio"
-                                                                    value="First Class" name="cabin-class"
-                                                                    id="cabin-class3" @checked(isset($search) && $search->cabin_class === 'first')>
+                                                                    value="first" name="cabin_class"
+                                                                    id="cabin-class3" @checked($panelCabinClass === 'first')>
                                                                 <label class="form-check-label"
                                                                     for="cabin-class3">
                                                                     First Class
@@ -329,7 +355,11 @@
     $activeFilters = $activeFilters ?? [
         'flight_class' => [],
         'flight_time' => [],
+        'flight_arrival_time' => [],
+        'flight_duration' => [],
         'flight_stop' => [],
+        'flight_overnight' => [],
+        'flight_layover' => [],
         'flight_airline' => [],
         'flight_weight' => [],
         'flight_refundable' => [],
@@ -340,6 +370,11 @@
 @endphp
 <div class="flight-booking flight-list catalog-list-results">
     <div class="container">
+        @if($errors->has('flight_search'))
+            <div class="alert alert-warning mt-4 mb-0" role="alert">
+                {{ $errors->first('flight_search') }}
+            </div>
+        @endif
         <div class="row">
             <!-- booking sidebar -->
             <div class="col-lg-4 col-xl-3 mb-4">
@@ -368,6 +403,7 @@
                                 <option value="departure_asc" @selected(($sort ?? 'price_asc') === 'departure_asc')>Departure Time</option>
                                 <option value="arrival_asc" @selected(($sort ?? 'price_asc') === 'arrival_asc')>Arrival Time</option>
                                 <option value="duration_asc" @selected(($sort ?? 'price_asc') === 'duration_asc')>Duration</option>
+                                <option value="stops_asc" @selected(($sort ?? 'price_asc') === 'stops_asc')>Fewest Stops</option>
                             </select>
                         </div>
                     </div>

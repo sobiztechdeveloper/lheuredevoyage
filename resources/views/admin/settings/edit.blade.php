@@ -37,7 +37,8 @@
                 </div>
                 <div class="col-12">
                     <label class="admin-field-label">Company Address</label>
-                    <textarea name="company_address" class="form-control @error('company_address') is-invalid @enderror" rows="2">{{ old('company_address', $settings->company_address) }}</textarea>
+                    <textarea name="company_address" class="form-control @error('company_address') is-invalid @enderror" rows="3" placeholder="Street and number&#10;Postcode City&#10;Country">{{ old('company_address', $settings->company_address) }}</textarea>
+                    <p class="text-muted small mb-0 mt-1">One line per part: street, postcode + city, then country.</p>
                     @error('company_address')<div class="admin-field-error">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-4">
@@ -139,10 +140,6 @@
                 <div class="col-12">
                     <label class="admin-field-label">Footer Text</label>
                     <textarea name="footer_text" class="form-control" rows="3">{{ old('footer_text', $settings->footer_text) }}</textarea>
-                </div>
-                <div class="col-12">
-                    <label class="admin-field-label">Copyright Text</label>
-                    <input type="text" name="copyright_text" class="form-control" value="{{ old('copyright_text', $settings->copyright_text) }}" placeholder="All Rights Reserved.">
                 </div>
             </div>
         </div>

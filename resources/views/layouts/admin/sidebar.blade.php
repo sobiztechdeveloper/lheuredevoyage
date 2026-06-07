@@ -35,27 +35,51 @@
             <a href="{{ route('admin.packages.index') }}" class="nav-link-item {{ request()->routeIs('admin.packages.*') ? 'active' : '' }}"><i class="far fa-umbrella-beach"></i><span class="nav-label">Tour Packages</span></a>
         </div>
 
-        <button class="nav-section-title" type="button" data-bs-toggle="collapse" data-bs-target="#navMaster" data-nav-section aria-expanded="{{ request()->routeIs('admin.master-data.*') || request()->routeIs('admin.destinations.*') || request()->routeIs('admin.cruise-lines.*') ? 'true' : 'false' }}">
+        <button class="nav-section-title" type="button" data-bs-toggle="collapse" data-bs-target="#navMaster" data-nav-section aria-expanded="{{ request()->routeIs('admin.master-data.*') || request()->routeIs('admin.destinations.*') || request()->routeIs('admin.airlines.*') || request()->routeIs('admin.cruise-lines.*') ? 'true' : 'false' }}">
             <span>Master Data</span><i class="far fa-chevron-down nav-chevron small"></i>
         </button>
-        <div class="collapse {{ request()->routeIs('admin.master-data.*') || request()->routeIs('admin.destinations.*') || request()->routeIs('admin.cruise-lines.*') ? 'show' : '' }} nav-submenu" id="navMaster">
-            <a href="{{ route('admin.destinations.index') }}" class="nav-link-item {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }}"><i class="far fa-location-dot"></i><span class="nav-label">Destinations</span></a>
-            <a href="{{ route('admin.cruise-lines.index') }}" class="nav-link-item {{ request()->routeIs('admin.cruise-lines.*') ? 'active' : '' }}"><i class="far fa-ship"></i><span class="nav-label">Cruise Lines</span></a>
-            <a href="{{ route('admin.master-data.hotel_facilities.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.hotel_facilities.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Hotel Facilities</span></a>
-            <a href="{{ route('admin.master-data.hotel_sports.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.hotel_sports.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Hotel Sports</span></a>
-            <a href="{{ route('admin.master-data.hotel_wellness.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.hotel_wellness.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Hotel Wellness</span></a>
-            <a href="{{ route('admin.master-data.hotel_beach_types.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.hotel_beach_types.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Beach Types</span></a>
-            <a href="{{ route('admin.master-data.room_types.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.room_types.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Room Types</span></a>
-            <a href="{{ route('admin.master-data.room_facilities.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.room_facilities.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Room Facilities</span></a>
-            <a href="{{ route('admin.master-data.meal_plans.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.meal_plans.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Meal Plans</span></a>
-            <a href="{{ route('admin.master-data.package_categories.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.package_categories.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Pkg Categories</span></a>
-            <a href="{{ route('admin.master-data.package_themes.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.package_themes.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Pkg Themes</span></a>
-            <a href="{{ route('admin.master-data.cruise_categories.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.cruise_categories.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Cruise Categories</span></a>
-            <a href="{{ route('admin.master-data.cruise_facilities.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.cruise_facilities.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Cruise Facilities</span></a>
-            <a href="{{ route('admin.master-data.vehicle_types.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.vehicle_types.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Vehicle Types</span></a>
-            <a href="{{ route('admin.master-data.vehicle_features.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.vehicle_features.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Vehicle Features</span></a>
-            <a href="{{ route('admin.master-data.insurance_types.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.insurance_types.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Insurance Types</span></a>
-            <a href="{{ route('admin.master-data.insurance_coverage_types.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.insurance_coverage_types.*') ? 'active' : '' }}"><i class="far fa-circle-small"></i><span class="nav-label">Coverage Types</span></a>
+        <div class="collapse {{ request()->routeIs('admin.master-data.*') || request()->routeIs('admin.destinations.*') || request()->routeIs('admin.airlines.*') || request()->routeIs('admin.cruise-lines.*') ? 'show' : '' }} nav-submenu" id="navMaster">
+            <div class="nav-subgroup">
+                <div class="nav-subgroup-title">General</div>
+                <a href="{{ route('admin.destinations.index') }}" class="nav-link-item {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }}"><i class="far fa-location-dot"></i><span class="nav-label">Destinations</span></a>
+                <a href="{{ route('admin.airlines.index') }}" class="nav-link-item {{ request()->routeIs('admin.airlines.*') ? 'active' : '' }}"><i class="far fa-plane"></i><span class="nav-label">Airlines</span></a>
+            </div>
+
+            <div class="nav-subgroup">
+                <div class="nav-subgroup-title">Hotels</div>
+                <a href="{{ route('admin.master-data.hotel_facilities.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.hotel_facilities.*') ? 'active' : '' }}"><i class="far fa-concierge-bell"></i><span class="nav-label">Facilities</span></a>
+                <a href="{{ route('admin.master-data.hotel_sports.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.hotel_sports.*') ? 'active' : '' }}"><i class="far fa-person-running"></i><span class="nav-label">Sports</span></a>
+                <a href="{{ route('admin.master-data.hotel_wellness.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.hotel_wellness.*') ? 'active' : '' }}"><i class="far fa-spa"></i><span class="nav-label">Wellness</span></a>
+                <a href="{{ route('admin.master-data.hotel_beach_types.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.hotel_beach_types.*') ? 'active' : '' }}"><i class="far fa-umbrella-beach"></i><span class="nav-label">Beach Types</span></a>
+                <a href="{{ route('admin.master-data.room_types.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.room_types.*') ? 'active' : '' }}"><i class="far fa-door-open"></i><span class="nav-label">Room Types</span></a>
+                <a href="{{ route('admin.master-data.room_facilities.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.room_facilities.*') ? 'active' : '' }}"><i class="far fa-bed"></i><span class="nav-label">Room Facilities</span></a>
+                <a href="{{ route('admin.master-data.meal_plans.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.meal_plans.*') ? 'active' : '' }}"><i class="far fa-utensils"></i><span class="nav-label">Meal Plans</span></a>
+            </div>
+
+            <div class="nav-subgroup">
+                <div class="nav-subgroup-title">Packages</div>
+                <a href="{{ route('admin.master-data.package_categories.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.package_categories.*') ? 'active' : '' }}"><i class="far fa-tags"></i><span class="nav-label">Categories</span></a>
+                <a href="{{ route('admin.master-data.package_themes.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.package_themes.*') ? 'active' : '' }}"><i class="far fa-palette"></i><span class="nav-label">Themes</span></a>
+            </div>
+
+            <div class="nav-subgroup">
+                <div class="nav-subgroup-title">Cruises</div>
+                <a href="{{ route('admin.cruise-lines.index') }}" class="nav-link-item {{ request()->routeIs('admin.cruise-lines.*') ? 'active' : '' }}"><i class="far fa-ship"></i><span class="nav-label">Cruise Lines</span></a>
+                <a href="{{ route('admin.master-data.cruise_categories.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.cruise_categories.*') ? 'active' : '' }}"><i class="far fa-layer-group"></i><span class="nav-label">Categories</span></a>
+                <a href="{{ route('admin.master-data.cruise_facilities.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.cruise_facilities.*') ? 'active' : '' }}"><i class="far fa-list-check"></i><span class="nav-label">Facilities</span></a>
+            </div>
+
+            <div class="nav-subgroup">
+                <div class="nav-subgroup-title">Rental Cars</div>
+                <a href="{{ route('admin.master-data.vehicle_types.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.vehicle_types.*') ? 'active' : '' }}"><i class="far fa-car"></i><span class="nav-label">Vehicle Types</span></a>
+                <a href="{{ route('admin.master-data.vehicle_features.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.vehicle_features.*') ? 'active' : '' }}"><i class="far fa-gears"></i><span class="nav-label">Vehicle Features</span></a>
+            </div>
+
+            <div class="nav-subgroup">
+                <div class="nav-subgroup-title">Insurance</div>
+                <a href="{{ route('admin.master-data.insurance_types.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.insurance_types.*') ? 'active' : '' }}"><i class="far fa-shield-halved"></i><span class="nav-label">Insurance Types</span></a>
+                <a href="{{ route('admin.master-data.insurance_coverage_types.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.insurance_coverage_types.*') ? 'active' : '' }}"><i class="far fa-file-contract"></i><span class="nav-label">Coverage Types</span></a>
+            </div>
         </div>
 
         <button class="nav-section-title" type="button" data-bs-toggle="collapse" data-bs-target="#navOps" data-nav-section aria-expanded="true">
