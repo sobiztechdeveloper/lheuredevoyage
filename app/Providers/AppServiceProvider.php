@@ -7,6 +7,7 @@ use App\Models\CarBookingRequest;
 use App\Models\ContactDetail;
 use App\Models\CruiseBookingRequest;
 use App\Models\FlightBookingRequest;
+use App\Models\HolidayPackageRequest;
 use App\Models\LegalPage;
 use App\Models\Quote;
 use App\Models\InsuranceBookingRequest;
@@ -128,6 +129,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('cruiseRequestsNewCount', CruiseBookingRequest::query()->where('status', 'new')->count());
             $view->with('carRequestsNewCount', CarBookingRequest::query()->where('status', 'new')->count());
             $view->with('insuranceRequestsNewCount', InsuranceBookingRequest::query()->where('status', 'new')->count());
+            $view->with('holidayPackageRequestsNewCount', HolidayPackageRequest::query()->where('status', 'new')->count());
         });
     }
 }

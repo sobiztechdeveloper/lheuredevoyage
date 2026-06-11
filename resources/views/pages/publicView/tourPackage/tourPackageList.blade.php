@@ -2,9 +2,9 @@
 
 @section('body-class', 'home-3')
 
-@section('styles')
-
-@endsection
+@push('styles')
+<link rel="stylesheet" href="{{ asset('assets/css/holiday-package-request-modal.css') }}?v={{ file_exists(public_path('assets/css/holiday-package-request-modal.css')) ? filemtime(public_path('assets/css/holiday-package-request-modal.css')) : time() }}">
+@endpush
 
 @section('content')
 
@@ -17,9 +17,25 @@
         <li class="active">Search Results</li>
     </x-slot:breadcrumb>
     <x-slot:search>
-        <div class="search-wrapper">
-            <div class="search-box tour-search">
-                <div class="search-form">
+        <div class="search-wrapper catalog-holiday-unified">
+            <div class="search-box tour-search catalog-holiday-combined">
+                <div id="holiday-package-request-wizard-wrap"
+                    data-child-age-label="{{ __('holiday_package_request.child_age', ['number' => ':number']) }}"
+                    data-error-message="{{ __('holiday_package_request.error') }}">
+                    @include('partials.holiday-package-request.wizard', [
+                        'locale' => app()->getLocale(),
+                        'embedded' => true,
+                    ])
+                </div>
+
+                <div class="catalog-hpr-divider" role="separator" aria-label="Package search">
+                    <span class="catalog-hpr-divider-text">
+                        <i class="far fa-search" aria-hidden="true"></i>
+                        Search Available Packages
+                    </span>
+                </div>
+
+                <div class="search-form catalog-hpr-package-search">
                     @include('partials.catalog.holiday-package-search-form', [
                         'preserveFilterInputs' => ['destination', 'q', 'page', 'holiday_type', 'travel_month', 'adult', 'children', 'infant', 'duration', 'min_price', 'max_price', 'sort', 'country'],
                     ])
@@ -46,6 +62,7 @@
             <div class="col-lg-8 col-xl-9">
                 <div class="booking-sort mb-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
                     <h5 class="mb-0">{{ $items->total() }} {{ Str::plural('Package', $items->total()) }} Found</h5>
+                    <div class="d-flex flex-wrap align-items-center gap-2">
                     <form method="GET" action="{{ route('tourpackage') }}" class="booking-sort-box" style="min-width:220px;">
                         @foreach(request()->except(['sort', 'page']) as $key => $value)
                             @if(is_array($value))
@@ -63,6 +80,7 @@
                             <option value="name" @selected(request('sort') === 'name')>Package Name</option>
                         </select>
                     </form>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -99,6 +117,6 @@
 
 @endsection
 
-@section('scripts')
-
-@endsection
+@push('scripts')
+<script src="{{ asset('assets/js/holiday-package-request-modal.js') }}?v={{ file_exists(public_path('assets/js/holiday-package-request-modal.js')) ? filemtime(public_path('assets/js/holiday-package-request-modal.js')) : time() }}"></script>
+@endpush

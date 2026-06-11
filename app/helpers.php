@@ -55,9 +55,9 @@ if (! function_exists('parse_user_date')) {
 
         $value = trim((string) $value);
 
-        foreach (['d/m/Y', 'd-m-Y', 'n/j/Y', 'm/d/Y', 'Y-m-d', 'Y/m/d'] as $format) {
+        foreach (['d/m/y', 'd/m/Y', 'd-m-y', 'd-m-Y', 'n/j/y', 'n/j/Y', 'm/d/y', 'm/d/Y', 'Y-m-d', 'Y/m/d'] as $format) {
             try {
-                $parsed = Carbon::createFromFormat($format, $value);
+                $parsed = IlluminateCarbon::createFromFormat('!'.$format, $value);
 
                 if ($parsed !== false) {
                     return $parsed->startOfDay();
@@ -100,5 +100,15 @@ if (! function_exists('format_money')) {
     function format_money(float|int|string|null $amount, string $fromCurrency = 'CHF', int $decimals = 0): string
     {
         return currency_service()->format((float) ($amount ?? 0), strtoupper($fromCurrency), $decimals);
+    }
+}
+
+if (! function_exists('holiday_package_request_config')) {
+    /**
+     * @return array<string, mixed>
+     */
+    function holiday_package_request_config(): array
+    {
+        return app(\App\Services\HolidayPackageRequestConfigService::class)->build();
     }
 }

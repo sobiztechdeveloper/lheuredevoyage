@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\InsuranceBookingRequestAdminController;
 use App\Http\Controllers\Admin\AdminBookingRequestFileController;
 use App\Http\Controllers\Admin\QuoteAdminController;
 use App\Http\Controllers\Admin\LegalPageAdminController;
+use App\Http\Controllers\Admin\HolidayPackageRequestAdminController;
 use App\Http\Controllers\Admin\HeroSectionController;
 use App\Http\Controllers\Admin\HomeBlockController;
 use App\Http\Controllers\Admin\HotelAdminController;
@@ -91,6 +92,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('car-requests/{carBookingRequest}', [CarBookingRequestAdminController::class, 'show'])->name('car-requests.show');
         Route::put('car-requests/{carBookingRequest}', [CarBookingRequestAdminController::class, 'update'])->name('car-requests.update');
         Route::post('car-requests/{carBookingRequest}/generate-quote', [QuoteAdminController::class, 'createFromCar'])->name('car-requests.generate-quote');
+
+        Route::get('holiday-package-requests', [HolidayPackageRequestAdminController::class, 'index'])->name('holiday-package-requests.index');
+        Route::get('holiday-package-requests/{holidayPackageRequest}', [HolidayPackageRequestAdminController::class, 'show'])->name('holiday-package-requests.show');
+        Route::put('holiday-package-requests/{holidayPackageRequest}', [HolidayPackageRequestAdminController::class, 'update'])->name('holiday-package-requests.update');
 
         Route::get('insurance-requests', [InsuranceBookingRequestAdminController::class, 'index'])->name('insurance-requests.index');
         Route::get('insurance-requests/{insuranceBookingRequest}', [InsuranceBookingRequestAdminController::class, 'show'])->name('insurance-requests.show');

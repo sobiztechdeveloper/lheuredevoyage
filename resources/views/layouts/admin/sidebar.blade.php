@@ -35,6 +35,18 @@
             <a href="{{ route('admin.packages.index') }}" class="nav-link-item {{ request()->routeIs('admin.packages.*') ? 'active' : '' }}"><i class="far fa-umbrella-beach"></i><span class="nav-label">Tour Packages</span></a>
         </div>
 
+        <button class="nav-section-title" type="button" data-bs-toggle="collapse" data-bs-target="#navCustomRequests" data-nav-section aria-expanded="{{ request()->routeIs('admin.holiday-package-requests.*') ? 'true' : 'false' }}">
+            <span>Custom Requests</span><i class="far fa-chevron-down nav-chevron small"></i>
+        </button>
+        <div class="collapse {{ request()->routeIs('admin.holiday-package-requests.*') ? 'show' : '' }} nav-submenu" id="navCustomRequests">
+            <a href="{{ route('admin.holiday-package-requests.index') }}" class="nav-link-item {{ request()->routeIs('admin.holiday-package-requests.*') ? 'active' : '' }}">
+                <i class="far fa-umbrella-beach"></i><span class="nav-label">Holiday Packages</span>
+                @if(($holidayPackageRequestsNewCount ?? 0) > 0)
+                    <span class="badge rounded-pill bg-warning text-dark ms-auto">{{ $holidayPackageRequestsNewCount }}</span>
+                @endif
+            </a>
+        </div>
+
         <button class="nav-section-title" type="button" data-bs-toggle="collapse" data-bs-target="#navMaster" data-nav-section aria-expanded="{{ request()->routeIs('admin.master-data.*') || request()->routeIs('admin.destinations.*') || request()->routeIs('admin.airlines.*') || request()->routeIs('admin.cruise-lines.*') ? 'true' : 'false' }}">
             <span>Master Data</span><i class="far fa-chevron-down nav-chevron small"></i>
         </button>
@@ -43,6 +55,7 @@
                 <div class="nav-subgroup-title">General</div>
                 <a href="{{ route('admin.destinations.index') }}" class="nav-link-item {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }}"><i class="far fa-location-dot"></i><span class="nav-label">Destinations</span></a>
                 <a href="{{ route('admin.airlines.index') }}" class="nav-link-item {{ request()->routeIs('admin.airlines.*') ? 'active' : '' }}"><i class="far fa-plane"></i><span class="nav-label">Airlines</span></a>
+                <a href="{{ route('admin.master-data.travel_classes.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.travel_classes.*') ? 'active' : '' }}"><i class="far fa-chair"></i><span class="nav-label">Travel Classes</span></a>
             </div>
 
             <div class="nav-subgroup">
@@ -58,8 +71,8 @@
 
             <div class="nav-subgroup">
                 <div class="nav-subgroup-title">Packages</div>
-                <a href="{{ route('admin.master-data.package_categories.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.package_categories.*') ? 'active' : '' }}"><i class="far fa-tags"></i><span class="nav-label">Categories</span></a>
-                <a href="{{ route('admin.master-data.package_themes.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.package_themes.*') ? 'active' : '' }}"><i class="far fa-palette"></i><span class="nav-label">Themes</span></a>
+                <a href="{{ route('admin.master-data.package_categories.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.package_categories.*') ? 'active' : '' }}"><i class="far fa-tags"></i><span class="nav-label">Holiday Types (Categories)</span></a>
+                <a href="{{ route('admin.master-data.package_themes.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.package_themes.*') ? 'active' : '' }}"><i class="far fa-palette"></i><span class="nav-label">Holiday Types (Themes)</span></a>
             </div>
 
             <div class="nav-subgroup">

@@ -13,6 +13,7 @@ use App\Models\Master\PackageCategory;
 use App\Models\Master\PackageTheme;
 use App\Models\Master\RoomFacility;
 use App\Models\Master\RoomType;
+use App\Models\Master\TravelClass;
 use App\Models\Master\VehicleFeature;
 use App\Models\Master\VehicleType;
 
@@ -93,6 +94,27 @@ return [
             'label' => 'Insurance Coverage Types',
             'model' => InsuranceCoverageType::class,
         ],
+        'travel_classes' => [
+            'route' => 'travel-classes',
+            'label' => 'Travel Classes',
+            'model' => TravelClass::class,
+        ],
+    ],
+
+    'holiday_request' => [
+        'holiday_types' => [
+            PackageCategory::class,
+            PackageTheme::class,
+        ],
+        'travel_classes' => TravelClass::class,
+        'room_types' => RoomType::class,
+        'board_types' => MealPlan::class,
+        'room_amenities' => RoomFacility::class,
+        'hotel_features' => HotelFacility::class,
+        'sports' => HotelSport::class,
+        'beach_preferences' => HotelBeachType::class,
+        'wellness' => HotelWellness::class,
+        'preferred_airlines' => \App\Models\Airline::class,
     ],
 
     'catalog' => [

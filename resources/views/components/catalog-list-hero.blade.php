@@ -13,12 +13,21 @@
 <div {{ $attributes->class([
     'catalog-list-hero',
     'catalog-list-hero--flight' => $searchAreaClass === 'flight-search',
+    'catalog-list-hero--has-before-search' => isset($beforeSearch),
 ]) }}>
     <x-site-breadcrumb :title="$title" :page="$page">
         @isset($breadcrumb)
             {{ $breadcrumb }}
         @endisset
     </x-site-breadcrumb>
+
+    @isset($beforeSearch)
+        <div class="catalog-list-hero-before-search">
+            <div class="container">
+                {{ $beforeSearch }}
+            </div>
+        </div>
+    @endisset
 
     <div class="search-area {{ $searchAreaClass }} catalog-list-search">
         <div class="container">

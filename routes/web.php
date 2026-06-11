@@ -17,6 +17,7 @@ use App\Http\Controllers\UserCarBookingRequestController;
 use App\Http\Controllers\UserInsuranceBookingRequestController;
 use App\Http\Controllers\UserQuoteController;
 use App\Http\Controllers\FlightSearchController;
+use App\Http\Controllers\HolidayPackageRequestController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\HotelSearchController;
@@ -103,10 +104,13 @@ Route::get('/travelinsurance-booking/confirmation/{insuranceBookingRequest}', [I
 Route::get('/travelinsurances/{slug}', [TravelInsuranceController::class, 'show'])->name('travelinsurance.show');
 Route::get('/travelinsurances/{slug}/book', [TravelInsuranceController::class, 'book'])->name('travelinsurance.book');
 
-Route::get('/tourpackages', [TourPackageController::class, 'index'])->name('tourpackage');
+Route::get('/holiday-package-requests/modal', [HolidayPackageRequestController::class, 'modal'])->name('holiday-package-requests.modal');
+Route::post('/holiday-package-requests', [HolidayPackageRequestController::class, 'store'])->name('holiday-package-requests.store');
+
+Route::get('/holidaypackages', [TourPackageController::class, 'index'])->name('tourpackage');
 Route::get('/holidaypackages/search', [TourPackageController::class, 'search'])->name('tourpackage.search');
-Route::get('/tourpackages/{slug}', [TourPackageController::class, 'show'])->name('tourpackage.show');
-Route::get('/tourpackages/{slug}/book', [TourPackageController::class, 'book'])->name('tourpackage.book');
+Route::get('/holidaypackages/{slug}', [TourPackageController::class, 'show'])->name('tourpackage.show');
+Route::get('/holidaypackages/{slug}/book', [TourPackageController::class, 'book'])->name('tourpackage.book');
 
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');

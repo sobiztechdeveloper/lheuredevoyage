@@ -11,6 +11,7 @@
     use App\Models\TravelInsurance;
     use App\Models\Booking;
     use App\Models\FlightBookingRequest;
+    use App\Models\HolidayPackageRequest;
 
     $catalogStats = [
         ['label' => 'Total Hotels', 'value' => Hotel::query()->count(), 'icon' => 'fa-hotel', 'class' => 'stat-icon-hotels', 'route' => 'admin.hotels.index'],
@@ -20,6 +21,7 @@
         ['label' => 'Travel Insurance', 'value' => TravelInsurance::query()->count(), 'icon' => 'fa-shield-halved', 'class' => 'stat-icon-insurance', 'route' => 'admin.insurances.index'],
         ['label' => 'Total Bookings', 'value' => $stats['bookings'] ?? Booking::query()->count(), 'icon' => 'fa-calendar-check', 'class' => 'stat-icon-bookings', 'route' => 'admin.bookings.index'],
         ['label' => 'Flight Requests', 'value' => $stats['flight_requests'] ?? FlightBookingRequest::query()->count(), 'icon' => 'fa-plane-circle-check', 'class' => 'stat-icon-bookings', 'route' => 'admin.flight-requests.index'],
+        ['label' => 'Holiday Requests', 'value' => HolidayPackageRequest::query()->count(), 'icon' => 'fa-umbrella-beach', 'class' => 'stat-icon-packages', 'route' => 'admin.holiday-package-requests.index'],
     ];
 @endphp
 
