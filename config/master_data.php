@@ -3,6 +3,7 @@
 use App\Models\Master\ContactMethod;
 use App\Models\Master\CruiseCategory;
 use App\Models\Master\CruiseFacility;
+use App\Models\Master\FamilyService;
 use App\Models\Master\HotelBeachType;
 use App\Models\Master\HotelCategory;
 use App\Models\Master\HotelFacility;
@@ -18,6 +19,7 @@ use App\Models\Master\RoomFacility;
 use App\Models\Master\RoomType;
 use App\Models\Master\SeaView;
 use App\Models\Master\TimePreference;
+use App\Models\Master\TransferOption;
 use App\Models\Master\TravelClass;
 use App\Models\Master\VehicleFeature;
 use App\Models\Master\VehicleType;
@@ -129,6 +131,16 @@ return [
             'label' => 'Contact Methods',
             'model' => ContactMethod::class,
         ],
+        'family_services' => [
+            'route' => 'family-services',
+            'label' => 'Family Services',
+            'model' => FamilyService::class,
+        ],
+        'transfer_options' => [
+            'route' => 'transfer-options',
+            'label' => 'Transfer Options',
+            'model' => TransferOption::class,
+        ],
     ],
 
     'holiday_request' => [
@@ -149,6 +161,8 @@ return [
         'time_preferences' => TimePreference::class,
         'priorities' => RequestPriority::class,
         'contact_methods' => ContactMethod::class,
+        'family_services' => FamilyService::class,
+        'transfer_preferences' => TransferOption::class,
         'preferred_airlines' => \App\Models\Airline::class,
     ],
 

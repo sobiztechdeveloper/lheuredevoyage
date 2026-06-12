@@ -57,6 +57,8 @@
                 ['title' => 'Beach Preferences', 'values' => $request->beach_preferences, 'group' => 'beach_preferences'],
                 ['title' => 'Sports', 'values' => $request->sports, 'group' => 'sports'],
                 ['title' => 'Wellness', 'values' => $request->wellness, 'group' => 'wellness'],
+                ['title' => 'Family Services', 'values' => $request->displayFamilyServices(), 'group' => 'family_services'],
+                ['title' => 'Transfer', 'values' => $request->transfer_preferences, 'group' => 'transfer_preferences'],
                 ['title' => 'Room Amenities', 'values' => $request->room_amenities, 'group' => 'room_amenities'],
             ];
         @endphp
@@ -75,8 +77,6 @@
                     <div class="col-md-4"><span class="text-muted d-block">Hotel Category</span>{{ $request->optionLabel('hotel_categories', $request->hotel_category) }}</div>
                     <div class="col-md-4"><span class="text-muted d-block">Recommendation</span>{{ $request->hotel_recommendation ? $request->hotel_recommendation.'%' : '—' }}</div>
                     <div class="col-md-4"><span class="text-muted d-block">Sea View</span>{{ $request->optionLabel('sea_views', $request->sea_view) }}</div>
-                    <div class="col-md-6"><span class="text-muted d-block">Kids Club</span>{{ $request->kids_club === null ? '—' : ($request->kids_club ? 'Yes' : 'No') }}</div>
-                    <div class="col-md-6"><span class="text-muted d-block">Babysitting</span>{{ $request->babysitting === null ? '—' : ($request->babysitting ? 'Yes' : 'No') }}</div>
                 </div>
                 @foreach($listSections as $section)
                     @if(!empty($section['values']))

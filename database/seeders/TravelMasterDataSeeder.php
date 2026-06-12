@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Master\ContactMethod;
 use App\Models\Master\CruiseCategory;
 use App\Models\Master\CruiseFacility;
+use App\Models\Master\FamilyService;
 use App\Models\Master\HotelBeachType;
 use App\Models\Master\HotelCategory;
 use App\Models\Master\HotelFacility;
@@ -18,6 +19,7 @@ use App\Models\Master\RoomFacility;
 use App\Models\Master\RoomType;
 use App\Models\Master\SeaView;
 use App\Models\Master\TimePreference;
+use App\Models\Master\TransferOption;
 use App\Models\Master\TravelClass;
 use App\Models\Master\VehicleType;
 use Illuminate\Database\Seeder;
@@ -83,6 +85,16 @@ class TravelMasterDataSeeder extends Seeder
             ['name' => 'Email', 'slug' => 'email'],
             ['name' => 'Phone', 'slug' => 'phone'],
             ['name' => 'WhatsApp', 'slug' => 'whatsapp'],
+        ]);
+        $this->seedEntries(FamilyService::class, [
+            ['name' => 'Kids Club', 'slug' => 'kids_club'],
+            ['name' => 'Babysitting', 'slug' => 'babysitting'],
+        ]);
+        $this->seedEntries(TransferOption::class, [
+            ['name' => 'Transfer', 'slug' => 'transfer'],
+            ['name' => 'Private Transfer', 'slug' => 'private_transfer'],
+            ['name' => 'No Transfer', 'slug' => 'no_transfer'],
+            ['name' => 'Rental Car', 'slug' => 'rental_car'],
         ]);
         $this->deactivateSlugs(HotelCategory::class, ['3-star', '4-star', '5-star']);
         $this->deactivateSlugs(SeaView::class, ['side-sea-view', 'sea-view']);

@@ -267,15 +267,24 @@
                     </div>
                 </div>
 
-                <p class="hpr-wizard-subsection-title">{{ __('holiday_package_request.sections.family') }}</p>
-                <div class="hpr-inline-checks">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="kids_club" value="1" id="hpr-kids-club">
-                        <label class="form-check-label" for="hpr-kids-club">{{ __('holiday_package_request.fields.kids_club') }}</label>
+                <div class="row g-2 mb-3">
+                    <div class="col-md-6 col-lg-4">
+                        <label class="form-label" for="hpr-family-services-toggle">{{ __('holiday_package_request.sections.family') }}</label>
+                        @include('partials.holiday-package-request._multiselect', [
+                            'name' => 'family_services',
+                            'id' => 'hpr-family-services',
+                            'options' => $config['family_services'] ?? [],
+                            'labels' => $optionLabels['family_services'] ?? [],
+                        ])
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="babysitting" value="1" id="hpr-babysitting">
-                        <label class="form-check-label" for="hpr-babysitting">{{ __('holiday_package_request.fields.babysitting') }}</label>
+                    <div class="col-md-6 col-lg-4">
+                        <label class="form-label" for="hpr-transfer-preferences-toggle">{{ __('holiday_package_request.fields.transfer_preferences') }}</label>
+                        @include('partials.holiday-package-request._multiselect', [
+                            'name' => 'transfer_preferences',
+                            'id' => 'hpr-transfer-preferences',
+                            'options' => $config['transfer_preferences'] ?? [],
+                            'labels' => $optionLabels['transfer_preferences'] ?? [],
+                        ])
                     </div>
                 </div>
             </div>

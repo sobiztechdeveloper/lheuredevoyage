@@ -57,6 +57,7 @@ return [
         'wellness' => 'Wellness',
         'kids_club' => 'Kinderclub',
         'babysitting' => 'Kinderopvang',
+        'transfer_preferences' => 'Transfer',
         'room_amenities' => 'Kamerfaciliteiten',
         'additional_notes' => 'Vertel ons over uw ideale vakantie...',
     ],

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Airline;
 use App\Models\Master\ContactMethod;
+use App\Models\Master\FamilyService;
 use App\Models\Master\HotelBeachType;
 use App\Models\Master\HotelCategory;
 use App\Models\Master\HotelFacility;
@@ -17,6 +18,7 @@ use App\Models\Master\RoomFacility;
 use App\Models\Master\RoomType;
 use App\Models\Master\SeaView;
 use App\Models\Master\TimePreference;
+use App\Models\Master\TransferOption;
 use App\Models\Master\TravelClass;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -44,6 +46,8 @@ class HolidayPackageRequestConfigService
         $sports = $this->masterSlugList(HotelSport::class, 'hotel sports');
         $beachPreferences = $this->masterSlugList(HotelBeachType::class, 'hotel beach types');
         $wellness = $this->masterSlugList(HotelWellness::class, 'hotel wellness options');
+        $familyServices = $this->masterSlugList(FamilyService::class, 'family services');
+        $transferPreferences = $this->masterSlugList(TransferOption::class, 'transfer options');
         $hotelCategories = $this->masterSlugList(HotelCategory::class, 'hotel categories');
         $seaViews = $this->masterSlugList(SeaView::class, 'sea views');
         $timePreferences = $this->masterSlugList(TimePreference::class, 'time preferences');
@@ -67,6 +71,8 @@ class HolidayPackageRequestConfigService
             'sports' => $sports,
             'beach_preferences' => $beachPreferences,
             'wellness' => $wellness,
+            'family_services' => $familyServices,
+            'transfer_preferences' => $transferPreferences,
             'hotel_categories' => $hotelCategories,
             'sea_views' => $seaViews,
             'time_preferences' => $timePreferences,
@@ -83,6 +89,8 @@ class HolidayPackageRequestConfigService
                 'sports' => $this->masterLabelMap(HotelSport::class, 'hotel sports'),
                 'beach_preferences' => $this->masterLabelMap(HotelBeachType::class, 'hotel beach types'),
                 'wellness' => $this->masterLabelMap(HotelWellness::class, 'hotel wellness options'),
+                'family_services' => $this->masterLabelMap(FamilyService::class, 'family services'),
+                'transfer_preferences' => $this->masterLabelMap(TransferOption::class, 'transfer options'),
                 'hotel_categories' => $this->masterLabelMap(HotelCategory::class, 'hotel categories'),
                 'sea_views' => $this->masterLabelMap(SeaView::class, 'sea views'),
                 'time_preferences' => $this->masterLabelMap(TimePreference::class, 'time preferences'),
@@ -152,6 +160,8 @@ class HolidayPackageRequestConfigService
             'sports' => $this->masterSlugList(HotelSport::class, 'hotel sports'),
             'beach_preferences' => $this->masterSlugList(HotelBeachType::class, 'hotel beach types'),
             'wellness' => $this->masterSlugList(HotelWellness::class, 'hotel wellness options'),
+            'family_services' => $this->masterSlugList(FamilyService::class, 'family services'),
+            'transfer_preferences' => $this->masterSlugList(TransferOption::class, 'transfer options'),
             'hotel_categories' => $this->masterSlugList(HotelCategory::class, 'hotel categories'),
             'sea_views' => $this->masterSlugList(SeaView::class, 'sea views'),
             'time_preferences' => $this->masterSlugList(TimePreference::class, 'time preferences'),

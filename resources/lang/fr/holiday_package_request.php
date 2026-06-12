@@ -57,6 +57,7 @@ return [
         'wellness' => 'Bien-être',
         'kids_club' => 'Club enfants',
         'babysitting' => 'Baby-sitting',
+        'transfer_preferences' => 'Transfert',
         'room_amenities' => 'Équipements de la chambre',
         'additional_notes' => 'Parlez-nous de vos vacances idéales...',
     ],

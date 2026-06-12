@@ -86,9 +86,12 @@
 - **Wellness:** {{ implode(', ', $request->translatedOptionList('wellness', $request->wellness)) }}
 @endif
 
-@if($request->kids_club !== null || $request->babysitting !== null)
-- **Kids Club:** {{ $request->kids_club ? 'Yes' : 'No' }}
-- **Babysitting:** {{ $request->babysitting ? 'Yes' : 'No' }}
+@if(!empty($request->displayFamilyServices()))
+- **Family Services:** {{ implode(', ', $request->translatedOptionList('family_services', $request->displayFamilyServices())) }}
+@endif
+
+@if($request->transfer_preferences)
+- **Transfer:** {{ implode(', ', $request->translatedOptionList('transfer_preferences', $request->transfer_preferences)) }}
 @endif
 
 @if($request->room_amenities)

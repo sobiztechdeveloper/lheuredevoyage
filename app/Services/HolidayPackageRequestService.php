@@ -54,8 +54,10 @@ class HolidayPackageRequestService
             'beach_preferences' => array_values((array) ($data['beach_preferences'] ?? [])),
             'sports' => array_values((array) ($data['sports'] ?? [])),
             'wellness' => array_values((array) ($data['wellness'] ?? [])),
-            'kids_club' => array_key_exists('kids_club', $data) ? (bool) $data['kids_club'] : null,
-            'babysitting' => array_key_exists('babysitting', $data) ? (bool) $data['babysitting'] : null,
+            'family_services' => array_values((array) ($data['family_services'] ?? [])),
+            'transfer_preferences' => array_values((array) ($data['transfer_preferences'] ?? [])),
+            'kids_club' => null,
+            'babysitting' => null,
             'room_amenities' => array_values((array) ($data['room_amenities'] ?? [])),
             'additional_notes' => $data['additional_notes'] ?? null,
         ]);

@@ -57,6 +57,7 @@ return [
         'wellness' => 'Wellness',
         'kids_club' => 'Kids Club',
         'babysitting' => 'Babysitting',
+        'transfer_preferences' => 'Transfer',
         'room_amenities' => 'Room Amenities',
         'additional_notes' => 'Tell us about your ideal holiday...',
     ],

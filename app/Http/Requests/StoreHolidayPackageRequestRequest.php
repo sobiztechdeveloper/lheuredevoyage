@@ -20,8 +20,6 @@ class StoreHolidayPackageRequestRequest extends FormRequest
             'direct_flight_only' => $this->boolean('direct_flight_only'),
             'transfer_allowed' => $this->boolean('transfer_allowed'),
             'rail_and_fly' => $this->boolean('rail_and_fly'),
-            'kids_club' => $this->has('kids_club') ? $this->boolean('kids_club') : null,
-            'babysitting' => $this->has('babysitting') ? $this->boolean('babysitting') : null,
             'gdpr_consent' => $this->boolean('gdpr_consent'),
         ];
 
@@ -100,8 +98,10 @@ class StoreHolidayPackageRequestRequest extends FormRequest
             'sports.*' => ['string', Rule::in($options->activeSlugs('sports'))],
             'wellness' => ['nullable', 'array'],
             'wellness.*' => ['string', Rule::in($options->activeSlugs('wellness'))],
-            'kids_club' => ['nullable', 'boolean'],
-            'babysitting' => ['nullable', 'boolean'],
+            'family_services' => ['nullable', 'array'],
+            'family_services.*' => ['string', Rule::in($options->activeSlugs('family_services'))],
+            'transfer_preferences' => ['nullable', 'array'],
+            'transfer_preferences.*' => ['string', Rule::in($options->activeSlugs('transfer_preferences'))],
             'room_amenities' => ['nullable', 'array'],
             'room_amenities.*' => ['string', Rule::in($options->activeSlugs('room_amenities'))],
             'additional_notes' => ['nullable', 'string', 'max:5000'],

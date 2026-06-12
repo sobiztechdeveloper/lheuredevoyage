@@ -53,6 +53,8 @@ class HolidayPackageRequest extends Model
         'beach_preferences',
         'sports',
         'wellness',
+        'family_services',
+        'transfer_preferences',
         'kids_club',
         'babysitting',
         'room_amenities',
@@ -75,6 +77,8 @@ class HolidayPackageRequest extends Model
             'beach_preferences' => 'array',
             'sports' => 'array',
             'wellness' => 'array',
+            'family_services' => 'array',
+            'transfer_preferences' => 'array',
             'room_amenities' => 'array',
             'direct_flight_only' => 'boolean',
             'transfer_allowed' => 'boolean',
@@ -153,6 +157,28 @@ class HolidayPackageRequest extends Model
         $labels = holiday_package_request_config()['option_labels'][$group] ?? [];
 
         return $labels[$slug] ?? $slug;
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function displayFamilyServices(): array
+    {
+        if (! empty($this->family_services)) {
+            return $this->family_services;
+        }
+
+        $legacy = [];
+
+        if ($this->kids_club) {
+            $legacy[] = 'kids_club';
+        }
+
+        if ($this->babysitting) {
+            $legacy[] = 'babysitting';
+        }
+
+        return $legacy;
     }
 
     /**

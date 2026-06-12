@@ -76,6 +76,8 @@
                 <a href="{{ route('admin.master-data.time_preferences.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.time_preferences.*') ? 'active' : '' }}"><i class="far fa-clock"></i><span class="nav-label">Time Preferences</span></a>
                 <a href="{{ route('admin.master-data.request_priorities.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.request_priorities.*') ? 'active' : '' }}"><i class="far fa-flag"></i><span class="nav-label">Request Priorities</span></a>
                 <a href="{{ route('admin.master-data.contact_methods.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.contact_methods.*') ? 'active' : '' }}"><i class="far fa-address-book"></i><span class="nav-label">Contact Methods</span></a>
+                <a href="{{ route('admin.master-data.family_services.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.family_services.*') ? 'active' : '' }}"><i class="far fa-child"></i><span class="nav-label">Family Services</span></a>
+                <a href="{{ route('admin.master-data.transfer_options.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.transfer_options.*') ? 'active' : '' }}"><i class="far fa-van-shuttle"></i><span class="nav-label">Transfer Options</span></a>
             </div>
 
             <div class="nav-subgroup">
