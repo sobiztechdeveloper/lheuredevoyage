@@ -21,6 +21,8 @@ class HolidayPackageRequestAdminController extends Controller
         $requests = HolidayPackageRequest::query()
             ->searchTerm($request->input('q'))
             ->when($request->input('status'), fn ($q, $status) => $q->where('status', $status))
+            ->priority($request->input('priority'))
+            ->preferredContactMethod($request->input('preferred_contact_method'))
             ->latest()
             ->paginate(20)
             ->withQueryString();
@@ -28,8 +30,12 @@ class HolidayPackageRequestAdminController extends Controller
         return view('admin.holiday-package-requests.index', [
             'requests' => $requests,
             'statuses' => HolidayPackageRequest::STATUSES,
+            'priorities' => HolidayPackageRequest::PRIORITIES,
+            'contactMethods' => HolidayPackageRequest::CONTACT_METHODS,
             'search' => $request->input('q'),
             'filterStatus' => $request->input('status'),
+            'filterPriority' => $request->input('priority'),
+            'filterContactMethod' => $request->input('preferred_contact_method'),
         ]);
     }
 

@@ -20,6 +20,9 @@ class StoreHolidayPackageRequestRequest extends FormRequest
             'rail_and_fly' => $this->boolean('rail_and_fly'),
             'kids_club' => $this->has('kids_club') ? $this->boolean('kids_club') : null,
             'babysitting' => $this->has('babysitting') ? $this->boolean('babysitting') : null,
+            'gdpr_consent' => $this->boolean('gdpr_consent'),
+            'priority' => $this->input('priority', 'normal'),
+            'preferred_contact_method' => $this->input('preferred_contact_method', 'email'),
         ];
 
         foreach (['earliest_departure_date', 'latest_return_date'] as $dateField) {
@@ -53,6 +56,11 @@ class StoreHolidayPackageRequestRequest extends FormRequest
             'children' => ['nullable', 'integer', 'min:0', 'max:10'],
             'child_ages' => ['nullable', 'array', 'max:10'],
             'child_ages.*' => ['nullable', 'integer', 'min:0', 'max:17'],
+            'holiday_types' => ['nullable', 'array'],
+            'holiday_types.*' => ['string', Rule::in($config['holiday_types'])],
+            'priority' => ['nullable', 'string', Rule::in($config['priorities'])],
+            'preferred_contact_method' => ['nullable', 'string', Rule::in($config['contact_methods'])],
+            'gdpr_consent' => ['required', 'accepted'],
             'budget_amount' => ['nullable', 'numeric', 'min:0'],
             'budget_currency' => ['nullable', 'string', Rule::in($config['budget_currencies'])],
             'full_name' => ['required', 'string', 'max:255'],

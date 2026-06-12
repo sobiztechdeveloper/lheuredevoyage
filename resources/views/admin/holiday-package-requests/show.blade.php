@@ -29,6 +29,18 @@
         </div>
 
         <div class="admin-form-card">
+            <div class="admin-form-card-header"><h2>Request Metadata</h2></div>
+            <div class="admin-form-card-body">
+                <div class="row g-3 small">
+                    <div class="col-md-6"><span class="text-muted d-block">Holiday Types</span>{{ $request->holidayTypeLabels() ? implode(', ', $request->holidayTypeLabels()) : '—' }}</div>
+                    <div class="col-md-3"><span class="text-muted d-block">Priority</span>{{ $request->priorityLabel() }}</div>
+                    <div class="col-md-3"><span class="text-muted d-block">Preferred Contact</span>{{ $request->preferredContactMethodLabel() }}</div>
+                    <div class="col-md-6"><span class="text-muted d-block">GDPR Consent</span>{{ $request->gdpr_consent_at?->format(config('date.display_datetime')) ?: '—' }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-form-card">
             <div class="admin-form-card-header"><h2>Contact</h2></div>
             <div class="admin-form-card-body small">
                 <p class="mb-1"><strong>{{ $request->full_name }}</strong></p>

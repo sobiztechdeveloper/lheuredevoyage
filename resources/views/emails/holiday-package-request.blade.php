@@ -22,6 +22,17 @@
 
 - **Amount:** {{ $request->budget_amount ? number_format((float) $request->budget_amount, 2).' '.($request->budget_currency ?: '') : '—' }}
 
+## Request Metadata
+
+@if(!empty($request->holiday_types))
+- **Holiday Types:** {{ implode(', ', $request->holidayTypeLabels()) }}
+@endif
+- **Priority:** {{ $request->priorityLabel() }}
+- **Preferred Contact Method:** {{ $request->preferredContactMethodLabel() }}
+@if($request->gdpr_consent_at)
+- **GDPR Consent:** {{ $request->gdpr_consent_at->format(config('date.display_datetime')) }}
+@endif
+
 ## Contact
 
 - **Name:** {{ $request->full_name }}

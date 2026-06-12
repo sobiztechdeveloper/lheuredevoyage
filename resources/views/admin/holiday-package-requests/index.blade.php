@@ -20,8 +20,20 @@
                     <option value="{{ $status }}" @selected($filterStatus === $status)>{{ ucfirst($status) }}</option>
                 @endforeach
             </select>
+            <select name="priority" class="form-select form-select-sm" style="width:auto">
+                <option value="">All priorities</option>
+                @foreach($priorities as $priority)
+                    <option value="{{ $priority }}" @selected($filterPriority === $priority)>{{ ucfirst($priority) }}</option>
+                @endforeach
+            </select>
+            <select name="preferred_contact_method" class="form-select form-select-sm" style="width:auto">
+                <option value="">All contact methods</option>
+                @foreach($contactMethods as $method)
+                    <option value="{{ $method }}" @selected($filterContactMethod === $method)>{{ ucfirst($method) }}</option>
+                @endforeach
+            </select>
             <button type="submit" class="btn btn-admin-primary btn-sm">Filter</button>
-            @if($search || $filterStatus)
+            @if($search || $filterStatus || $filterPriority || $filterContactMethod)
                 <a href="{{ route('admin.holiday-package-requests.index') }}" class="btn btn-admin-outline btn-sm">Clear</a>
             @endif
         </form>
@@ -35,6 +47,8 @@
                     <th>Destination</th>
                     <th>Travel Dates</th>
                     <th>Travelers</th>
+                    <th>Priority</th>
+                    <th>Contact Via</th>
                     <th>Status</th>
                     <th>Created</th>
                     <th class="text-end">Actions</th>
@@ -63,6 +77,8 @@
                             / {{ $item->children }}C
                         @endif
                     </td>
+                    <td><span class="badge bg-light text-dark text-capitalize">{{ $item->priority }}</span></td>
+                    <td><span class="text-capitalize">{{ $item->preferred_contact_method }}</span></td>
                     <td><span class="badge bg-secondary text-uppercase">{{ $item->status }}</span></td>
                     <td><small class="text-muted">{{ $item->created_at->format(config('date.display')) }}</small></td>
                     <td class="text-end">
@@ -70,7 +86,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="8" class="text-center py-5 text-muted">No holiday package requests yet.</td></tr>
+                <tr><td colspan="10" class="text-center py-5 text-muted">No holiday package requests yet.</td></tr>
                 @endforelse
             </tbody>
         </table>

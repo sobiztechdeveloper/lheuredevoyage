@@ -69,6 +69,18 @@ return [
         'closed' => 'Closed',
     ],
 
+    'priorities' => [
+        'normal' => 'Normal',
+        'important' => 'Important',
+        'vip' => 'VIP',
+    ],
+
+    'contact_methods' => [
+        'email' => 'Email',
+        'phone' => 'Phone',
+        'whatsapp' => 'WhatsApp',
+    ],
+
     'options' => [
         'travel_classes' => [
             'economy' => 'Economy',

@@ -15,6 +15,18 @@ class HolidayPackageRequest extends Model
         'closed',
     ];
 
+    public const PRIORITIES = [
+        'normal',
+        'important',
+        'vip',
+    ];
+
+    public const CONTACT_METHODS = [
+        'email',
+        'phone',
+        'whatsapp',
+    ];
+
     protected $fillable = [
         'reference_number',
         'status',
@@ -27,6 +39,10 @@ class HolidayPackageRequest extends Model
         'adults',
         'children',
         'child_ages',
+        'holiday_types',
+        'priority',
+        'preferred_contact_method',
+        'gdpr_consent_at',
         'budget_amount',
         'budget_currency',
         'full_name',
@@ -62,6 +78,8 @@ class HolidayPackageRequest extends Model
             'earliest_departure_date' => 'date',
             'latest_return_date' => 'date',
             'child_ages' => 'array',
+            'holiday_types' => 'array',
+            'gdpr_consent_at' => 'datetime',
             'budget_amount' => 'decimal:2',
             'room_types' => 'array',
             'board_types' => 'array',
@@ -105,9 +123,45 @@ class HolidayPackageRequest extends Model
         });
     }
 
+    public function scopePriority(Builder $query, ?string $priority): Builder
+    {
+        if (! $priority) {
+            return $query;
+        }
+
+        return $query->where('priority', $priority);
+    }
+
+    public function scopePreferredContactMethod(Builder $query, ?string $method): Builder
+    {
+        if (! $method) {
+            return $query;
+        }
+
+        return $query->where('preferred_contact_method', $method);
+    }
+
     public function statusLabel(): string
     {
         return __('holiday_package_request.statuses.'.$this->status);
+    }
+
+    public function priorityLabel(): string
+    {
+        return __('holiday_package_request.priorities.'.$this->priority);
+    }
+
+    public function preferredContactMethodLabel(): string
+    {
+        return __('holiday_package_request.contact_methods.'.$this->preferred_contact_method);
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function holidayTypeLabels(): array
+    {
+        return $this->translatedOptionList('holiday_types', $this->holiday_types ?? []);
     }
 
     /**

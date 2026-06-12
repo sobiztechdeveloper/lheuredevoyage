@@ -20,6 +20,18 @@ return [
 
     'budget_currencies' => ['CHF', 'USD', 'EUR'],
 
+    'priorities' => [
+        'normal',
+        'important',
+        'vip',
+    ],
+
+    'contact_methods' => [
+        'email',
+        'phone',
+        'whatsapp',
+    ],
+
     'time_preferences' => [
         'morning',
         'afternoon',

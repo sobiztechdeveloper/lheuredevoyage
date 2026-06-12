@@ -69,6 +69,18 @@ return [
         'closed' => 'Gesloten',
     ],
 
+    'priorities' => [
+        'normal' => 'Normaal',
+        'important' => 'Belangrijk',
+        'vip' => 'VIP',
+    ],
+
+    'contact_methods' => [
+        'email' => 'E-mail',
+        'phone' => 'Telefoon',
+        'whatsapp' => 'WhatsApp',
+    ],
+
     'options' => [
         'travel_classes' => [
             'economy' => 'Economy',

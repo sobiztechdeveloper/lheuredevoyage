@@ -102,7 +102,7 @@
                     <div class="col-md-8 col-lg-6">
                         <label class="form-label" for="hpr-holiday-type-toggle">Holiday Type</label>
                         @include('partials.holiday-package-request._multiselect', [
-                            'name' => 'hpr_holiday_type',
+                            'name' => 'holiday_types',
                             'id' => 'hpr-holiday-type',
                             'options' => $config['holiday_types'] ?? [],
                             'labels' => $optionLabels['holiday_types'] ?? [],
@@ -111,7 +111,7 @@
                     </div>
                     <div class="col-md-4 col-lg-3">
                         <label class="form-label" for="hpr-priority">Priority</label>
-                        <select class="form-select form-select-sm" id="hpr-priority" data-hpr-ui-field="priority">
+                        <select class="form-select form-select-sm" id="hpr-priority" name="priority" data-hpr-ui-field="priority">
                             <option value="normal" selected>Normal</option>
                             <option value="important">Important</option>
                             <option value="vip">VIP</option>
@@ -329,15 +329,15 @@
                         <label class="form-label d-block mb-1">Preferred Contact Method</label>
                         <div class="hpr-contact-methods" data-hpr-ui-field="preferred_contact_method">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="hpr_preferred_contact" id="hpr-contact-email" value="email" checked>
+                                <input class="form-check-input" type="radio" name="preferred_contact_method" id="hpr-contact-email" value="email" checked>
                                 <label class="form-check-label" for="hpr-contact-email">Email</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="hpr_preferred_contact" id="hpr-contact-phone" value="phone">
+                                <input class="form-check-input" type="radio" name="preferred_contact_method" id="hpr-contact-phone" value="phone">
                                 <label class="form-check-label" for="hpr-contact-phone">Phone</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="hpr_preferred_contact" id="hpr-contact-whatsapp" value="whatsapp">
+                                <input class="form-check-input" type="radio" name="preferred_contact_method" id="hpr-contact-whatsapp" value="whatsapp">
                                 <label class="form-check-label" for="hpr-contact-whatsapp">WhatsApp</label>
                             </div>
                         </div>
@@ -345,7 +345,7 @@
                 </div>
                 <div class="hpr-gdpr">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="hpr-gdpr-consent" required>
+                        <input class="form-check-input" type="checkbox" id="hpr-gdpr-consent" name="gdpr_consent" value="1" required>
                         <label class="form-check-label" for="hpr-gdpr-consent">
                             I agree that L'Heure de Voyage may contact me regarding my holiday request.
                         </label>

@@ -186,39 +186,6 @@
         }
     }
 
-    function getCheckedLabels(root, selector) {
-        return Array.prototype.slice.call(root.querySelectorAll(selector))
-            .filter(function (input) { return input.checked; })
-            .map(function (input) { return input.getAttribute('data-label') || input.value; });
-    }
-
-    function buildSupplementalNotes(root) {
-        var lines = [];
-        var holidayTypes = getCheckedLabels(root, 'input[id^="hpr-holiday-type-"][type="checkbox"]');
-        var priorityEl = root.querySelector('#hpr-priority');
-        var contactEl = root.querySelector('input[name="hpr_preferred_contact"]:checked');
-        var gdprEl = root.querySelector('#hpr-gdpr-consent');
-
-        if (holidayTypes.length) {
-            lines.push('Holiday Type: ' + holidayTypes.join(', '));
-        }
-
-        if (priorityEl && priorityEl.value) {
-            var priorityLabel = priorityEl.options[priorityEl.selectedIndex].text;
-            lines.push('Priority: ' + priorityLabel);
-        }
-
-        if (contactEl) {
-            lines.push('Preferred Contact Method: ' + contactEl.value);
-        }
-
-        if (gdprEl && gdprEl.checked) {
-            lines.push('GDPR Consent: ' + new Date().toISOString());
-        }
-
-        return lines.join('\n');
-    }
-
     function showAlert(alertEl, message, type) {
         if (!alertEl) {
             return;
@@ -468,18 +435,6 @@
                 submitBtn.disabled = true;
             }
 
-            var supplemental = buildSupplementalNotes(wizard);
-            var originalNotes = notesField ? notesField.value.trim() : '';
-            var mergedNotes = supplemental;
-
-            if (originalNotes) {
-                mergedNotes = mergedNotes ? mergedNotes + '\n\n' + originalNotes : originalNotes;
-            }
-
-            if (notesField) {
-                notesField.value = mergedNotes;
-            }
-
             var formData = new FormData(form);
 
             fetch(form.getAttribute('action'), {
@@ -518,10 +473,6 @@
                     }
                 })
                 .catch(function (error) {
-                    if (notesField) {
-                        notesField.value = originalNotes;
-                    }
-
                     var message = labels.error;
 
                     if (error && error.errors) {
