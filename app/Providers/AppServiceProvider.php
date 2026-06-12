@@ -70,7 +70,13 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Route::bind('masterRecord', function (string $value, \Illuminate\Routing\Route $route) {
-            $class = MasterDataRegistry::modelClass($route->parameter('type'));
+            $type = $route->parameter('type') ?? ($route->defaults['type'] ?? null);
+
+            if (! $type) {
+                abort(404);
+            }
+
+            $class = MasterDataRegistry::modelClass($type);
 
             return ctype_digit($value)
                 ? $class::query()->whereKey($value)->firstOrFail()

@@ -58,7 +58,7 @@
                     <div class="col-md-6"><span class="text-muted d-block">Outbound Time</span>{{ $request->outbound_time_preference ? __('holiday_package_request.options.time_preferences.'.$request->outbound_time_preference) : '—' }}</div>
                     <div class="col-md-6"><span class="text-muted d-block">Return Time</span>{{ $request->return_time_preference ? __('holiday_package_request.options.time_preferences.'.$request->return_time_preference) : '—' }}</div>
                     <div class="col-md-4"><span class="text-muted d-block">Direct Flight Only</span>{{ $request->direct_flight_only ? 'Yes' : 'No' }}</div>
-                    <div class="col-md-4"><span class="text-muted d-block">Transfer Allowed</span>{{ $request->transfer_allowed ? 'Yes' : 'No' }}</div>
+                    <div class="col-md-4"><span class="text-muted d-block">Connecting Flight</span>{{ $request->transfer_allowed ? 'Yes' : 'No' }}</div>
                     <div class="col-md-4"><span class="text-muted d-block">Rail & Fly</span>{{ $request->rail_and_fly ? 'Yes' : 'No' }}</div>
                     <div class="col-md-4"><span class="text-muted d-block">Hotel Category</span>{{ $request->hotel_category ? __('holiday_package_request.options.hotel_categories.'.$request->hotel_category) : '—' }}</div>
                     <div class="col-md-4"><span class="text-muted d-block">Recommendation</span>{{ $request->hotel_recommendation ? $request->hotel_recommendation.'%' : '—' }}</div>

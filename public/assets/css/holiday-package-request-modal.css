@@ -241,6 +241,23 @@
     color: #495057;
 }
 
+.hpr-progress-step--clickable {
+    cursor: pointer;
+}
+
+.hpr-progress-step--clickable:hover .hpr-progress-step-dot {
+    border-color: var(--theme-color, #162F65);
+    transform: scale(1.05);
+}
+
+.hpr-progress-step--clickable:focus {
+    outline: none;
+}
+
+.hpr-progress-step--clickable:focus-visible .hpr-progress-step-dot {
+    box-shadow: 0 0 0 3px rgba(22, 47, 101, 0.2);
+}
+
 .hpr-wizard-body {
     padding: 1.1rem 1.25rem 1rem;
     min-height: 200px;

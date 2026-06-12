@@ -48,7 +48,7 @@
 - **Outbound Time:** {{ $request->outbound_time_preference ? __('holiday_package_request.options.time_preferences.'.$request->outbound_time_preference) : '—' }}
 - **Return Time:** {{ $request->return_time_preference ? __('holiday_package_request.options.time_preferences.'.$request->return_time_preference) : '—' }}
 - **Direct Flight Only:** {{ $request->direct_flight_only ? 'Yes' : 'No' }}
-- **Transfer Allowed:** {{ $request->transfer_allowed ? 'Yes' : 'No' }}
+- **Connecting Flight:** {{ $request->transfer_allowed ? 'Yes' : 'No' }}
 - **Rail & Fly:** {{ $request->rail_and_fly ? 'Yes' : 'No' }}
 @endif
 

@@ -53,7 +53,7 @@ return [
         'outbound_time_preference' => 'Horaire aller préféré',
         'return_time_preference' => 'Horaire retour préféré',
         'direct_flight_only' => 'Vol direct uniquement',
-        'transfer_allowed' => 'Escale autorisée',
+        'transfer_allowed' => 'Vol avec correspondance',
         'rail_and_fly' => 'Rail & Fly',
         'hotel_category' => 'Catégorie',
         'hotel_recommendation' => 'Recommandation',

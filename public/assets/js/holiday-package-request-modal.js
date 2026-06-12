@@ -245,20 +245,21 @@
         }
 
         var fields = stepEl.querySelectorAll('input, select, textarea');
-        var valid = true;
 
-        fields.forEach(function (field) {
+        for (var i = 0; i < fields.length; i++) {
+            var field = fields[i];
+
             if (field.disabled || field.type === 'hidden') {
-                return;
+                continue;
             }
 
             if (!field.checkValidity()) {
-                valid = false;
                 field.reportValidity();
+                return false;
             }
-        });
+        }
 
-        return valid;
+        return true;
     }
 
     function validateAllSteps(wizard, navigation) {
@@ -364,6 +365,29 @@
             wizard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
+        function tryGoToStep(stepNumber) {
+            if (!stepNumber || stepNumber === currentStep) {
+                return true;
+            }
+
+            if (stepNumber < currentStep) {
+                goToStep(stepNumber);
+                return true;
+            }
+
+            for (var step = currentStep; step < stepNumber; step++) {
+                goToStep(step);
+
+                var stepEl = wizard.querySelector('.hpr-wizard-step[data-step="' + step + '"]');
+                if (!validateStep(stepEl)) {
+                    return false;
+                }
+            }
+
+            goToStep(stepNumber);
+            return true;
+        }
+
         if (backBtn) {
             backBtn.addEventListener('click', function () {
                 goToStep(currentStep - 1);
@@ -372,14 +396,27 @@
 
         if (nextBtn) {
             nextBtn.addEventListener('click', function () {
-                var activeStep = wizard.querySelector('.hpr-wizard-step[data-step="' + currentStep + '"]');
-                if (!validateStep(activeStep)) {
-                    return;
-                }
-
-                goToStep(currentStep + 1);
+                tryGoToStep(currentStep + 1);
             });
         }
+
+        progressSteps.forEach(function (item) {
+            item.classList.add('hpr-progress-step--clickable');
+            item.setAttribute('role', 'button');
+            item.setAttribute('tabindex', '0');
+
+            item.addEventListener('click', function () {
+                var stepNumber = parseInt(item.getAttribute('data-step'), 10);
+                tryGoToStep(stepNumber);
+            });
+
+            item.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    item.click();
+                }
+            });
+        });
 
         updateProgressUI();
 

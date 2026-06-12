@@ -104,19 +104,22 @@ Version         : 1.0
     // partner-slider
     $('.partner-slider').owlCarousel({
         loop: true,
-        margin: 15,
+        margin: 36,
         nav: false,
         dots: false,
         autoplay: true,
         responsive: {
             0: {
-                items: 2
+                items: 2,
+                margin: 24
             },
             600: {
-                items: 3
+                items: 3,
+                margin: 30
             },
             1000: {
-                items: 6
+                items: 6,
+                margin: 36
             }
         }
     });

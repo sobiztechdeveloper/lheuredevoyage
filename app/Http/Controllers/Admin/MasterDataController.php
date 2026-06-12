@@ -90,8 +90,9 @@ class MasterDataController extends Controller
             ->with('success', $config['label'].' created.');
     }
 
-    public function edit(string $type, MasterDataModel $masterRecord): View
+    public function edit(MasterDataModel $masterRecord): View
     {
+        $type = $this->masterDataRouteType();
         $config = MasterDataRegistry::config($type);
         $this->authorize('update', $masterRecord);
 
@@ -102,8 +103,9 @@ class MasterDataController extends Controller
         ]);
     }
 
-    public function update(UpdateMasterDataRequest $request, string $type, MasterDataModel $masterRecord): RedirectResponse
+    public function update(UpdateMasterDataRequest $request, MasterDataModel $masterRecord): RedirectResponse
     {
+        $type = $this->masterDataRouteType();
         $config = MasterDataRegistry::config($type);
         $this->authorize('update', $masterRecord);
 
@@ -116,8 +118,9 @@ class MasterDataController extends Controller
             ->with('success', $config['label'].' updated.');
     }
 
-    public function destroy(string $type, MasterDataModel $masterRecord): RedirectResponse
+    public function destroy(MasterDataModel $masterRecord): RedirectResponse
     {
+        $type = $this->masterDataRouteType();
         $config = MasterDataRegistry::config($type);
         $this->authorize('delete', $masterRecord);
         $masterRecord->delete();
@@ -138,11 +141,18 @@ class MasterDataController extends Controller
             ->with('success', $config['label'].' restored.');
     }
 
-    public function toggleStatus(string $type, MasterDataModel $masterRecord): RedirectResponse
+    public function toggleStatus(MasterDataModel $masterRecord): RedirectResponse
     {
         $this->authorize('update', $masterRecord);
         $masterRecord->update(['is_active' => ! $masterRecord->is_active]);
 
         return back()->with('success', 'Status updated.');
+    }
+
+    protected function masterDataRouteType(): string
+    {
+        $route = request()->route();
+
+        return (string) ($route?->parameter('type') ?? $route?->defaults['type'] ?? '');
     }
 }

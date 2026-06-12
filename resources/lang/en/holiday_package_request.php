@@ -53,7 +53,7 @@ return [
         'outbound_time_preference' => 'Outbound Time Preference',
         'return_time_preference' => 'Return Time Preference',
         'direct_flight_only' => 'Direct Flight Only',
-        'transfer_allowed' => 'Transfer Allowed',
+        'transfer_allowed' => 'Connecting flight',
         'rail_and_fly' => 'Rail & Fly',
         'hotel_category' => 'Category',
         'hotel_recommendation' => 'Recommendation',

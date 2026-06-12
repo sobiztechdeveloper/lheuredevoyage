@@ -53,7 +53,7 @@ return [
         'outbound_time_preference' => 'Voorkeur heenreis',
         'return_time_preference' => 'Voorkeur terugreis',
         'direct_flight_only' => 'Alleen directe vlucht',
-        'transfer_allowed' => 'Transfer toegestaan',
+        'transfer_allowed' => 'Vlucht met overstap',
         'rail_and_fly' => 'Rail & Fly',
         'hotel_category' => 'Categorie',
         'hotel_recommendation' => 'Aanbeveling',
