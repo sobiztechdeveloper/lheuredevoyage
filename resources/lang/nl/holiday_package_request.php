@@ -1,25 +1,18 @@
 <?php
 
 return [
-    'button' => 'Vraag een maatwerk vakantiepakket aan',
     'modal_title' => 'Aanvraag maatwerk vakantiepakket',
     'modal_intro' => 'Vertel ons over uw ideale vakantie en onze reisadviseurs stellen een passend aanbod samen.',
-    'show_advanced' => 'Geavanceerde voorkeuren tonen',
-    'hide_advanced' => 'Geavanceerde voorkeuren verbergen',
     'submit' => 'Aanvraag verzenden',
-    'submitting' => 'Bezig met verzenden...',
     'close' => 'Sluiten',
     'submitted' => 'Bedankt! Uw aanvraag is verzonden. Ons team neemt spoedig contact met u op.',
     'error' => 'Controleer het formulier en probeer het opnieuw.',
     'child_age' => 'Leeftijd kind :number',
-    'yes' => 'Ja',
-    'no' => 'Nee',
     'not_specified' => 'Niet opgegeven',
     'select_all' => 'Alles selecteren',
 
     'sections' => [
         'travel' => 'Reisinformatie',
-        'budget' => 'Budget',
         'contact' => 'Contactgegevens',
         'accommodation' => 'Accommodatie',
         'flight' => 'Vluchtvoorkeuren',

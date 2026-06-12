@@ -25,7 +25,6 @@ use App\Http\Controllers\HotelBookingRequestController;
 use App\Http\Controllers\CarBookingRequestController;
 use App\Http\Controllers\InsuranceBookingRequestController;
 use App\Http\Controllers\UserHotelBookingRequestController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RentalCarController;
 use App\Http\Controllers\TourPackageController;
 use App\Http\Controllers\TravelInsuranceController;

@@ -1,25 +1,18 @@
 <?php
 
 return [
-    'button' => 'Request a Custom Holiday Package',
     'modal_title' => 'Custom Holiday Package Request',
     'modal_intro' => 'Tell us about your ideal holiday and our travel consultants will prepare a tailored offer.',
-    'show_advanced' => 'Show Advanced Preferences',
-    'hide_advanced' => 'Hide Advanced Preferences',
     'submit' => 'Submit Request',
-    'submitting' => 'Submitting...',
     'close' => 'Close',
     'submitted' => 'Thank you! Your holiday request has been submitted. Our team will contact you shortly.',
     'error' => 'Please check the form and try again.',
     'child_age' => 'Child :number age',
-    'yes' => 'Yes',
-    'no' => 'No',
     'not_specified' => 'Not specified',
     'select_all' => 'Select all',
 
     'sections' => [
         'travel' => 'Travel Information',
-        'budget' => 'Budget',
         'contact' => 'Contact Information',
         'accommodation' => 'Accommodation',
         'flight' => 'Flight Preferences',

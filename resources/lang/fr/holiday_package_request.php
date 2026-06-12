@@ -1,25 +1,18 @@
 <?php
 
 return [
-    'button' => 'Demander un forfait vacances sur mesure',
     'modal_title' => 'Demande de forfait vacances personnalisé',
     'modal_intro' => 'Décrivez vos vacances idéales et nos conseillers prépareront une offre adaptée.',
-    'show_advanced' => 'Afficher les préférences avancées',
-    'hide_advanced' => 'Masquer les préférences avancées',
     'submit' => 'Envoyer la demande',
-    'submitting' => 'Envoi en cours...',
     'close' => 'Fermer',
     'submitted' => 'Merci ! Votre demande a été envoyée. Notre équipe vous contactera prochainement.',
     'error' => 'Veuillez vérifier le formulaire et réessayer.',
     'child_age' => 'Âge de l\'enfant :number',
-    'yes' => 'Oui',
-    'no' => 'Non',
     'not_specified' => 'Non précisé',
     'select_all' => 'Tout sélectionner',
 
     'sections' => [
         'travel' => 'Informations de voyage',
-        'budget' => 'Budget',
         'contact' => 'Coordonnées',
         'accommodation' => 'Hébergement',
         'flight' => 'Préférences de vol',
