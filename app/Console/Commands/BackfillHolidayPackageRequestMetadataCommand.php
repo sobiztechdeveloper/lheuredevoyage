@@ -108,14 +108,14 @@ class BackfillHolidayPackageRequestMetadataCommand extends Command
             }
 
             if (preg_match('/^Priority:\s*(.+)$/i', $trimmed, $matches)) {
-                $priority = $this->resolvePrioritySlug($matches[1]);
+                $priority = $this->resolvePrioritySlug($matches[1], $config['option_labels']['priorities'] ?? []);
                 $hasMetadata = true;
 
                 continue;
             }
 
             if (preg_match('/^Preferred Contact Method:\s*(.+)$/i', $trimmed, $matches)) {
-                $contactMethod = $this->resolveContactMethodSlug($matches[1]);
+                $contactMethod = $this->resolveContactMethodSlug($matches[1], $config['option_labels']['contact_methods'] ?? []);
                 $hasMetadata = true;
 
                 continue;
@@ -184,43 +184,31 @@ class BackfillHolidayPackageRequestMetadataCommand extends Command
         return array_values(array_unique(array_filter($slugs)));
     }
 
-    private function resolvePrioritySlug(string $value): ?string
+    private function resolvePrioritySlug(string $value, array $labels): ?string
     {
         $value = trim($value);
-        $slug = Str::lower($value);
+        $slug = Str::slug($value);
 
-        if (in_array($slug, HolidayPackageRequest::PRIORITIES, true)) {
+        if (isset($labels[$slug])) {
             return $slug;
         }
 
-        foreach (['en', 'fr', 'nl'] as $locale) {
-            foreach (HolidayPackageRequest::PRIORITIES as $priority) {
-                if (Str::lower(__("holiday_package_request.priorities.{$priority}", [], $locale)) === Str::lower($value)) {
-                    return $priority;
-                }
-            }
-        }
+        $matched = collect($labels)->first(fn ($label, $key) => Str::lower($label) === Str::lower($value));
 
-        return null;
+        return $matched !== null ? (string) array_search($matched, $labels, true) : null;
     }
 
-    private function resolveContactMethodSlug(string $value): ?string
+    private function resolveContactMethodSlug(string $value, array $labels): ?string
     {
         $slug = Str::lower(trim($value));
 
-        if (in_array($slug, HolidayPackageRequest::CONTACT_METHODS, true)) {
+        if (isset($labels[$slug])) {
             return $slug;
         }
 
-        foreach (['en', 'fr', 'nl'] as $locale) {
-            foreach (HolidayPackageRequest::CONTACT_METHODS as $method) {
-                if (Str::lower(__("holiday_package_request.contact_methods.{$method}", [], $locale)) === $slug) {
-                    return $method;
-                }
-            }
-        }
+        $matched = collect($labels)->first(fn ($label, $key) => Str::lower($label) === $slug || Str::lower($key) === $slug);
 
-        return null;
+        return $matched !== null ? (string) array_search($matched, $labels, true) : null;
     }
 
     private function shouldBackfillPriority(string $current): bool

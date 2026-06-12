@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Master\ContactMethod;
 use App\Models\Master\CruiseCategory;
 use App\Models\Master\CruiseFacility;
 use App\Models\Master\HotelBeachType;
+use App\Models\Master\HotelCategory;
 use App\Models\Master\HotelFacility;
 use App\Models\Master\HotelSport;
 use App\Models\Master\HotelWellness;
@@ -11,8 +13,11 @@ use App\Models\Master\InsuranceType;
 use App\Models\Master\MealPlan;
 use App\Models\Master\PackageCategory;
 use App\Models\Master\PackageTheme;
+use App\Models\Master\RequestPriority;
 use App\Models\Master\RoomFacility;
 use App\Models\Master\RoomType;
+use App\Models\Master\SeaView;
+use App\Models\Master\TimePreference;
 use App\Models\Master\TravelClass;
 use App\Models\Master\VehicleFeature;
 use App\Models\Master\VehicleType;
@@ -99,6 +104,31 @@ return [
             'label' => 'Travel Classes',
             'model' => TravelClass::class,
         ],
+        'hotel_categories' => [
+            'route' => 'hotel-categories',
+            'label' => 'Hotel Categories',
+            'model' => HotelCategory::class,
+        ],
+        'sea_views' => [
+            'route' => 'sea-views',
+            'label' => 'Sea Views',
+            'model' => SeaView::class,
+        ],
+        'time_preferences' => [
+            'route' => 'time-preferences',
+            'label' => 'Time Preferences',
+            'model' => TimePreference::class,
+        ],
+        'request_priorities' => [
+            'route' => 'request-priorities',
+            'label' => 'Request Priorities',
+            'model' => RequestPriority::class,
+        ],
+        'contact_methods' => [
+            'route' => 'contact-methods',
+            'label' => 'Contact Methods',
+            'model' => ContactMethod::class,
+        ],
     ],
 
     'holiday_request' => [
@@ -114,6 +144,11 @@ return [
         'sports' => HotelSport::class,
         'beach_preferences' => HotelBeachType::class,
         'wellness' => HotelWellness::class,
+        'hotel_categories' => HotelCategory::class,
+        'sea_views' => SeaView::class,
+        'time_preferences' => TimePreference::class,
+        'priorities' => RequestPriority::class,
+        'contact_methods' => ContactMethod::class,
         'preferred_airlines' => \App\Models\Airline::class,
     ],
 

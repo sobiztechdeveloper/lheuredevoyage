@@ -67,6 +67,15 @@
                 <a href="{{ route('admin.master-data.room_types.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.room_types.*') ? 'active' : '' }}"><i class="far fa-door-open"></i><span class="nav-label">Room Types</span></a>
                 <a href="{{ route('admin.master-data.room_facilities.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.room_facilities.*') ? 'active' : '' }}"><i class="far fa-bed"></i><span class="nav-label">Room Facilities</span></a>
                 <a href="{{ route('admin.master-data.meal_plans.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.meal_plans.*') ? 'active' : '' }}"><i class="far fa-utensils"></i><span class="nav-label">Meal Plans</span></a>
+                <a href="{{ route('admin.master-data.hotel_categories.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.hotel_categories.*') ? 'active' : '' }}"><i class="far fa-star"></i><span class="nav-label">Hotel Categories</span></a>
+                <a href="{{ route('admin.master-data.sea_views.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.sea_views.*') ? 'active' : '' }}"><i class="far fa-water"></i><span class="nav-label">Sea Views</span></a>
+            </div>
+
+            <div class="nav-subgroup">
+                <div class="nav-subgroup-title">Holiday Requests</div>
+                <a href="{{ route('admin.master-data.time_preferences.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.time_preferences.*') ? 'active' : '' }}"><i class="far fa-clock"></i><span class="nav-label">Time Preferences</span></a>
+                <a href="{{ route('admin.master-data.request_priorities.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.request_priorities.*') ? 'active' : '' }}"><i class="far fa-flag"></i><span class="nav-label">Request Priorities</span></a>
+                <a href="{{ route('admin.master-data.contact_methods.index') }}" class="nav-link-item {{ request()->routeIs('admin.master-data.contact_methods.*') ? 'active' : '' }}"><i class="far fa-address-book"></i><span class="nav-label">Contact Methods</span></a>
             </div>
 
             <div class="nav-subgroup">

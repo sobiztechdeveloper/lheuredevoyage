@@ -23,13 +23,13 @@
             <select name="priority" class="form-select form-select-sm" style="width:auto">
                 <option value="">All priorities</option>
                 @foreach($priorities as $priority)
-                    <option value="{{ $priority }}" @selected($filterPriority === $priority)>{{ ucfirst($priority) }}</option>
+                    <option value="{{ $priority }}" @selected($filterPriority === $priority)>{{ $optionLabels['priorities'][$priority] ?? $priority }}</option>
                 @endforeach
             </select>
             <select name="preferred_contact_method" class="form-select form-select-sm" style="width:auto">
                 <option value="">All contact methods</option>
                 @foreach($contactMethods as $method)
-                    <option value="{{ $method }}" @selected($filterContactMethod === $method)>{{ ucfirst($method) }}</option>
+                    <option value="{{ $method }}" @selected($filterContactMethod === $method)>{{ $optionLabels['contact_methods'][$method] ?? $method }}</option>
                 @endforeach
             </select>
             <button type="submit" class="btn btn-admin-primary btn-sm">Filter</button>
@@ -77,8 +77,8 @@
                             / {{ $item->children }}C
                         @endif
                     </td>
-                    <td><span class="badge bg-light text-dark text-capitalize">{{ $item->priority }}</span></td>
-                    <td><span class="text-capitalize">{{ $item->preferred_contact_method }}</span></td>
+                    <td><span class="badge bg-light text-dark">{{ $optionLabels['priorities'][$item->priority] ?? $item->priority }}</span></td>
+                    <td><span>{{ $optionLabels['contact_methods'][$item->preferred_contact_method] ?? $item->preferred_contact_method }}</span></td>
                     <td><span class="badge bg-secondary text-uppercase">{{ $item->status }}</span></td>
                     <td><small class="text-muted">{{ $item->created_at->format(config('date.display')) }}</small></td>
                     <td class="text-end">

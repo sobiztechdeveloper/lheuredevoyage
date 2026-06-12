@@ -54,10 +54,10 @@
 @if($request->preferred_airline || $request->travel_class)
 ## Flight Preferences
 
-- **Preferred Airline:** {{ $request->preferred_airline ?: '—' }}
-- **Travel Class:** {{ $request->travel_class ? __('holiday_package_request.options.travel_classes.'.$request->travel_class) : '—' }}
-- **Outbound Time:** {{ $request->outbound_time_preference ? __('holiday_package_request.options.time_preferences.'.$request->outbound_time_preference) : '—' }}
-- **Return Time:** {{ $request->return_time_preference ? __('holiday_package_request.options.time_preferences.'.$request->return_time_preference) : '—' }}
+- **Preferred Airline:** {{ $request->optionLabel('preferred_airlines', $request->preferred_airline) }}
+- **Travel Class:** {{ $request->optionLabel('travel_classes', $request->travel_class) }}
+- **Outbound Time:** {{ $request->optionLabel('time_preferences', $request->outbound_time_preference) }}
+- **Return Time:** {{ $request->optionLabel('time_preferences', $request->return_time_preference) }}
 - **Direct Flight Only:** {{ $request->direct_flight_only ? 'Yes' : 'No' }}
 - **Connecting Flight:** {{ $request->transfer_allowed ? 'Yes' : 'No' }}
 - **Rail & Fly:** {{ $request->rail_and_fly ? 'Yes' : 'No' }}
@@ -66,9 +66,9 @@
 @if($request->hotel_category || $request->hotel_features)
 ## Hotel Preferences
 
-- **Category:** {{ $request->hotel_category ? __('holiday_package_request.options.hotel_categories.'.$request->hotel_category) : '—' }}
+- **Category:** {{ $request->optionLabel('hotel_categories', $request->hotel_category) }}
 - **Recommendation:** {{ $request->hotel_recommendation ? $request->hotel_recommendation.'%' : '—' }}
-- **Sea View:** {{ $request->sea_view ? __('holiday_package_request.options.sea_views.'.$request->sea_view) : '—' }}
+- **Sea View:** {{ $request->optionLabel('sea_views', $request->sea_view) }}
 @if($request->hotel_features)
 - **Features:** {{ implode(', ', $request->translatedOptionList('hotel_features', $request->hotel_features)) }}
 @endif

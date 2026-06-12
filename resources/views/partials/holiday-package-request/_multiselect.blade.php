@@ -2,7 +2,6 @@
     'name',
     'id',
     'options' => [],
-    'optionGroup' => null,
     'placeholder' => null,
     'labels' => [],
 ])
@@ -34,9 +33,7 @@
             @endif
             @foreach($options as $key)
                 @php
-                    $label = $labels[$key] ?? ($optionGroup
-                        ? __('holiday_package_request.options.'.$optionGroup.'.'.$key)
-                        : $key);
+                    $label = $labels[$key] ?? $key;
                 @endphp
                 <label class="hpr-ms-option d-flex align-items-center gap-2 py-1 px-1 mb-0" for="{{ $id }}-{{ $key }}">
                     <input

@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Services\HolidayPackageRequestConfigService;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -21,8 +23,6 @@ class StoreHolidayPackageRequestRequest extends FormRequest
             'kids_club' => $this->has('kids_club') ? $this->boolean('kids_club') : null,
             'babysitting' => $this->has('babysitting') ? $this->boolean('babysitting') : null,
             'gdpr_consent' => $this->boolean('gdpr_consent'),
-            'priority' => $this->input('priority', 'normal'),
-            'preferred_contact_method' => $this->input('preferred_contact_method', 'email'),
         ];
 
         foreach (['earliest_departure_date', 'latest_return_date'] as $dateField) {
@@ -43,7 +43,12 @@ class StoreHolidayPackageRequestRequest extends FormRequest
      */
     public function rules(): array
     {
-        $config = holiday_package_request_config();
+        $options = app(HolidayPackageRequestConfigService::class);
+        $static = config('holiday_package_request', []);
+
+        $prioritySlugs = $options->activeSlugs('priorities');
+        $contactSlugs = $options->activeSlugs('contact_methods');
+        $airlineSlugs = $options->activeSlugs('preferred_airlines');
 
         return [
             'locale' => ['nullable', 'string', 'in:en,fr,nl'],
@@ -57,48 +62,68 @@ class StoreHolidayPackageRequestRequest extends FormRequest
             'child_ages' => ['nullable', 'array', 'max:10'],
             'child_ages.*' => ['nullable', 'integer', 'min:0', 'max:17'],
             'holiday_types' => ['nullable', 'array'],
-            'holiday_types.*' => ['string', Rule::in($config['holiday_types'])],
-            'priority' => ['nullable', 'string', Rule::in($config['priorities'])],
-            'preferred_contact_method' => ['nullable', 'string', Rule::in($config['contact_methods'])],
+            'holiday_types.*' => ['string', Rule::in($options->activeSlugs('holiday_types'))],
+            'priority' => $options->hasActivePriorities()
+                ? ['required', 'string', Rule::in($prioritySlugs)]
+                : ['nullable'],
+            'preferred_contact_method' => $options->hasActiveContactMethods()
+                ? ['required', 'string', Rule::in($contactSlugs)]
+                : ['nullable'],
             'gdpr_consent' => ['required', 'accepted'],
             'budget_amount' => ['nullable', 'numeric', 'min:0'],
-            'budget_currency' => ['nullable', 'string', Rule::in($config['budget_currencies'])],
+            'budget_currency' => ['nullable', 'string', Rule::in($static['budget_currencies'] ?? [])],
             'full_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['required', 'string', 'max:50'],
             'country' => ['nullable', 'string', 'max:120'],
             'room_types' => ['nullable', 'array'],
-            'room_types.*' => ['string', Rule::in($config['room_types'])],
+            'room_types.*' => ['string', Rule::in($options->activeSlugs('room_types'))],
             'board_types' => ['nullable', 'array'],
-            'board_types.*' => ['string', Rule::in($config['board_types'])],
-            'preferred_airline' => array_filter([
-                'nullable',
-                'string',
-                'max:120',
-                ! empty($config['preferred_airlines']) ? Rule::in($config['preferred_airlines']) : null,
-            ]),
-            'travel_class' => ['nullable', 'string', Rule::in($config['travel_classes'])],
-            'outbound_time_preference' => ['nullable', 'string', Rule::in($config['time_preferences'])],
-            'return_time_preference' => ['nullable', 'string', Rule::in($config['time_preferences'])],
+            'board_types.*' => ['string', Rule::in($options->activeSlugs('board_types'))],
+            'preferred_airline' => $options->hasActiveAirlines()
+                ? ['nullable', 'string', 'max:120', Rule::in($airlineSlugs)]
+                : ['nullable', 'string', 'max:120'],
+            'travel_class' => ['nullable', 'string', Rule::in($options->activeSlugs('travel_classes'))],
+            'outbound_time_preference' => ['nullable', 'string', Rule::in($options->activeSlugs('time_preferences'))],
+            'return_time_preference' => ['nullable', 'string', Rule::in($options->activeSlugs('time_preferences'))],
             'direct_flight_only' => ['nullable', 'boolean'],
             'transfer_allowed' => ['nullable', 'boolean'],
             'rail_and_fly' => ['nullable', 'boolean'],
-            'hotel_category' => ['nullable', 'string', Rule::in($config['hotel_categories'])],
-            'hotel_recommendation' => ['nullable', 'string', Rule::in($config['hotel_recommendations'])],
-            'sea_view' => ['nullable', 'string', Rule::in($config['sea_views'])],
+            'hotel_category' => ['nullable', 'string', Rule::in($options->activeSlugs('hotel_categories'))],
+            'hotel_recommendation' => ['nullable', 'string', Rule::in($static['hotel_recommendations'] ?? [])],
+            'sea_view' => ['nullable', 'string', Rule::in($options->activeSlugs('sea_views'))],
             'hotel_features' => ['nullable', 'array'],
-            'hotel_features.*' => ['string', Rule::in($config['hotel_features'])],
+            'hotel_features.*' => ['string', Rule::in($options->activeSlugs('hotel_features'))],
             'beach_preferences' => ['nullable', 'array'],
-            'beach_preferences.*' => ['string', Rule::in($config['beach_preferences'])],
+            'beach_preferences.*' => ['string', Rule::in($options->activeSlugs('beach_preferences'))],
             'sports' => ['nullable', 'array'],
-            'sports.*' => ['string', Rule::in($config['sports'])],
+            'sports.*' => ['string', Rule::in($options->activeSlugs('sports'))],
             'wellness' => ['nullable', 'array'],
-            'wellness.*' => ['string', Rule::in($config['wellness'])],
+            'wellness.*' => ['string', Rule::in($options->activeSlugs('wellness'))],
             'kids_club' => ['nullable', 'boolean'],
             'babysitting' => ['nullable', 'boolean'],
             'room_amenities' => ['nullable', 'array'],
-            'room_amenities.*' => ['string', Rule::in($config['room_amenities'])],
+            'room_amenities.*' => ['string', Rule::in($options->activeSlugs('room_amenities'))],
             'additional_notes' => ['nullable', 'string', 'max:5000'],
         ];
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $options = app(HolidayPackageRequestConfigService::class);
+
+        $validator->after(function (Validator $validator) use ($options): void {
+            if (! $options->hasActivePriorities()) {
+                $validator->errors()->add('priority', 'No active request priorities configured.');
+            }
+
+            if (! $options->hasActiveContactMethods()) {
+                $validator->errors()->add('preferred_contact_method', 'No active contact methods configured.');
+            }
+
+            if (! $options->hasActiveAirlines()) {
+                $validator->errors()->add('preferred_airline', 'No airlines configured.');
+            }
+        });
     }
 }

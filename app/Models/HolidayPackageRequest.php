@@ -15,18 +15,6 @@ class HolidayPackageRequest extends Model
         'closed',
     ];
 
-    public const PRIORITIES = [
-        'normal',
-        'important',
-        'vip',
-    ];
-
-    public const CONTACT_METHODS = [
-        'email',
-        'phone',
-        'whatsapp',
-    ];
-
     protected $fillable = [
         'reference_number',
         'status',
@@ -148,12 +136,23 @@ class HolidayPackageRequest extends Model
 
     public function priorityLabel(): string
     {
-        return __('holiday_package_request.priorities.'.$this->priority);
+        return $this->optionLabel('priorities', $this->priority);
     }
 
     public function preferredContactMethodLabel(): string
     {
-        return __('holiday_package_request.contact_methods.'.$this->preferred_contact_method);
+        return $this->optionLabel('contact_methods', $this->preferred_contact_method);
+    }
+
+    public function optionLabel(string $group, ?string $slug): string
+    {
+        if (! $slug) {
+            return '—';
+        }
+
+        $labels = holiday_package_request_config()['option_labels'][$group] ?? [];
+
+        return $labels[$slug] ?? $slug;
     }
 
     /**
@@ -173,17 +172,7 @@ class HolidayPackageRequest extends Model
         $labels = holiday_package_request_config()['option_labels'][$group] ?? [];
 
         return collect($values)
-            ->map(function ($value) use ($group, $labels) {
-                if (isset($labels[$value])) {
-                    return $labels[$value];
-                }
-
-                $translation = __('holiday_package_request.options.'.$group.'.'.$value);
-
-                return $translation !== 'holiday_package_request.options.'.$group.'.'.$value
-                    ? $translation
-                    : (string) $value;
-            })
+            ->map(fn ($value) => $labels[$value] ?? (string) $value)
             ->all();
     }
 }

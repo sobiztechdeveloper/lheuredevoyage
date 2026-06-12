@@ -66,15 +66,15 @@
             <div class="admin-form-card-body small">
                 <div class="row g-3">
                     <div class="col-md-6"><span class="text-muted d-block">Preferred Airline</span>{{ ($config['option_labels']['preferred_airlines'][$request->preferred_airline] ?? $request->preferred_airline) ?: '—' }}</div>
-                    <div class="col-md-6"><span class="text-muted d-block">Travel Class</span>{{ ($config['option_labels']['travel_classes'][$request->travel_class] ?? ($request->travel_class ? __('holiday_package_request.options.travel_classes.'.$request->travel_class) : null)) ?: '—' }}</div>
-                    <div class="col-md-6"><span class="text-muted d-block">Outbound Time</span>{{ $request->outbound_time_preference ? __('holiday_package_request.options.time_preferences.'.$request->outbound_time_preference) : '—' }}</div>
-                    <div class="col-md-6"><span class="text-muted d-block">Return Time</span>{{ $request->return_time_preference ? __('holiday_package_request.options.time_preferences.'.$request->return_time_preference) : '—' }}</div>
+                    <div class="col-md-6"><span class="text-muted d-block">Travel Class</span>{{ $request->optionLabel('travel_classes', $request->travel_class) }}</div>
+                    <div class="col-md-6"><span class="text-muted d-block">Outbound Time</span>{{ $request->optionLabel('time_preferences', $request->outbound_time_preference) }}</div>
+                    <div class="col-md-6"><span class="text-muted d-block">Return Time</span>{{ $request->optionLabel('time_preferences', $request->return_time_preference) }}</div>
                     <div class="col-md-4"><span class="text-muted d-block">Direct Flight Only</span>{{ $request->direct_flight_only ? 'Yes' : 'No' }}</div>
                     <div class="col-md-4"><span class="text-muted d-block">Connecting Flight</span>{{ $request->transfer_allowed ? 'Yes' : 'No' }}</div>
                     <div class="col-md-4"><span class="text-muted d-block">Rail & Fly</span>{{ $request->rail_and_fly ? 'Yes' : 'No' }}</div>
-                    <div class="col-md-4"><span class="text-muted d-block">Hotel Category</span>{{ $request->hotel_category ? __('holiday_package_request.options.hotel_categories.'.$request->hotel_category) : '—' }}</div>
+                    <div class="col-md-4"><span class="text-muted d-block">Hotel Category</span>{{ $request->optionLabel('hotel_categories', $request->hotel_category) }}</div>
                     <div class="col-md-4"><span class="text-muted d-block">Recommendation</span>{{ $request->hotel_recommendation ? $request->hotel_recommendation.'%' : '—' }}</div>
-                    <div class="col-md-4"><span class="text-muted d-block">Sea View</span>{{ $request->sea_view ? __('holiday_package_request.options.sea_views.'.$request->sea_view) : '—' }}</div>
+                    <div class="col-md-4"><span class="text-muted d-block">Sea View</span>{{ $request->optionLabel('sea_views', $request->sea_view) }}</div>
                     <div class="col-md-6"><span class="text-muted d-block">Kids Club</span>{{ $request->kids_club === null ? '—' : ($request->kids_club ? 'Yes' : 'No') }}</div>
                     <div class="col-md-6"><span class="text-muted d-block">Babysitting</span>{{ $request->babysitting === null ? '—' : ($request->babysitting ? 'Yes' : 'No') }}</div>
                 </div>

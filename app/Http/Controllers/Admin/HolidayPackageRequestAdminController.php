@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\HolidayPackageRequest;
+use App\Services\HolidayPackageRequestConfigService;
 use App\Services\HolidayPackageRequestService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,10 +15,14 @@ class HolidayPackageRequestAdminController extends Controller
 {
     public function __construct(
         protected HolidayPackageRequestService $service,
+        protected HolidayPackageRequestConfigService $options,
     ) {}
 
     public function index(Request $request): View
     {
+        $optionConfig = $this->options->build();
+        $optionLabels = $optionConfig['option_labels'] ?? [];
+
         $requests = HolidayPackageRequest::query()
             ->searchTerm($request->input('q'))
             ->when($request->input('status'), fn ($q, $status) => $q->where('status', $status))
@@ -30,8 +35,9 @@ class HolidayPackageRequestAdminController extends Controller
         return view('admin.holiday-package-requests.index', [
             'requests' => $requests,
             'statuses' => HolidayPackageRequest::STATUSES,
-            'priorities' => HolidayPackageRequest::PRIORITIES,
-            'contactMethods' => HolidayPackageRequest::CONTACT_METHODS,
+            'priorities' => $optionConfig['priorities'] ?? [],
+            'contactMethods' => $optionConfig['contact_methods'] ?? [],
+            'optionLabels' => $optionLabels,
             'search' => $request->input('q'),
             'filterStatus' => $request->input('status'),
             'filterPriority' => $request->input('priority'),

@@ -111,11 +111,17 @@
                     </div>
                     <div class="col-md-4 col-lg-3">
                         <label class="form-label" for="hpr-priority">Priority</label>
-                        <select class="form-select form-select-sm" id="hpr-priority" name="priority" data-hpr-ui-field="priority">
-                            <option value="normal" selected>Normal</option>
-                            <option value="important">Important</option>
-                            <option value="vip">VIP</option>
-                        </select>
+                        @if($config['has_active_priorities'] ?? false)
+                            <select class="form-select form-select-sm" id="hpr-priority" name="priority" data-hpr-ui-field="priority">
+                                @foreach($config['priorities'] ?? [] as $slug)
+                                    <option value="{{ $slug }}" @selected($loop->first)>{{ $optionLabels['priorities'][$slug] ?? $slug }}</option>
+                                @endforeach
+                            </select>
+                        @else
+                            <select class="form-select form-select-sm" id="hpr-priority" disabled aria-disabled="true">
+                                <option>No active request priorities configured.</option>
+                            </select>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -128,27 +134,33 @@
                         <select class="form-select form-select-sm" id="hpr-travel-class" name="travel_class">
                             <option value="">{{ __('holiday_package_request.not_specified') }}</option>
                             @foreach($config['travel_classes'] as $key)
-                                <option value="{{ $key }}">{{ $optionLabels['travel_classes'][$key] ?? __('holiday_package_request.options.travel_classes.'.$key) }}</option>
+                                <option value="{{ $key }}">{{ $optionLabels['travel_classes'][$key] ?? $key }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <label class="form-label" for="hpr-airline">{{ __('holiday_package_request.fields.preferred_airline') }}</label>
-                        <select class="form-select form-select-sm" id="hpr-airline" name="preferred_airline">
-                            <option value="">{{ __('holiday_package_request.not_specified') }}</option>
-                            @foreach($config['airline_options'] ?? [] as $airline)
-                                <option value="{{ $airline['slug'] }}">
-                                    {{ $airline['name'] }}{{ $airline['code'] ? ' ('.$airline['code'].')' : '' }}
-                                </option>
-                            @endforeach
-                        </select>
+                        @if($config['has_active_airlines'] ?? false)
+                            <select class="form-select form-select-sm" id="hpr-airline" name="preferred_airline">
+                                <option value="">{{ __('holiday_package_request.not_specified') }}</option>
+                                @foreach($config['airline_options'] ?? [] as $airline)
+                                    <option value="{{ $airline['slug'] }}">
+                                        {{ $airline['name'] }}{{ $airline['code'] ? ' ('.$airline['code'].')' : '' }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @else
+                            <select class="form-select form-select-sm" id="hpr-airline" disabled aria-disabled="true">
+                                <option>No airlines configured.</option>
+                            </select>
+                        @endif
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <label class="form-label" for="hpr-outbound-time">{{ __('holiday_package_request.fields.outbound_time_preference') }}</label>
                         <select class="form-select form-select-sm" id="hpr-outbound-time" name="outbound_time_preference">
                             <option value="">{{ __('holiday_package_request.not_specified') }}</option>
                             @foreach($config['time_preferences'] as $key)
-                                <option value="{{ $key }}">{{ __('holiday_package_request.options.time_preferences.'.$key) }}</option>
+                                <option value="{{ $key }}">{{ $optionLabels['time_preferences'][$key] ?? $key }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -157,7 +169,7 @@
                         <select class="form-select form-select-sm" id="hpr-return-time" name="return_time_preference">
                             <option value="">{{ __('holiday_package_request.not_specified') }}</option>
                             @foreach($config['time_preferences'] as $key)
-                                <option value="{{ $key }}">{{ __('holiday_package_request.options.time_preferences.'.$key) }}</option>
+                                <option value="{{ $key }}">{{ $optionLabels['time_preferences'][$key] ?? $key }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -222,7 +234,7 @@
                         <select class="form-select form-select-sm" id="hpr-hotel-category" name="hotel_category">
                             <option value="">{{ __('holiday_package_request.not_specified') }}</option>
                             @foreach($config['hotel_categories'] as $key)
-                                <option value="{{ $key }}">{{ __('holiday_package_request.options.hotel_categories.'.$key) }}</option>
+                                <option value="{{ $key }}">{{ $optionLabels['hotel_categories'][$key] ?? $key }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -240,7 +252,7 @@
                         <select class="form-select form-select-sm" id="hpr-sea-view" name="sea_view">
                             <option value="">{{ __('holiday_package_request.not_specified') }}</option>
                             @foreach($config['sea_views'] as $key)
-                                <option value="{{ $key }}">{{ __('holiday_package_request.options.sea_views.'.$key) }}</option>
+                                <option value="{{ $key }}">{{ $optionLabels['sea_views'][$key] ?? $key }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -327,20 +339,18 @@
                     </div>
                     <div class="col-12">
                         <label class="form-label d-block mb-1">Preferred Contact Method</label>
-                        <div class="hpr-contact-methods" data-hpr-ui-field="preferred_contact_method">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="preferred_contact_method" id="hpr-contact-email" value="email" checked>
-                                <label class="form-check-label" for="hpr-contact-email">Email</label>
+                        @if($config['has_active_contact_methods'] ?? false)
+                            <div class="hpr-contact-methods" data-hpr-ui-field="preferred_contact_method">
+                                @foreach($config['contact_methods'] ?? [] as $slug)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="preferred_contact_method" id="hpr-contact-{{ $slug }}" value="{{ $slug }}" @checked($loop->first)>
+                                        <label class="form-check-label" for="hpr-contact-{{ $slug }}">{{ $optionLabels['contact_methods'][$slug] ?? $slug }}</label>
+                                    </div>
+                                @endforeach
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="preferred_contact_method" id="hpr-contact-phone" value="phone">
-                                <label class="form-check-label" for="hpr-contact-phone">Phone</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="preferred_contact_method" id="hpr-contact-whatsapp" value="whatsapp">
-                                <label class="form-check-label" for="hpr-contact-whatsapp">WhatsApp</label>
-                            </div>
-                        </div>
+                        @else
+                            <p class="small text-muted mb-0">No active contact methods configured.</p>
+                        @endif
                     </div>
                 </div>
                 <div class="hpr-gdpr">
